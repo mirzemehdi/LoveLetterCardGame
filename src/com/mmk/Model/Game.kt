@@ -13,12 +13,14 @@ class Game {
     val players: MutableList<Player> = mutableListOf()
     val cardDeck = CardDeck()
     var currentPlayer: Player? = null
-    val discardedCards: MutableList<Card> = mutableListOf()//Only if there are 2 players in the game then 3 cards will be added to this list
+    val discardedCards: MutableList<Card> =
+        mutableListOf()//Only if there are 2 players in the game then 3 cards will be added to this list
     var asideCard: Card? = null //When game starts one card will be put to aside
-    var lastWinner: Player? = null //This one is for who will start the next raund
+    var winner: Player? = null //This one is for who will start the next raund
     var activePlayersNumber = 0 //If Player is knocked out of round this will decrease
     var cheatingEnabled = false //Maybe there will be option to choose that Players can cheat
-
+    var maxTokensNumber=0// For 2 -> 7 , 3 -> 5, 4 -> 4 tokens then game is finished
+    var tokensCompletions= hashMapOf(2 to 7,3 to 5,4 to 4 )
     /*
     * If there are enough players(2-4) in a game we can start the game
     * Only one person can start the game.
@@ -32,12 +34,12 @@ class Game {
         }
     }
 
-    @Throws(NotEnoughPlayerException:: class)
-    fun start(){
+    @Throws(NotEnoughPlayerException::class)
+    fun start() {
         if (getNumberOfPlayers() in NB_MIN_PLAYER..NB_MAX_PLAYER) {
             cardDeck.shuffle()
             //We take top card and put it to aside after shuffle
-            asideCard=cardDeck.takeCard()
+            asideCard = cardDeck.takeCard()
             /*
             if there are 2 players in the game then 3 cards will be added to discarded list.
             These cards will not be used during round
@@ -46,40 +48,47 @@ class Game {
             /*In first round current Player=First player who started a game
               In next rounds currentPlayer will be last Winner
             */
-            currentPlayer = lastWinner ?: players[0]
+            currentPlayer = winner ?: players[0]
 
             //Give one card to each player
-            players.forEach{player->player.addCard(cardDeck.takeCard()!!)}
+            players.forEach { player -> player.addCard(cardDeck.takeCard()!!) }
 
             currentPlayer?.addCard(cardDeck.takeCard()!!)
             selectCard() //Current Player selects Card
-        }
-        else throw NotEnoughPlayerException("There is not enough player in the game")
+        } else throw NotEnoughPlayerException("There is not enough player in the game")
     }
 
-     private fun selectCard() {
+    private fun selectCard() {
 
 
-             val scanner = Scanner(System.`in`)
-             println(currentPlayer?.displayName + ": Select one of cards: \n")
-             println(currentPlayer?.currentCards.toString())
-             val index = scanner.nextInt()
-             val selectedCard: Card = currentPlayer?.currentCards!![index]
-             //index can be only 0 or 1. Because Player can hold max 2 cards in his hand
-             val otherCardOfPlayer: Card = currentPlayer?.currentCards!![if (index == 1) 0 else 1]
+        val scanner = Scanner(System.`in`)
+        println(currentPlayer?.displayName + ": Select one of cards: \n")
+        println(currentPlayer?.currentCards.toString())
+        val index = scanner.nextInt()
+        val selectedCard: Card = currentPlayer?.currentCards!![index]
 
-             if (!cheatingEnabled) {
-                 if ((selectedCard.type == Card.TypeCard.KING || selectedCard.type == Card.TypeCard.PRINCE)
-                     && otherCardOfPlayer.type == Card.TypeCard.COUNTESS
-                 ) {
-                     println("You can't chose King or Prince if you have Countess card.You must discard Countess")
-                     selectCard() //Again selects a card
-                     return
-                 }
-             }
-             println("Selected Card Type: " + selectedCard.type)
-             doEffectOfCard(selectedCard)
+        if (isOkayToChooseCard(selectedCard)) {
+            println("Selected Card Type: " + selectedCard.type)
+            doEffectOfCard(selectedCard)
+        } else selectCard() //Again selects a card
 
+
+    }
+
+    //Each time Player selects one of his card we must be call this function.These are some rules of the game
+    private fun isOkayToChooseCard(selectedCard: Card): Boolean {
+        //index can be only 0 or 1. Because Player can hold max 2 cards in his hand
+        val index = currentPlayer?.currentCards!!.indexOf(selectedCard)
+        val otherCardOfPlayer: Card = currentPlayer?.currentCards!![if (index == 1) 0 else 1]
+        if (!cheatingEnabled) {
+            if ((selectedCard.type == Card.TypeCard.KING || selectedCard.type == Card.TypeCard.PRINCE)
+                && otherCardOfPlayer.type == Card.TypeCard.COUNTESS
+            ) {
+                println("You can't chose King or Prince if you have Countess card.You must discard Countess")
+                return false
+            }
+        }
+        return true
     }
 
     private fun doEffectOfCard(selectedCard: Card) {
@@ -89,7 +98,7 @@ class Game {
             Card.TypeCard.COUNTESS -> doNothing()
             Card.TypeCard.KING -> tradeCard()
             Card.TypeCard.PRINCE -> discardCard()
-            Card.TypeCard.HANDMAID -> currentPlayer?.isProtected=true
+            Card.TypeCard.HANDMAID -> currentPlayer?.isProtected = true
             Card.TypeCard.BARON -> compareHands()
             Card.TypeCard.PRIEST -> lookCardOfOtherPlayer()
             Card.TypeCard.GUARD -> checkPlayerHasCard()
@@ -100,6 +109,7 @@ class Game {
     private fun nextTurn() {
         //If there is only one Player in the Round then round finishes and he takes tokens
         if (activePlayersNumber == 1 || cardDeck.isEmpty()) {
+            findWinnerOfRound()
             finishRound()
             return
         }
@@ -108,7 +118,7 @@ class Game {
         index++
         currentPlayer = players[index % players.size] //This is for circular turn
 
-        currentPlayer?.isProtected=false //When turn comes his protection goes
+        currentPlayer?.isProtected = false //When turn comes his protection goes
 
         //maybe player is knocked out from round then we will go to next Player
         if (!currentPlayer!!.isInGame) nextTurn()
@@ -116,6 +126,59 @@ class Game {
             currentPlayer!!.addCard(cardDeck.takeCard()!!)
             selectCard()
         }
+    }
+
+    private fun findWinnerOfRound() {
+        /*
+        * If there is only one Player in a game then he is a winner otherwise
+        * */
+        if (activePlayersNumber == 1) {
+            players.forEach { player ->
+                if (player.isInGame)
+                    winner = player
+            }
+        }
+        /*
+        * If there is more than one player in a game then who has highest card in his hand he is winner
+        * If it is equal then highest total discarded cards value is winner
+        * */
+        else {
+            var tempWinner = players[0]
+            val tempWinners = mutableListOf<Player>()
+            players.forEach { player ->
+                if (player.isInGame) {
+                    if (player.getCard().strength > tempWinner.getCard().strength) {
+                        tempWinner = player
+                        tempWinners.clear()//Clear all tempWinners
+                    }
+                    if (player.getCard().strength == tempWinner.getCard().strength)
+                        tempWinners.add(player)
+                }
+
+            }
+
+            //Whose strenth of discarded cards is high he is winner.
+            var maxDiscardValue = 0
+            tempWinners.forEach { temp ->
+                //Calculate values of discarded cards
+                var discardCardsValue = 0
+                temp.discardedCards.forEach { discardCardsValue += it.strength }
+                if (discardCardsValue > maxDiscardValue) {
+                    tempWinner = temp
+                    maxDiscardValue = discardCardsValue
+                }
+            }
+            winner = tempWinner
+
+
+        }
+        winner!!.nbTokens++
+        if(winner!!.nbTokens>maxTokensNumber) maxTokensNumber=winner!!.nbTokens
+        if (maxTokensNumber==tokensCompletions[getNumberOfPlayers()]) gameFinished()
+    }
+
+    private fun gameFinished() {
+        println("Game is finished")
     }
 
     private fun finishRound() {
@@ -135,7 +198,7 @@ class Game {
     private fun chooseCardType(): Card.TypeCard {
         val typeCards = Card.TypeCard.values()
         println("Card Types: \n")
-        typeCards.forEach {card-> println("$card\n") }
+        typeCards.forEach { card -> println("$card\n") }
 
         val scanner = Scanner(System.`in`)
         val index = scanner.nextInt()
@@ -194,10 +257,10 @@ class Game {
 
     private fun choosePlayer(): Player? {
         println("Choose a player: \n")
-        players.forEach{player->println(player)}
+        players.forEach { player -> println(player) }
         //If all other Players has HandMaid CardType or is not in game then can't choose any Player
         var hasChance = false
-        players.forEach{ player-> if (player.isInGame && !player.isProtected) hasChance = true }
+        players.forEach { player -> if (player.isInGame && !player.isProtected) hasChance = true }
 
         if (!hasChance) return null
 
@@ -213,8 +276,7 @@ class Game {
                 println("Player has protected.Choose another Player")
                 chosenPlayer = choosePlayer()
                 return chosenPlayer
-            }
-            else return chosenPlayer
+            } else return chosenPlayer
         }
     }
 
@@ -223,9 +285,9 @@ class Game {
     }
 
     private fun discardPlayer(player: Player) {
-        player.isInGame=false
+        player.isInGame = false
         activePlayersNumber--
-        println("$currentPlayer are discarded from game")
+        println("$currentPlayer is discarded from game")
     }
 
     //If there are only 2 players in a game then this function will be called
@@ -235,13 +297,13 @@ class Game {
         discardedCards.add(cardDeck.takeCard()!!)
     }
 
-    private fun getNumberOfPlayers(): Int =players.size
+    private fun getNumberOfPlayers(): Int = players.size
 
     override fun toString(): String {
         println("Players in the game:\n")
         for (player in players) println(player)
         println("Current Player: $currentPlayer")
-        println("Last Winner: $lastWinner")
+        println("Last Winner: $winner")
         println("Discarded Cards: $discardedCards")
         println("Card Deck : " + cardDeck.getNumberOfRemainingCards() + " cards\n")
         println(cardDeck.toString())
