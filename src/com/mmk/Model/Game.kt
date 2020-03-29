@@ -182,7 +182,7 @@ class Game {
     }
 
     private fun finishRound() {
-        println("Round is finished")
+        println("Round is finished")    
     }
 
     private fun checkPlayerHasCard() {
