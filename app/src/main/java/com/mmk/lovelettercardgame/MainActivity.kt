@@ -2,6 +2,9 @@ package com.mmk.lovelettercardgame
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -23,6 +26,10 @@ class MainActivity : AppCompatActivity() {
             }
 
 
+        var dialog=Dialog(this)
+        dialog.setContentView(R.layout.user_box_view)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
 
     }
 
