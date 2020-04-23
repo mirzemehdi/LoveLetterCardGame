@@ -11,6 +11,7 @@ import android.view.ViewGroup
 
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
+import com.mmk.lovelettercardgame.utils.inflate
 
 /**
  * A simple [Fragment] subclass.
@@ -29,7 +30,8 @@ class RoomsFragment : Fragment(),RoomsContractor.View {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rooms, container, false)
+        val view=container?.inflate(R.layout.fragment_rooms)
+        return view
     }
 
 
