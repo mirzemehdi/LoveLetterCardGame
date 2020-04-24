@@ -1,4 +1,4 @@
-package com.mmk.lovelettercardgame.ui.playrooms
+package com.mmk.lovelettercardgame.ui.fragments.playrooms
 
 import android.content.Context
 import android.view.View

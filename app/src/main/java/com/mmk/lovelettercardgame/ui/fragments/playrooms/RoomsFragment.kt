@@ -1,4 +1,4 @@
-package com.mmk.lovelettercardgame.ui.playrooms
+package com.mmk.lovelettercardgame.ui.fragments.playrooms
 
 
 import android.app.Activity
@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
+import com.mmk.lovelettercardgame.utils.InfiniteScrollListener
+import com.mmk.lovelettercardgame.utils.callbacks.ILoadMore
 import com.mmk.lovelettercardgame.utils.inflate
 import kotlinx.android.synthetic.main.fragment_rooms.*
 import kotlinx.android.synthetic.main.fragment_rooms.view.*
@@ -20,16 +22,20 @@ import kotlinx.android.synthetic.main.fragment_rooms.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class RoomsFragment : Fragment(), RoomsContractor.View {
+class RoomsFragment : Fragment(),
+    RoomsContractor.View {
     private lateinit var mPresenter: RoomsContractor.Presenter
     private lateinit var roomsRecyclerView:RecyclerView
-    private lateinit var roomsAdapter:RoomsAdapter
+    private lateinit var roomsAdapter: RoomsAdapter
+    private lateinit var infiniteScrollListener: InfiniteScrollListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         RoomsPresenter(this)
-        roomsAdapter= RoomsAdapter()
+        roomsAdapter=
+            RoomsAdapter()
         mPresenter.getRoomList()
+
 
     }
 
@@ -48,12 +54,24 @@ class RoomsFragment : Fragment(), RoomsContractor.View {
 
 
         roomsRecyclerView=view.recycler_view_rooms
-        roomsRecyclerView.layoutManager = LinearLayoutManager(getActivityOfActivity())
+        val layoutManager:LinearLayoutManager= LinearLayoutManager(getActivityOfActivity())
+        roomsRecyclerView.layoutManager = layoutManager
         roomsRecyclerView.setHasFixedSize(true)
         roomsRecyclerView.adapter=roomsAdapter
+        infiniteScrollListener=InfiniteScrollListener(layoutManager, object : ILoadMore {
+            override fun onLoad() {
+
+            }
+        })
+        roomsRecyclerView.addOnScrollListener(infiniteScrollListener)
 
     }
 
+
+    override fun showItemLoading(isLoading: Boolean) {
+        if (isLoading)roomsAdapter.setLoading(true)
+        else roomsAdapter.setLoading(false)
+    }
 
     override fun showRoomList(roomsList: List<RoomPOJO>) {
        roomsAdapter.addRoomList(roomsList)

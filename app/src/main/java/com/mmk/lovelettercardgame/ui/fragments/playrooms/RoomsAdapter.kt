@@ -1,10 +1,11 @@
-package com.mmk.lovelettercardgame.ui.playrooms
+package com.mmk.lovelettercardgame.ui.fragments.playrooms
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import com.mmk.lovelettercardgame.utils.inflate
+import com.mmk.lovelettercardgame.utils.viewholders.LoadingViewHolder
 
 class RoomsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -15,8 +16,13 @@ class RoomsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        //if (viewType==VIEW_TYPE_ROOM)
-            return RoomsItemViewHolder(parent.context,parent.inflate(R.layout.item_room))
+        if (viewType==VIEW_TYPE_ROOM)
+            return RoomsItemViewHolder(
+                parent.context,
+                parent.inflate(R.layout.item_room)
+            )
+        else
+            return LoadingViewHolder(parent.inflate(R.layout.item_loading))
 
     }
 
@@ -34,12 +40,29 @@ class RoomsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder as RoomsItemViewHolder
             holder.onBind(mRoomsList[position]!!)
         }
+        else if (getItemViewType(position)==VIEW_TYPE_LOADING){
+            holder as LoadingViewHolder
+            holder.onBind()
+        }
     }
 
     fun addRoomList(roomsList:List<RoomPOJO>){
+        setLoading(false)
         val startPos=mRoomsList.size
         mRoomsList.addAll(roomsList)
         notifyItemRangeChanged(startPos,roomsList.size)
+    }
+
+    fun setLoading(isLoading:Boolean){
+        if (isLoading){
+            mRoomsList.add(null)
+            notifyItemInserted(mRoomsList.size-1)
+        }
+        else{
+            val lastPos=mRoomsList.size-1
+            mRoomsList.removeAt(lastPos)
+            notifyItemRemoved(lastPos)
+        }
     }
 
     fun clearList () {

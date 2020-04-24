@@ -1,18 +1,12 @@
-package com.mmk.lovelettercardgame
+package com.mmk.lovelettercardgame.ui.activities
 
-import android.animation.AnimatorInflater
-import android.animation.AnimatorSet
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.mmk.lovelettercardgame.ui.playrooms.RoomsFragment
-import com.wajahatkarim3.easyflipview.EasyFlipView
+import com.mmk.lovelettercardgame.R
+import com.mmk.lovelettercardgame.ui.fragments.playrooms.RoomsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
