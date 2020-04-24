@@ -7,7 +7,7 @@ class RoomsIntractor {
 
     init {
         for (i in 0 until 5){
-            roomsList.add(RoomPOJO("Room $i",(1..4).random()))
+            roomsList.add(RoomPOJO("Room $i",(2..4).random()))
         }
     }
 

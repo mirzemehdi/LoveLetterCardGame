@@ -11,7 +11,7 @@ interface RoomsContractor {
     }
 
     interface Presenter{
-        fun getRoomList():List<RoomPOJO>
+        fun getRoomList()
         fun addRoom(room:RoomPOJO)
     }
 }

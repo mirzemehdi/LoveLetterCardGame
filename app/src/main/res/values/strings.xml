@@ -4,4 +4,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="rooms_title_fragment_rooms">Rooms</string>
+    <string name="rooms_nb_players_slash_max_players">%d/%d</string>
+    <string name="rooms_members_name">Members: %s</string>
 </resources>
