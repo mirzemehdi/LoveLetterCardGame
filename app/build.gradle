@@ -39,4 +39,7 @@ dependencies {
     //Card Flip Library
     implementation 'com.wajahatkarim3.EasyFlipView:EasyFlipView:3.0.0'
 
+    //Material Design
+    implementation 'com.google.android.material:material:1.1.0'
+
 }

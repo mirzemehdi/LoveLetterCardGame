@@ -2,11 +2,10 @@ package com.mmk.lovelettercardgame.utils
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mmk.lovelettercardgame.utils.callbacks.ILoadMore
 
 class InfiniteScrollListener(
     private val layoutManager: LinearLayoutManager,
-    private val loadMore: ILoadMore
+    private val onLoad :()->Unit
 ) : RecyclerView.OnScrollListener() {
     private var isLoading = true
     private var totalItemCount = 0
@@ -31,7 +30,7 @@ class InfiniteScrollListener(
                 isLoading = false
             }
             if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
-                loadMore.onLoad()
+                onLoad()
                 isLoading = true
             }
         }

@@ -39,4 +39,21 @@
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toBottomOf="@+id/text_view_fragment_rooms" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_fragment_rooms_add_room"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:useCompatPadding="true"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintHorizontal_bias="1"
+        android:src="@drawable/ic_add_black_24dp"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+         />
 </androidx.constraintlayout.widget.ConstraintLayout>

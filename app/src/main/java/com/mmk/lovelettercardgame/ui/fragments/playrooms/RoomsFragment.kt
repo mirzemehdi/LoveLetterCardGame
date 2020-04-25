@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
+import com.mmk.lovelettercardgame.ui.dialogs.AddRoomDialog
 import com.mmk.lovelettercardgame.utils.InfiniteScrollListener
-import com.mmk.lovelettercardgame.utils.callbacks.ILoadMore
 import com.mmk.lovelettercardgame.utils.inflate
 import kotlinx.android.synthetic.main.fragment_rooms.*
 import kotlinx.android.synthetic.main.fragment_rooms.view.*
@@ -52,20 +52,24 @@ class RoomsFragment : Fragment(),
     private fun initView(view: View?) {
         if (view==null) return
 
-
         roomsRecyclerView=view.recycler_view_rooms
-        val layoutManager:LinearLayoutManager= LinearLayoutManager(getActivityOfActivity())
+        val layoutManager= LinearLayoutManager(getActivityOfActivity())
         roomsRecyclerView.layoutManager = layoutManager
         roomsRecyclerView.setHasFixedSize(true)
         roomsRecyclerView.adapter=roomsAdapter
-        infiniteScrollListener=InfiniteScrollListener(layoutManager, object : ILoadMore {
-            override fun onLoad() {
 
-            }
-        })
+        infiniteScrollListener=InfiniteScrollListener(layoutManager){
+            //TODO ADD NEW ROOMS
+
+        }
         roomsRecyclerView.addOnScrollListener(infiniteScrollListener)
 
+        view.button_fragment_rooms_add_room.setOnClickListener {
+            val dialog=AddRoomDialog(getContextOfActivity())
+            dialog.show()
+        }
     }
+
 
 
     override fun showItemLoading(isLoading: Boolean) {
