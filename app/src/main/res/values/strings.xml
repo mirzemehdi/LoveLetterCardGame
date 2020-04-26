@@ -6,4 +6,11 @@
     <string name="rooms_title_fragment_rooms">Rooms</string>
     <string name="rooms_nb_players_slash_max_players">%d/%d</string>
     <string name="rooms_members_name">Members: %s</string>
+    <string name="hint_text_view_room_name">Room Name</string>
+    <string name="text_view_add_room_title">Add New Room</string>
+    <string name="text_view_add_room_max_players">Max players:</string>
+    <string name="radio_button_add_room_2">2</string>
+    <string name="radio_button_add_room_3">3</string>
+    <string name="radio_button_add_room_4">4</string>
+    <string name="button_add_room_text">Create Room</string>
 </resources>
