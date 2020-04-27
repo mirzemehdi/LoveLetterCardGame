@@ -6,7 +6,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.mmk.lovelettercardgame.R
-import com.mmk.lovelettercardgame.ui.fragments.playrooms.RoomsFragment
+import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
