@@ -13,4 +13,5 @@
     <string name="radio_button_add_room_3">3</string>
     <string name="radio_button_add_room_4">4</string>
     <string name="button_add_room_text">Create Room</string>
+    <string name="toast_error_server">There is some problem while retrieving data</string>
 </resources>

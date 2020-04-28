@@ -9,6 +9,7 @@ interface RoomsContractor {
 
         fun showRoomList(roomsList: List<RoomPOJO>)
         fun showItemLoading(isLoading:Boolean)
+        fun showErrorMessage(message:String)
     }
 
     interface Presenter{

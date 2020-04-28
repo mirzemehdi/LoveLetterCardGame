@@ -21,6 +21,8 @@ import com.mmk.lovelettercardgame.ui.fragments.game.GameFragment
 import com.mmk.lovelettercardgame.utils.InfiniteScrollListener
 import com.mmk.lovelettercardgame.utils.inflate
 import com.mmk.lovelettercardgame.utils.toast
+import com.mmk.lovelettercardgame.utils.toastError
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.fragment_rooms.view.*
 
 /**
@@ -106,6 +108,9 @@ class RoomsFragment : Fragment(),
        roomsAdapter.addRoomList(roomsList)
     }
 
+    override fun showErrorMessage(message: String) {
+        getContextOfActivity()?.toastError(message)
+    }
 
     override fun getActivityOfActivity(): Activity? = activity
 

@@ -1,17 +1,23 @@
 package com.mmk.lovelettercardgame.intractor
 
+import com.mmk.lovelettercardgame.api.ApiInitHelper
+import com.mmk.lovelettercardgame.pojo.ResponseRoomPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
+import retrofit2.Callback
 
 class RoomsIntractor {
-    val roomsList= mutableListOf<RoomPOJO>()
+    private val apiInitHelper=ApiInitHelper.defaultApi
 
-    init {
-        for (i in 0 until 5){
-            roomsList.add(RoomPOJO("Room $i",(2..4).random()))
-        }
+
+    fun getRoomsList(callback: Callback<List<ResponseRoomPOJO>>){
+        apiInitHelper
+            .roomsService
+            .getRoomList()
+            .enqueue(callback)
     }
 
     fun addRoom(room:RoomPOJO){
-        roomsList.add(room)
+        //roomsList.add(room)
+
     }
 }
