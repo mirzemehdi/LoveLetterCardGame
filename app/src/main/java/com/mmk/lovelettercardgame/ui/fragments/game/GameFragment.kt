@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_game.*
  * A simple [Fragment] subclass.
  */
 class GameFragment : Fragment() {
-     lateinit var roomItem:RoomPOJO
+     private var roomItem:RoomPOJO?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +31,7 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        roomItem=arguments?.getSerializable(RoomsFragment.ARGUMEN_ROOM_ITEM) as RoomPOJO
+        roomItem=arguments?.getSerializable(RoomsFragment.ARGUMEN_ROOM_ITEM) as RoomPOJO?
 
     }
 

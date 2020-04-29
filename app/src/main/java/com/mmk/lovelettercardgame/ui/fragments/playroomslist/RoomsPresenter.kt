@@ -5,6 +5,7 @@ import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.intractor.RoomsIntractor
 import com.mmk.lovelettercardgame.pojo.ResponseRoomPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
+import com.mmk.lovelettercardgame.utils.Constants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,7 +25,7 @@ class RoomsPresenter(private val mView: RoomsContractor.View):
     }
 
     override fun addRoom(room: RoomPOJO) {
-        roomsIntractor.addRoom(room)
+        //roomsIntractor.addRoom(room)
     }
 
     inner class RoomListCallBack : Callback<List<ResponseRoomPOJO>>{
@@ -61,8 +62,9 @@ class RoomsPresenter(private val mView: RoomsContractor.View):
     }
 
 
+
     private fun errorMessage(messageResourceId:Int){
         val message=mView.getContextOfActivity()?.resources?.getString(messageResourceId)?:""
-        mView.showErrorMessage(message)
+        mView.showMessage(message,Constants.MessageType.TYPE_ERROR)
     }
 }

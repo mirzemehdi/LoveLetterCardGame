@@ -18,10 +18,7 @@ import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import com.mmk.lovelettercardgame.ui.activities.MainActivity
 import com.mmk.lovelettercardgame.ui.dialogs.AddRoomDialog
 import com.mmk.lovelettercardgame.ui.fragments.game.GameFragment
-import com.mmk.lovelettercardgame.utils.InfiniteScrollListener
-import com.mmk.lovelettercardgame.utils.inflate
-import com.mmk.lovelettercardgame.utils.toast
-import com.mmk.lovelettercardgame.utils.toastError
+import com.mmk.lovelettercardgame.utils.*
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.fragment_rooms.view.*
 
@@ -84,7 +81,7 @@ class RoomsFragment : Fragment(),
 
     private fun setClicks() {
         roomAddButton.setOnClickListener {
-            val dialog=AddRoomDialog(getContextOfActivity())
+            val dialog=AddRoomDialog(getActivityOfActivity())
             dialog.show()
         }
 
@@ -108,8 +105,8 @@ class RoomsFragment : Fragment(),
        roomsAdapter.addRoomList(roomsList)
     }
 
-    override fun showErrorMessage(message: String) {
-        getContextOfActivity()?.toastError(message)
+    override fun showMessage(message: String,type:Constants.MessageType) {
+        getContextOfActivity()?.toasty(message,Constants.MessageType.TYPE_ERROR)
     }
 
     override fun getActivityOfActivity(): Activity? = activity
