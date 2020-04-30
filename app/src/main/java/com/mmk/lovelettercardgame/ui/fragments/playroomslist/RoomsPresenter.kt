@@ -3,6 +3,7 @@ package com.mmk.lovelettercardgame.ui.fragments.playroomslist
 import android.os.Handler
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.intractor.RoomsIntractor
+import com.mmk.lovelettercardgame.pojo.ResponseRoomListPOJO
 import com.mmk.lovelettercardgame.pojo.ResponseRoomPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import com.mmk.lovelettercardgame.utils.Constants
@@ -28,23 +29,29 @@ class RoomsPresenter(private val mView: RoomsContractor.View):
         //roomsIntractor.addRoom(room)
     }
 
-    inner class RoomListCallBack : Callback<List<ResponseRoomPOJO>>{
+    inner class RoomListCallBack : Callback<ResponseRoomListPOJO>{
 
         override fun onResponse(
-            call: Call<List<ResponseRoomPOJO>>,
-            response: Response<List<ResponseRoomPOJO>>
+            call: Call<ResponseRoomListPOJO>,
+            response: Response<ResponseRoomListPOJO>
         ) {
             if (response.isSuccessful ) {
-
-                    val roomList: List<RoomPOJO>? = response.body()?.map {
+                if (response.body()?.status==200) {
+                    println("Roomlist called")
+                    val roomList: List<RoomPOJO>? = response.body()?.data?.map {
                         var playersNumber: Int? = try {
                             it.players?.toInt()
-                        } catch (e:NumberFormatException){
+                        } catch (e: NumberFormatException) {
                             0
                         }
-                        RoomPOJO(it.name?:"", playersNumber?:0)
+                        RoomPOJO(it.name ?: "", playersNumber ?: 0)
                     }
-                    mView.showRoomList(roomList?: mutableListOf())
+                    mView.showRoomList(roomList ?: mutableListOf())
+                }
+                else{
+                    mView.showItemLoading(false)
+                    errorMessage(R.string.toast_error_server)
+                }
 
             }
             else{
@@ -53,7 +60,7 @@ class RoomsPresenter(private val mView: RoomsContractor.View):
             }
         }
 
-        override fun onFailure(call: Call<List<ResponseRoomPOJO>>, t: Throwable) {
+        override fun onFailure(call: Call<ResponseRoomListPOJO>, t: Throwable) {
             mView.showItemLoading(false)
             errorMessage(R.string.toast_error_server)
         }

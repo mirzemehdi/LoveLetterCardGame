@@ -1,6 +1,8 @@
 package com.mmk.lovelettercardgame.intractor
 
 import com.mmk.lovelettercardgame.api.ApiInitHelper
+import com.mmk.lovelettercardgame.pojo.ResponseAddRoomPojo
+import com.mmk.lovelettercardgame.pojo.ResponseRoomListPOJO
 import com.mmk.lovelettercardgame.pojo.ResponseRoomPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import okhttp3.ResponseBody
@@ -12,14 +14,14 @@ class RoomsIntractor {
     private val apiInitHelper=ApiInitHelper.defaultApi
 
 
-    fun getRoomsList(callback: Callback<List<ResponseRoomPOJO>>){
+    fun getRoomsList(callback: Callback<ResponseRoomListPOJO>){
         apiInitHelper
             .roomsService
             .getRoomList()
             .enqueue(callback)
     }
 
-    fun addRoom(name:String,maxNBPlayers:String,callback: Callback<ResponseBody>){
+    fun addRoom(name:String,maxNBPlayers:String,callback: Callback<ResponseAddRoomPojo>){
         apiInitHelper
             .roomsService
             .addRoom(name,maxNBPlayers)

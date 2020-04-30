@@ -15,4 +15,5 @@
     <string name="button_add_room_text">Create Room</string>
     <string name="toast_error_server">There is some problem while retrieving data</string>
     <string name="toast_room_added_successfully">New room is added successfully</string>
+    <string name="toast_error_add_room">Couldn\'t created new room</string>
 </resources>

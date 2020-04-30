@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_game"
-
+    android:id="@+id/layout_game_fragment_container"
     tools:context=".ui.fragments.game.GameFragment">
 
 
@@ -13,10 +13,10 @@
         android:id="@+id/image_view_game_options"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="32dp"
         android:contentDescription="@null"
-        android:src="@drawable/ic_home"
+        android:src="@drawable/ic_options_1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
@@ -30,15 +30,28 @@
         android:layout_height="45dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
+        android:scaleType="fitXY"
         android:contentDescription="@null"
-        android:src="@drawable/ic_home"
+        android:src="@drawable/ic_options_2"
         app:layout_constraintBottom_toBottomOf="@id/image_view_game_options"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+    <ImageView
+        android:id="@+id/image_view_game_card_dealer"
+        android:layout_width="130dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_card_deal"
+        app:layout_constraintBottom_toBottomOf="@id/image_view_game_options"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <include
@@ -125,16 +138,22 @@
         app:layout_constraintVertical_bias="1.0">
 
         <ImageView
-            android:layout_width="130dp"
-            android:rotation="-10"
-            android:src="@drawable/card_baron"
-            android:layout_height="170dp"/>
+            android:id="@+id/image_view_game_player_card_1"
+            android:layout_width="@dimen/player_card_width"
+            android:layout_height="170dp"
+            android:padding="10dp"
+            android:rotation="0"
+            android:src="@drawable/card_baron" />
+
         <ImageView
-            android:layout_width="130dp"
-            android:rotation="10"
+            android:id="@+id/image_view_game_player_card_2"
+            android:layout_width="@dimen/player_card_width"
+            android:layout_height="170dp"
             android:layout_marginStart="24dp"
-            android:src="@drawable/card_countess"
-            android:layout_height="170dp"/>
+            android:padding="10dp"
+            android:visibility="gone"
+            android:rotation="10"
+            android:src="@drawable/card_countess" />
 
     </LinearLayout>
 

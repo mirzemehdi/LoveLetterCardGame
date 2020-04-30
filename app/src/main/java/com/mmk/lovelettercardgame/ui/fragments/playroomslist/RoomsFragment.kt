@@ -16,10 +16,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import com.mmk.lovelettercardgame.ui.activities.MainActivity
-import com.mmk.lovelettercardgame.ui.dialogs.AddRoomDialog
+import com.mmk.lovelettercardgame.ui.dialogs.addroom.AddRoomDialog
 import com.mmk.lovelettercardgame.ui.fragments.game.GameFragment
 import com.mmk.lovelettercardgame.utils.*
-import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.fragment_rooms.view.*
 
 /**
@@ -81,7 +80,10 @@ class RoomsFragment : Fragment(),
 
     private fun setClicks() {
         roomAddButton.setOnClickListener {
-            val dialog=AddRoomDialog(getActivityOfActivity())
+            val dialog=
+                AddRoomDialog(
+                    getActivityOfActivity()
+                )
             dialog.show()
         }
 

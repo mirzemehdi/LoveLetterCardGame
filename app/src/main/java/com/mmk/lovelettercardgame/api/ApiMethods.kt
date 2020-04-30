@@ -1,5 +1,7 @@
 package com.mmk.lovelettercardgame.api
 
+import com.mmk.lovelettercardgame.pojo.ResponseAddRoomPojo
+import com.mmk.lovelettercardgame.pojo.ResponseRoomListPOJO
 import com.mmk.lovelettercardgame.pojo.ResponseRoomPOJO
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -12,13 +14,13 @@ interface ApiMethods {
 
     interface RoomsService {
         @GET("rooms/")
-        fun getRoomList(): Call<List<ResponseRoomPOJO>>
+        fun getRoomList(): Call<ResponseRoomListPOJO>
 
         @FormUrlEncoded
         @POST("rooms/")
         fun addRoom(
             @Field("roomName") roomName: String,
-            @Field("player") maxPlayers: String
-        ): Call<ResponseBody>
+            @Field("maxPlayers") maxPlayers: String
+        ): Call<ResponseAddRoomPojo>
     }
 }

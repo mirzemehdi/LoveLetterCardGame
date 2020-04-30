@@ -1,6 +1,7 @@
 package com.mmk.lovelettercardgame.utils
 
 import android.content.Context
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,3 +28,8 @@ fun Context.toasty(text: CharSequence,
     }
 }
 
+fun Context.dpToPx(dp:Float):Float{
+    val r=resources
+    val px=TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,r.displayMetrics)
+    return px
+}

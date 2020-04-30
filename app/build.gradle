@@ -51,5 +51,9 @@ dependencies {
     //Toasty
     implementation 'com.github.GrenderG:Toasty:1.4.2'
 
+    //Animations
+
+
+
 
 }
