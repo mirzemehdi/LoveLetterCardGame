@@ -8,4 +8,9 @@
     <color name="colorRoomPersonNumber">#262626</color>
 
     <color name="colorSilver">#909090</color>
+    <color name="colorUserLayoutBg">#B3DBD0D0</color>
+    <color name="colorLayoutBorder">#272726</color>
+
+    <color name="colorUserLayoutPlayerInfoBg">#EDDBD0D0</color>
+    <color name="colorPlayerCardsPlaceHolderBg">#45DBD0D0</color>
 </resources>
