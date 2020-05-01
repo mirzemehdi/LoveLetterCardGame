@@ -11,24 +11,43 @@ import kotlinx.android.synthetic.main.fragment_game.*
 
 class CardAnimations {
     companion object {
+        const val DURATION_DEAL_CARD_ANIMATION=500L
+        const val DURATION_ARRANGE_CARDS_ANIMATION=200L
 
-        fun dealCard(sampleCard: View, cardFinalPositionView: View, onAnimationEnd: () -> Unit) {
+        fun dealCard(isOtherPlayer:Boolean, sampleCard: View,
+                     cardFinalPositionView: View, onAnimationEnd: () -> Unit={}) {
+
+            val animationDuration= DURATION_DEAL_CARD_ANIMATION
+            val scaleValue=if(isOtherPlayer) 0.5f else 4f
+
             sampleCard.visibility = View.VISIBLE
-            val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0f, 4f)
-            val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0f, 4f)
-            val finalYPosition = cardFinalPositionView.getLocationOnScreen().y.toFloat()
+            sampleCard.scaleX=scaleValue
+            sampleCard.scaleY=scaleValue
+            val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0f, scaleValue)
+            val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0f, scaleValue)
+
+            val finalYPosition = cardFinalPositionView.getLocationOnScreen().y.toFloat()-
+                    sampleCard.getLocationOnScreen().y.toFloat()
             val translationY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f, finalYPosition)
 
+            val finalXPosition = cardFinalPositionView.getLocationOnScreen().x.toFloat()-
+                    sampleCard.getLocationOnScreen().x.toFloat()
+
+            val translationX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, finalXPosition)
+
+
             val animator =
-                ObjectAnimator.ofPropertyValuesHolder(sampleCard, scaleX, scaleY, translationY)
+                ObjectAnimator.ofPropertyValuesHolder(sampleCard, scaleX, scaleY, translationY,translationX)
                     .apply {
-                        duration = 1000
+                        duration = animationDuration
                         interpolator = AccelerateInterpolator()
                     }
             animator.start()
             animator.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator?) {
                     sampleCard.visibility = View.INVISIBLE
+                    sampleCard.translationX=0f
+                    sampleCard.translationY=0f
                     cardFinalPositionView.visibility = View.VISIBLE
                     onAnimationEnd()
                 }
@@ -36,13 +55,17 @@ class CardAnimations {
 
         }
 
-        fun arrangeCards(firstCard: View, secondCard: View?) {
+        fun arrangeCards(isOtherPlayer: Boolean,firstCard: View, secondCard: View) {
 
-            if (secondCard == null) return
+
+            //Means user has only one card
+            if (firstCard===secondCard) return
+
+            val marginBetweenCards=if (isOtherPlayer) 0 else 10
 
             val translationXValue = (firstCard.width / 2).toFloat()
             val translationX =
-                PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, -translationXValue-10)
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, -translationXValue-marginBetweenCards)
 
             val rotationValue = 10f
             val rotation = PropertyValuesHolder.ofFloat(View.ROTATION, -rotationValue)
@@ -50,16 +73,16 @@ class CardAnimations {
             val animator =
                 ObjectAnimator.ofPropertyValuesHolder(firstCard, translationX, rotation)
                     .apply {
-                        duration = 400
+                        duration = DURATION_ARRANGE_CARDS_ANIMATION
                         interpolator = AccelerateInterpolator()
                     }
 
             val translationX2 =
-                PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, translationXValue+10)
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, translationXValue+marginBetweenCards)
             val rotation2 = PropertyValuesHolder.ofFloat(View.ROTATION, rotationValue)
             val animator2 = ObjectAnimator.ofPropertyValuesHolder(secondCard, translationX2, rotation2)
                 .apply {
-                    duration = 400
+                    duration = DURATION_ARRANGE_CARDS_ANIMATION
                     interpolator = AccelerateInterpolator()
                 }
 

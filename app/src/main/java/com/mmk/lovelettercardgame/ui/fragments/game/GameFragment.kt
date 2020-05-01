@@ -4,6 +4,7 @@ package com.mmk.lovelettercardgame.ui.fragments.game
 import android.animation.*
 import android.animation.Animator.AnimatorListener
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import android.view.animation.TranslateAnimation
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.mmk.lovelettercardgame.R
+import com.mmk.lovelettercardgame.pojo.PlayerPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import com.mmk.lovelettercardgame.ui.dialogs.cardinfo.CardDetailInfoDialog
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
@@ -21,6 +23,7 @@ import com.mmk.lovelettercardgame.utils.getLocationOnScreen
 import com.mmk.lovelettercardgame.utils.inflate
 import com.mmk.lovelettercardgame.utils.toast
 import kotlinx.android.synthetic.main.fragment_game.*
+import kotlinx.android.synthetic.main.user_box_view.view.*
 
 
 /**
@@ -28,7 +31,9 @@ import kotlinx.android.synthetic.main.fragment_game.*
  */
 class GameFragment : Fragment() {
     private var roomItem: RoomPOJO? = null
-    var count=0
+    private var userBoxList= mutableListOf<View>()
+    private val playersList= mutableListOf<PlayerPOJO>(PlayerPOJO("1","Salam")
+        ,PlayerPOJO("2","Salam"),PlayerPOJO("3","Salam"),PlayerPOJO("4","Salam"))
 
 
     override fun onCreateView(
@@ -43,9 +48,26 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         roomItem = arguments?.getSerializable(RoomsFragment.ARGUMEN_ROOM_ITEM) as RoomPOJO?
+
+        initView()
         setClicks()
+        initFakePlayers()
         //giveCardToPlayer()
 
+    }
+
+    private fun initView() {
+        userBoxList.add(layout_game_player_1)
+        userBoxList.add(layout_game_player_2)
+        userBoxList.add(layout_game_player_3)
+        userBoxList.add(layout_game_player_4)
+
+    }
+
+    private fun initFakePlayers() {
+        playersList.forEachIndexed { index, playerPOJO ->
+            userBoxList[index].tag=playerPOJO.id
+        }
     }
 
     private fun setClicks() {
@@ -60,7 +82,23 @@ class GameFragment : Fragment() {
             )
         }
 
-        image_view_game_options.setOnClickListener { giveCardToPlayer() }
+        image_view_game_options.setOnClickListener {
+
+
+            playersList.forEachIndexed { index, playerPOJO ->
+                val duration=CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION+
+                        CardAnimations.DURATION_DEAL_CARD_ANIMATION
+
+                Handler().postDelayed({
+                    giveCardToPlayer(playerPOJO)
+                },duration*index)
+
+            }
+
+
+
+
+        }
 
     }
 
@@ -73,37 +111,36 @@ class GameFragment : Fragment() {
     }
 
 
+    fun giveCardToPlayer(playerPOJO: PlayerPOJO) {
 
-    fun giveCardToPlayer() {
-        val sampleCard=image_view_game_card_sample_card
-        sampleCard.visibility=View.VISIBLE
+        val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerPOJO.id)
 
-        var cardFinalPositionView=image_view_game_player_card_1
-        if (count==1)
-            cardFinalPositionView=image_view_game_player_card_2
-
-        CardAnimations.dealCard(sampleCard,cardFinalPositionView){
-            //TODO do whatever you like when animation ends
-            count++
-            arrange()
-
+        //Means it is you
+        var isOtherPlayer: Boolean
+        var firstCard = image_view_game_player_card_1
+        var secondCard = image_view_game_player_card_2
+        if (rootUserBoxView === layout_game_player_1) {
+            isOtherPlayer = false
+            firstCard = image_view_game_player_card_1
+            secondCard = image_view_game_player_card_2
+        } else {
+            isOtherPlayer = true
+            firstCard = rootUserBoxView.image_view_userBox_card_1
+            secondCard = rootUserBoxView.image_view_userBox_card_2
         }
 
+        val sampleCard = image_view_game_card_sample_card
+        sampleCard.visibility = View.VISIBLE
 
+        var cardFinalPositionView = firstCard
+        if (playerPOJO.cardsNumber == 1)
+            cardFinalPositionView = secondCard
 
+        CardAnimations.dealCard(isOtherPlayer, sampleCard, cardFinalPositionView) {
+            playerPOJO.cardsNumber++
+            CardAnimations.arrangeCards(isOtherPlayer, firstCard, cardFinalPositionView)
+        }
 
-
-
-
-    }
-
-    fun arrange() {
-
-        val firstCard:View=image_view_game_player_card_1
-        var secondCard:View?=image_view_game_player_card_2
-        if (count<2)
-            secondCard=null
-        CardAnimations.arrangeCards(firstCard,secondCard)
 
 
 
