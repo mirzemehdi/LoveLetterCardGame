@@ -54,6 +54,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <ImageView
+        android:id="@+id/image_view_game_card_sample_card"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+
+        android:visibility="invisible"
+
+        android:contentDescription="@null"
+        android:src="@drawable/card_baron"
+        app:layout_constraintBottom_toBottomOf="@id/image_view_game_options"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/image_view_game_card_dealer" />
+
     <include
         android:id="@+id/layout_game_player_3"
         layout="@layout/user_box_view"
@@ -120,7 +136,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_game_player_2" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/linear_layout_game_cards_holder"
         android:layout_width="0dp"
 
@@ -140,22 +156,24 @@
         <ImageView
             android:id="@+id/image_view_game_player_card_1"
             android:layout_width="@dimen/player_card_width"
-            android:layout_height="170dp"
-            android:padding="10dp"
+            android:layout_height="@dimen/player_card_height"
             android:rotation="0"
+            android:padding="10dp"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
             android:src="@drawable/card_baron" />
 
         <ImageView
             android:id="@+id/image_view_game_player_card_2"
             android:layout_width="@dimen/player_card_width"
-            android:layout_height="170dp"
-            android:layout_marginStart="24dp"
+            android:layout_height="@dimen/player_card_height"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:rotation="0"
             android:padding="10dp"
-            android:visibility="gone"
-            android:rotation="10"
             android:src="@drawable/card_countess" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 

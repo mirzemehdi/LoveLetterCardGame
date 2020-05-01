@@ -1,6 +1,7 @@
 package com.mmk.lovelettercardgame.utils
 
 import android.content.Context
+import android.graphics.Point
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -32,4 +33,10 @@ fun Context.dpToPx(dp:Float):Float{
     val r=resources
     val px=TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,r.displayMetrics)
     return px
+}
+
+fun View.getLocationOnScreen(): Point{
+    val location = IntArray(2)
+    this.getLocationOnScreen(location)
+    return Point(location[0],location[1])
 }

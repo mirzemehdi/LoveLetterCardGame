@@ -6,6 +6,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.mmk.lovelettercardgame.R
+import com.mmk.lovelettercardgame.ui.fragments.game.GameFragment
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        changeFragment(RoomsFragment())
+        changeFragment(GameFragment())
 
 //        Handler().postDelayed({ viewFlipper.flipTheView(true) },1000)
 //        viewFlipper.onFlipListener =
