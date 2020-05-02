@@ -3,6 +3,8 @@ package com.mmk.lovelettercardgame.ui.fragments.game
 
 import android.animation.*
 import android.animation.Animator.AnimatorListener
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -29,12 +31,19 @@ import kotlinx.android.synthetic.main.user_box_view.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class GameFragment : Fragment() {
-    private var roomItem: RoomPOJO? = null
-    private var userBoxList= mutableListOf<View>()
-    private val playersList= mutableListOf<PlayerPOJO>(PlayerPOJO("1","Salam")
-        ,PlayerPOJO("2","Salam"),PlayerPOJO("3","Salam"),PlayerPOJO("4","Salam"))
+class GameFragment : Fragment(), GameContractor.View {
 
+    private lateinit var mPresenter: GameContractor.Presenter
+    private var myPlayer: PlayerPOJO? = null
+    private var roomItem: RoomPOJO? = null
+    private val progressBar by lazy { progress_game_fragment }
+    private var userBoxList = mutableListOf<View>()
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        GamePresenter(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +60,12 @@ class GameFragment : Fragment() {
 
         initView()
         setClicks()
-        initFakePlayers()
+        mPresenter.getPlayers()
+        Handler().postDelayed(Runnable {
+            mPresenter.joinGame("Ramin")
+        }, 3000)
+
+
         //giveCardToPlayer()
 
     }
@@ -61,14 +75,11 @@ class GameFragment : Fragment() {
         userBoxList.add(layout_game_player_2)
         userBoxList.add(layout_game_player_3)
         userBoxList.add(layout_game_player_4)
+        userBoxList.forEach { view -> view.visibility = View.GONE }
+        progressBar.visibility = View.VISIBLE
 
     }
 
-    private fun initFakePlayers() {
-        playersList.forEachIndexed { index, playerPOJO ->
-            userBoxList[index].tag=playerPOJO.id
-        }
-    }
 
     private fun setClicks() {
         image_view_game_player_card_1.setOnClickListener {
@@ -82,23 +93,6 @@ class GameFragment : Fragment() {
             )
         }
 
-        image_view_game_options.setOnClickListener {
-
-
-            playersList.forEachIndexed { index, playerPOJO ->
-                val duration=CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION+
-                        CardAnimations.DURATION_DEAL_CARD_ANIMATION
-
-                Handler().postDelayed({
-                    giveCardToPlayer(playerPOJO)
-                },duration*index)
-
-            }
-
-
-
-
-        }
 
     }
 
@@ -111,14 +105,63 @@ class GameFragment : Fragment() {
     }
 
 
-    fun giveCardToPlayer(playerPOJO: PlayerPOJO) {
+    override fun showPlayers(players: List<PlayerPOJO>) {
+        progressBar.visibility = View.GONE
+        if (myPlayer == null) {
+            players.forEachIndexed { index, playerPOJO ->
+                initUserBoxView(userBoxList[index], playerPOJO)
+            }
+        } else {
+            var myPlayerIndex = 0
+            players.forEachIndexed { index, playerPOJO ->
+                if (myPlayer!!.id == playerPOJO.id) myPlayerIndex = index
+            }
 
+            players.forEachIndexed { index, playerPOJO ->
+                val indexOfPlayerInBox = (players.size + index - myPlayerIndex) % players.size
+                initUserBoxView(userBoxList[indexOfPlayerInBox], playerPOJO)
+
+            }
+        }
+    }
+
+    private fun initUserBoxView(userBoxView: View, playerPOJO: PlayerPOJO) {
+        userBoxView.apply {
+            visibility = View.VISIBLE
+            tag = playerPOJO.id
+            val playerNameTextView = userBoxView.textView_userBox_playerName
+            playerNameTextView.text = playerPOJO.name
+            if (playerPOJO==myPlayer) playerNameTextView.text=getString(R.string.text_you)
+
+        }
+    }
+
+    override fun saveMyOwnPlayer(playerPOJO: PlayerPOJO) {
+        myPlayer = playerPOJO
+    }
+
+    override fun giveCardToAllPlayers(players: List<PlayerPOJO>) {
+        players.forEachIndexed { index, playerPOJO ->
+            val duration = CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION +
+                    CardAnimations.DURATION_DEAL_CARD_ANIMATION
+
+
+            Handler().postDelayed({
+                giveCardToPlayer(playerPOJO)
+            }, duration * index)
+
+        }
+    }
+
+
+    override fun giveCardToPlayer(playerPOJO: PlayerPOJO) {
         val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerPOJO.id)
 
+
         //Means it is you
-        var isOtherPlayer: Boolean
-        var firstCard = image_view_game_player_card_1
-        var secondCard = image_view_game_player_card_2
+        val isOtherPlayer: Boolean
+        val firstCard: ImageView
+        val secondCard: ImageView
         if (rootUserBoxView === layout_game_player_1) {
             isOtherPlayer = false
             firstCard = image_view_game_player_card_1
@@ -141,10 +184,21 @@ class GameFragment : Fragment() {
             CardAnimations.arrangeCards(isOtherPlayer, firstCard, cardFinalPositionView)
         }
 
-
+        println("Finishes animation")
 
 
     }
 
+    override fun hideShowWaitingText(isWaitingPlayers: Boolean) {
+        text_view_game_waiting_players.visibility =
+            if (isWaitingPlayers) View.VISIBLE else View.GONE
+    }
 
+    override fun getActivityOfActivity(): Activity? = activity
+
+    override fun getContextOfActivity(): Context? = context
+
+    override fun setPresenter(presenter: GamePresenter) {
+        mPresenter = presenter
+    }
 }

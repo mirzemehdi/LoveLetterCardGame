@@ -16,4 +16,6 @@
     <string name="toast_error_server">There is some problem while retrieving data</string>
     <string name="toast_room_added_successfully">New room is added successfully</string>
     <string name="toast_error_add_room">Couldn\'t created new room</string>
+    <string name="waiting_players_text">Waiting for all players...</string>
+    <string name="text_you">You</string>
 </resources>
