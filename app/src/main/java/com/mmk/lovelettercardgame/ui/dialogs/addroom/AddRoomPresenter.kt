@@ -1,5 +1,6 @@
 package com.mmk.lovelettercardgame.ui.dialogs.addroom
 
+import com.github.nkzawa.emitter.Emitter
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.intractor.RoomsIntractor
 import com.mmk.lovelettercardgame.pojo.ResponseAddRoomPojo
@@ -17,12 +18,18 @@ class AddRoomPresenter (private val mView: AddRoomContractor.View):
 
 
     override fun addRoom(roomName: String, maxNbPlayers: String) {
-        roomsIntractor.addRoom(roomName,maxNbPlayers,AddRoomCallBack())
+        roomsIntractor.addRoom(roomName,maxNbPlayers,AddRoomListener())
 
     }
 
 
+    inner class AddRoomListener: Emitter.Listener{
+        override fun call(vararg args: Any?) {
+            mView.getActivityOfActivity()?.runOnUiThread {
 
+            }
+        }
+    }
     inner class AddRoomCallBack :Callback<ResponseAddRoomPojo>{
 
 

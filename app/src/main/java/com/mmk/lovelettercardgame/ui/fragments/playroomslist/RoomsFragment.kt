@@ -108,7 +108,7 @@ class RoomsFragment : Fragment(),
     }
 
     override fun showMessage(message: String,type:Constants.MessageType) {
-        getContextOfActivity()?.toasty(message,Constants.MessageType.TYPE_ERROR)
+        getContextOfActivity()?.toasty(message,type)
     }
 
     override fun getActivityOfActivity(): Activity? = activity

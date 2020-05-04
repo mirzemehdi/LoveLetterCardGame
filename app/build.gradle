@@ -51,6 +51,10 @@ dependencies {
     //Toasty
     implementation 'com.github.GrenderG:Toasty:1.4.2'
 
+    //Socket
+    implementation 'com.github.nkzawa:socket.io-client:0.6.0'
+
+
     //Animations
 
 

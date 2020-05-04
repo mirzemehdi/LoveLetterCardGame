@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +13,16 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import com.github.nkzawa.socketio.client.IO
 import com.mmk.lovelettercardgame.R
+import com.mmk.lovelettercardgame.intractor.RoomsIntractor
 import com.mmk.lovelettercardgame.pojo.PlayerPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import com.mmk.lovelettercardgame.ui.dialogs.cardinfo.CardDetailInfoDialog
 import com.mmk.lovelettercardgame.ui.dialogs.joinroom.JoinRoomDialog
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
+import com.mmk.lovelettercardgame.utils.CardMoveListener
+import com.mmk.lovelettercardgame.utils.Constants
 import com.mmk.lovelettercardgame.utils.animations.CardAnimations
 import com.mmk.lovelettercardgame.utils.inflate
 import com.mmk.lovelettercardgame.utils.toast
@@ -85,8 +90,10 @@ class GameFragment : Fragment(), GameContractor.View {
         userBoxList.add(layout_game_player_4)
         userBoxList.forEach { view -> view.visibility = View.GONE }
         progressBar.visibility = View.VISIBLE
-
         clickableAnimation = AnimationUtils.loadAnimation(context, R.anim.clickable)
+
+        image_view_game_player_card_1.setOnTouchListener(CardMoveListener())
+        image_view_game_player_card_2.setOnTouchListener(CardMoveListener())
     }
 
 

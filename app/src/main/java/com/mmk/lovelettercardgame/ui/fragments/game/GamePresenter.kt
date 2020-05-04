@@ -23,12 +23,15 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
             mView.giveCardToAllPlayers(playersList)
             mView.hideShowWaitingText(false)
             Handler().postDelayed(Runnable {
-                mView.giveCardToPlayer(playersList[0])
-                mView.makeTurnOfPlayer(playersList[0])
+                mView.giveCardToPlayer(playersList[3])
+                mView.makeTurnOfPlayer(playersList[3])
             }
                 ,
                 4 * (CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION + CardAnimations.DURATION_DEAL_CARD_ANIMATION))
 
+            Handler().postDelayed({
+                mView.makeTurnOfPlayer(playersList[0])
+            },6000)
         }
 
     }
