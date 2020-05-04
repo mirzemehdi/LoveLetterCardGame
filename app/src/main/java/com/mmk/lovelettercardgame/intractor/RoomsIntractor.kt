@@ -29,5 +29,9 @@ class RoomsIntractor {
 
     }
 
+    fun joinRoom(playerName:String){
+
+    }
+
 
 }

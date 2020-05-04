@@ -24,17 +24,18 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
             mView.hideShowWaitingText(false)
             Handler().postDelayed(Runnable {
                 mView.giveCardToPlayer(playersList[0])
+                mView.makeTurnOfPlayer(playersList[0])
             }
                 ,
                 4 * (CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION + CardAnimations.DURATION_DEAL_CARD_ANIMATION))
+
         }
 
     }
 
-    override fun joinGame(name: String) {
-        val newPlayer = PlayerPOJO("4", name)
-        playersList.add(newPlayer)
-        mView.saveMyOwnPlayer(newPlayer)
+    override fun joinGame(playerPOJO: PlayerPOJO) {
+        playersList.add(playerPOJO)
+        mView.saveMyOwnPlayer(playerPOJO)
         getPlayers()
     }
 }

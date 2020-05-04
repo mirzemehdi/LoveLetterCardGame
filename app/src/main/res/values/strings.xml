@@ -18,4 +18,7 @@
     <string name="toast_error_add_room">Couldn\'t created new room</string>
     <string name="waiting_players_text">Waiting for all players...</string>
     <string name="text_you">You</string>
+    <string name="button_join_room_text">Join</string>
+    <string name="hint_text_view_join_room_player_name">Your Name</string>
+    <string name="text_view_join_room_title">Join Room</string>
 </resources>

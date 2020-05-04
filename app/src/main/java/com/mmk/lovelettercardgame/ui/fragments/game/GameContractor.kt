@@ -11,13 +11,13 @@ interface GameContractor {
         fun giveCardToPlayer(playerPOJO: PlayerPOJO)
         fun giveCardToAllPlayers(players: List<PlayerPOJO>)
         fun hideShowWaitingText(isWaitingPlayers:Boolean)
-
         fun saveMyOwnPlayer(playerPOJO: PlayerPOJO)
+        fun makeTurnOfPlayer(playerPOJO: PlayerPOJO)
     }
 
     interface Presenter{
 
         fun getPlayers()
-        fun joinGame(name:String)
+        fun joinGame(playerPOJO: PlayerPOJO)
     }
 }

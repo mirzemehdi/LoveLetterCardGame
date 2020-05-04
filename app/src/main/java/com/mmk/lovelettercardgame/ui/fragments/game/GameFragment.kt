@@ -1,8 +1,6 @@
 package com.mmk.lovelettercardgame.ui.fragments.game
 
 
-import android.animation.*
-import android.animation.Animator.AnimatorListener
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
@@ -10,18 +8,17 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.TranslateAnimation
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.pojo.PlayerPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import com.mmk.lovelettercardgame.ui.dialogs.cardinfo.CardDetailInfoDialog
+import com.mmk.lovelettercardgame.ui.dialogs.joinroom.JoinRoomDialog
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
 import com.mmk.lovelettercardgame.utils.animations.CardAnimations
-import com.mmk.lovelettercardgame.utils.dpToPx
-import com.mmk.lovelettercardgame.utils.getLocationOnScreen
 import com.mmk.lovelettercardgame.utils.inflate
 import com.mmk.lovelettercardgame.utils.toast
 import kotlinx.android.synthetic.main.fragment_game.*
@@ -38,12 +35,16 @@ class GameFragment : Fragment(), GameContractor.View {
     private var roomItem: RoomPOJO? = null
     private val progressBar by lazy { progress_game_fragment }
     private var userBoxList = mutableListOf<View>()
-
+    private lateinit var clickableAnimation: Animation
+    private var joinRoomDialog:JoinRoomDialog?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GamePresenter(this)
+
+
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,9 +62,16 @@ class GameFragment : Fragment(), GameContractor.View {
         initView()
         setClicks()
         mPresenter.getPlayers()
-        Handler().postDelayed(Runnable {
-            mPresenter.joinGame("Ramin")
-        }, 3000)
+
+        joinRoomDialog=JoinRoomDialog(getActivityOfActivity()){joinedPlayer->
+            //Player is Joined
+            mPresenter.joinGame(joinedPlayer)
+        }
+        joinRoomDialog?.show()
+
+//        Handler().postDelayed(Runnable {
+//            mPresenter.joinGame("Ramin")
+//        }, 3000)
 
 
         //giveCardToPlayer()
@@ -78,6 +86,7 @@ class GameFragment : Fragment(), GameContractor.View {
         userBoxList.forEach { view -> view.visibility = View.GONE }
         progressBar.visibility = View.VISIBLE
 
+        clickableAnimation = AnimationUtils.loadAnimation(context, R.anim.clickable)
     }
 
 
@@ -184,7 +193,6 @@ class GameFragment : Fragment(), GameContractor.View {
             CardAnimations.arrangeCards(isOtherPlayer, firstCard, cardFinalPositionView)
         }
 
-        println("Finishes animation")
 
 
     }
@@ -192,6 +200,19 @@ class GameFragment : Fragment(), GameContractor.View {
     override fun hideShowWaitingText(isWaitingPlayers: Boolean) {
         text_view_game_waiting_players.visibility =
             if (isWaitingPlayers) View.VISIBLE else View.GONE
+    }
+
+    override fun makeTurnOfPlayer(playerPOJO: PlayerPOJO) {
+        val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerPOJO.id)
+        userBoxList.forEach {
+            if (it===rootUserBoxView) it.startAnimation(clickableAnimation)
+            else{
+                it.clearAnimation()
+                clickableAnimation.cancel()
+                clickableAnimation.reset()
+            }
+        }
+
     }
 
     override fun getActivityOfActivity(): Activity? = activity
