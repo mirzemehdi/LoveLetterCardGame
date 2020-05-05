@@ -11,7 +11,7 @@ import com.mmk.lovelettercardgame.utils.Constants
 import org.json.JSONObject
 
 class JoinRoomPresenter(private val mView:JoinRoomContractor.View):JoinRoomContractor.Presenter {
-    private val roomsIntractor= RoomsIntractor
+    private val roomsIntractor= RoomsIntractor()
 
 
     init {

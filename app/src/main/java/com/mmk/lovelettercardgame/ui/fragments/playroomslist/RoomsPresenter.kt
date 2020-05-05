@@ -17,7 +17,7 @@ import java.lang.NumberFormatException
 
 class RoomsPresenter(private val mView: RoomsContractor.View) :
     RoomsContractor.Presenter {
-    private val roomsIntractor = RoomsIntractor
+    private val roomsIntractor = RoomsIntractor()
 
     init {
         mView.setPresenter(this)

@@ -14,7 +14,7 @@ import retrofit2.Response
 
 class AddRoomPresenter (private val mView: AddRoomContractor.View):
     AddRoomContractor.Presenter {
-    private val roomsIntractor=RoomsIntractor
+    private val roomsIntractor=RoomsIntractor()
     init {
         mView.setPresenter(this)
     }

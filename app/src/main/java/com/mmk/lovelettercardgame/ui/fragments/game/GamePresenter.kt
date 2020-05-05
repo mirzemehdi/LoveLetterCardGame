@@ -14,7 +14,7 @@ import com.mmk.lovelettercardgame.utils.animations.CardAnimations
 import org.json.JSONObject
 
 class GamePresenter(private val mView: GameContractor.View) : GameContractor.Presenter {
-    private val roomsIntractor= RoomsIntractor
+    private val roomsIntractor= RoomsIntractor()
     init {
         mView.setPresenter(this)
     }
