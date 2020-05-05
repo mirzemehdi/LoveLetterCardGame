@@ -19,25 +19,18 @@ class SocketInstance {
     companion object {
 
 
+        fun getInstance(): Socket? {
 
 
-
-        fun getInstance():Socket?{
-
-
-
-
-
-            var socket: Socket?=null
+            var socket: Socket? = null
 
             try {
-                 val options=IO.Options()
+                val options = IO.Options()
 
-                 socket=IO.socket(Constants.BASE_URL)
+                socket = IO.socket(Constants.BASE_URL)
                 println("Socket initialize")
 
-            }
-            catch (e:URISyntaxException){
+            } catch (e: URISyntaxException) {
                 println("Connection Problem")
                 println(e.message)
             }

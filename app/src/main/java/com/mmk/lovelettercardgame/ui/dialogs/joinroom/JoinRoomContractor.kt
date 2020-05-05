@@ -13,6 +13,6 @@ interface JoinRoomContractor {
     }
 
     interface Presenter{
-        fun joinPlayer(playerName:String)
+        fun joinRoom(playerName:String,roomId:String)
     }
 }

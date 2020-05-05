@@ -55,6 +55,13 @@ class RoomsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyItemRangeChanged(startPos,roomsList.size)
     }
 
+    fun setRoomList(roomsList: List<RoomPOJO>){
+
+        mRoomsList.clear()
+        mRoomsList.addAll(roomsList)
+        notifyDataSetChanged()
+    }
+
     fun setLoading(isLoading:Boolean){
         if (isLoading){
             mRoomsList.add(null)

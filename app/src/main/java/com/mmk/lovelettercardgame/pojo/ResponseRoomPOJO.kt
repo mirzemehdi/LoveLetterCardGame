@@ -12,7 +12,7 @@ data class ResponseRoomPOJO(
     val name:String?="",
     @Expose
     @SerializedName("players")
-    val players:List<ResponsePlayerPOJO>,
+    val players:List<PlayerPOJO>,
     @Expose
     @SerializedName("status")
     val status:String?="",

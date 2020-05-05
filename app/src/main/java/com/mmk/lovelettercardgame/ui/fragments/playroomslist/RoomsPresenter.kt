@@ -17,7 +17,7 @@ import java.lang.NumberFormatException
 
 class RoomsPresenter(private val mView: RoomsContractor.View) :
     RoomsContractor.Presenter {
-    private val roomsIntractor = RoomsIntractor()
+    private val roomsIntractor = RoomsIntractor
 
     init {
         mView.setPresenter(this)
@@ -42,14 +42,15 @@ class RoomsPresenter(private val mView: RoomsContractor.View) :
 
                     val roomList: List<RoomPOJO>? = roomListResponse.data.map {
                         println("Rooms $it")
-                        val playersNumber: Int? = try {
-                            it.maxPlayers?.toInt()
-                        } catch (e: NumberFormatException) {
-                            0
-                        }
-                        RoomPOJO(it.name ?: "", playersNumber ?: 0)
+                        val newRoomResponseRoomPOJO=it
+                        RoomPOJO(newRoomResponseRoomPOJO.id,
+                            newRoomResponseRoomPOJO.name,
+                            newRoomResponseRoomPOJO.players,
+                            newRoomResponseRoomPOJO.status,
+                            newRoomResponseRoomPOJO.maxPlayers?.toInt())
                     }
                     mView.showRoomList(roomList ?: mutableListOf())
+                    mView.showItemLoading(false)
                 } else {
                     mView.showItemLoading(false)
 

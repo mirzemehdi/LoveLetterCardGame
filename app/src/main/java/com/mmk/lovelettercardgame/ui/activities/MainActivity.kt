@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.mmk.lovelettercardgame.R
+import com.mmk.lovelettercardgame.intractor.RoomsIntractor
 import com.mmk.lovelettercardgame.ui.fragments.game.GameFragment
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         setContentView(R.layout.activity_main)
-        changeFragment(GameFragment())
+        changeFragment(RoomsFragment())
 
 //        Handler().postDelayed({ viewFlipper.flipTheView(true) },1000)
 //        viewFlipper.onFlipListener =
@@ -54,11 +55,20 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    fun finishFragment(){
+        fragmentManager.popBackStack()
+    }
+
     override fun onBackPressed() {
         if (fragmentManager.backStackEntryCount>1)
             fragmentManager.popBackStack()
         else
             finish()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        RoomsIntractor.closeServer()
     }
 
 

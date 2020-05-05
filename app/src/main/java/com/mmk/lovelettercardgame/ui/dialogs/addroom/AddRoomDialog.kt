@@ -7,9 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.os.bundleOf
 import com.mmk.lovelettercardgame.R
+import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import com.mmk.lovelettercardgame.ui.activities.MainActivity
 import com.mmk.lovelettercardgame.ui.fragments.game.GameFragment
+import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
 import com.mmk.lovelettercardgame.utils.Constants
 import com.mmk.lovelettercardgame.utils.toasty
 import kotlinx.android.synthetic.main.dialog_add_room.view.*
@@ -63,10 +66,12 @@ class AddRoomDialog(private val activity: Activity?) :
         mPresenter=presenter
     }
 
-    override fun newRoomIsAdded() {
+    override fun newRoomIsAdded(roomPOJO: RoomPOJO) {
         dialog.cancel()
+        val gameFragment=GameFragment()
+        gameFragment.arguments= bundleOf(RoomsFragment.ARGUMEN_ROOM_ITEM to roomPOJO)
         val  activity=getActivityOfActivity() as MainActivity
-        activity.changeFragment(GameFragment())
+        activity.changeFragment(gameFragment)
 
 
     }

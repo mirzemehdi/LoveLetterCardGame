@@ -19,7 +19,9 @@ import com.mmk.lovelettercardgame.ui.activities.MainActivity
 import com.mmk.lovelettercardgame.ui.dialogs.addroom.AddRoomDialog
 import com.mmk.lovelettercardgame.ui.fragments.game.GameFragment
 import com.mmk.lovelettercardgame.utils.*
+import kotlinx.android.synthetic.main.fragment_rooms.*
 import kotlinx.android.synthetic.main.fragment_rooms.view.*
+import kotlinx.android.synthetic.main.fragment_rooms.view.progressBar_rooms_loading
 
 /**
  * A simple [Fragment] subclass.
@@ -42,7 +44,7 @@ class RoomsFragment : Fragment(),
         RoomsPresenter(this)
         roomsAdapter=
             RoomsAdapter()
-        mPresenter.getRoomList()
+
 
 
     }
@@ -55,6 +57,11 @@ class RoomsFragment : Fragment(),
         val view = container?.inflate(R.layout.fragment_rooms)
         initView(view)
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mPresenter.getRoomList()
     }
 
     private fun initView(view: View?) {
@@ -99,12 +106,12 @@ class RoomsFragment : Fragment(),
 
 
     override fun showItemLoading(isLoading: Boolean) {
-        if (isLoading)roomsAdapter.setLoading(true)
-        else roomsAdapter.setLoading(false)
+        if (isLoading)progressBar_rooms_loading.visibility=View.VISIBLE
+        else progressBar_rooms_loading.visibility=View.GONE
     }
 
     override fun showRoomList(roomsList: List<RoomPOJO>) {
-       roomsAdapter.addRoomList(roomsList)
+       roomsAdapter.setRoomList(roomsList)
     }
 
     override fun showMessage(message: String,type:Constants.MessageType) {

@@ -10,8 +10,9 @@ data class ResponseAddRoomPojo(
 
     @Expose
     @SerializedName("message")
-    val message:String
-//    @Expose
-//    @SerializedName("data")
-//    val data:List<ResponseRoomPOJO>
+    val message:String,
+
+    @Expose
+    @SerializedName("data")
+    val data:ResponseRoomPOJO
 )

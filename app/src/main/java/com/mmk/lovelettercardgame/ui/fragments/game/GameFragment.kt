@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,19 +12,15 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import com.github.nkzawa.socketio.client.IO
 import com.mmk.lovelettercardgame.R
-import com.mmk.lovelettercardgame.intractor.RoomsIntractor
 import com.mmk.lovelettercardgame.pojo.PlayerPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import com.mmk.lovelettercardgame.ui.dialogs.cardinfo.CardDetailInfoDialog
 import com.mmk.lovelettercardgame.ui.dialogs.joinroom.JoinRoomDialog
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
 import com.mmk.lovelettercardgame.utils.CardMoveListener
-import com.mmk.lovelettercardgame.utils.Constants
 import com.mmk.lovelettercardgame.utils.animations.CardAnimations
 import com.mmk.lovelettercardgame.utils.inflate
-import com.mmk.lovelettercardgame.utils.toast
 import kotlinx.android.synthetic.main.fragment_game.*
 import kotlinx.android.synthetic.main.user_box_view.view.*
 
@@ -35,6 +30,7 @@ import kotlinx.android.synthetic.main.user_box_view.view.*
  */
 class GameFragment : Fragment(), GameContractor.View {
 
+    private var isViewStopped=false
     private lateinit var mPresenter: GameContractor.Presenter
     private var myPlayer: PlayerPOJO? = null
     private var roomItem: RoomPOJO? = null
@@ -63,12 +59,13 @@ class GameFragment : Fragment(), GameContractor.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         roomItem = arguments?.getSerializable(RoomsFragment.ARGUMEN_ROOM_ITEM) as RoomPOJO?
+        println("RoomItem $roomItem")
 
         initView()
         setClicks()
-        mPresenter.getPlayers()
+        mPresenter.getPlayers(roomItem)
 
-        joinRoomDialog=JoinRoomDialog(getActivityOfActivity()){joinedPlayer->
+        joinRoomDialog=JoinRoomDialog(getActivityOfActivity(),roomItem?.id!!){joinedPlayer->
             //Player is Joined
             mPresenter.joinGame(joinedPlayer)
         }
@@ -84,6 +81,7 @@ class GameFragment : Fragment(), GameContractor.View {
     }
 
     private fun initView() {
+        isViewStopped=false
         userBoxList.add(layout_game_player_1)
         userBoxList.add(layout_game_player_2)
         userBoxList.add(layout_game_player_3)
@@ -150,28 +148,36 @@ class GameFragment : Fragment(), GameContractor.View {
             if (playerPOJO==myPlayer) playerNameTextView.text=getString(R.string.text_you)
 
         }
+
     }
 
     override fun saveMyOwnPlayer(playerPOJO: PlayerPOJO) {
         myPlayer = playerPOJO
     }
 
-    override fun giveCardToAllPlayers(players: List<PlayerPOJO>) {
-        players.forEachIndexed { index, playerPOJO ->
+    override fun giveCardToAllPlayers(players: List<PlayerPOJO>?) {
+        players?.forEachIndexed { index, playerPOJO ->
             val duration = CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION +
                     CardAnimations.DURATION_DEAL_CARD_ANIMATION
 
 
             Handler().postDelayed({
-                giveCardToPlayer(playerPOJO)
+                if (!isViewStopped)
+                    giveCardToPlayer(playerPOJO)
             }, duration * index)
 
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        isViewStopped=true
+    }
 
-    override fun giveCardToPlayer(playerPOJO: PlayerPOJO) {
-        val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerPOJO.id)
+
+    override fun giveCardToPlayer(playerPOJO: PlayerPOJO?) {
+        if (isViewStopped) return
+        val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerPOJO?.id)
 
 
         //Means it is you
@@ -192,12 +198,14 @@ class GameFragment : Fragment(), GameContractor.View {
         sampleCard.visibility = View.VISIBLE
 
         var cardFinalPositionView = firstCard
-        if (playerPOJO.cardsNumber == 1)
+        if (playerPOJO?.cardsCount == 1)
             cardFinalPositionView = secondCard
 
         CardAnimations.dealCard(isOtherPlayer, sampleCard, cardFinalPositionView) {
-            playerPOJO.cardsNumber++
-            CardAnimations.arrangeCards(isOtherPlayer, firstCard, cardFinalPositionView)
+            if (playerPOJO!=null) {
+                playerPOJO.cardsCount++
+                CardAnimations.arrangeCards(isOtherPlayer, firstCard, cardFinalPositionView)
+            }
         }
 
 
@@ -209,8 +217,9 @@ class GameFragment : Fragment(), GameContractor.View {
             if (isWaitingPlayers) View.VISIBLE else View.GONE
     }
 
-    override fun makeTurnOfPlayer(playerPOJO: PlayerPOJO) {
-        val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerPOJO.id)
+    override fun makeTurnOfPlayer(playerPOJO: PlayerPOJO?) {
+        if (isViewStopped) return
+        val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerPOJO?.id)
         userBoxList.forEach {
             if (it===rootUserBoxView) it.startAnimation(clickableAnimation)
             else{
