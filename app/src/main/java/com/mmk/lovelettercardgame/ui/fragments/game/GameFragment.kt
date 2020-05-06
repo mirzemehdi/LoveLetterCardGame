@@ -13,15 +13,15 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.mmk.lovelettercardgame.R
+import com.mmk.lovelettercardgame.pojo.CardPojo
 import com.mmk.lovelettercardgame.pojo.PlayerPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import com.mmk.lovelettercardgame.ui.dialogs.allcards.AllCardsDialog
 import com.mmk.lovelettercardgame.ui.dialogs.cardinfo.CardDetailInfoDialog
 import com.mmk.lovelettercardgame.ui.dialogs.joinroom.JoinRoomDialog
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
-import com.mmk.lovelettercardgame.utils.CardMoveListener
+import com.mmk.lovelettercardgame.utils.*
 import com.mmk.lovelettercardgame.utils.animations.CardAnimations
-import com.mmk.lovelettercardgame.utils.inflate
 import kotlinx.android.synthetic.main.fragment_game.*
 import kotlinx.android.synthetic.main.user_box_view.view.*
 
@@ -66,18 +66,16 @@ class GameFragment : Fragment(), GameContractor.View {
         setClicks()
         mPresenter.getPlayers(roomItem)
 
-        AllCardsDialog(getActivityOfActivity()) {}.show()
 
+//
         joinRoomDialog=JoinRoomDialog(getActivityOfActivity(),roomItem?.id!!){joinedPlayer->
             //Player is Joined
             mPresenter.joinGame(joinedPlayer)
         }
-//        joinRoomDialog?.show()
+        joinRoomDialog?.show()
 
 
 
-
-        //giveCardToPlayer()
 
     }
 
@@ -91,8 +89,12 @@ class GameFragment : Fragment(), GameContractor.View {
         progressBar.visibility = View.VISIBLE
         clickableAnimation = AnimationUtils.loadAnimation(context, R.anim.clickable)
 
-//        image_view_game_player_card_1.setOnTouchListener(CardMoveListener())
-//        image_view_game_player_card_2.setOnTouchListener(CardMoveListener())
+        userBoxList.forEach { it.setOnDragListener(CardMoveListener()) }
+
+        image_view_game_player_card_1.setOnTouchListener(CardMoveListener())
+        image_view_game_player_card_1.setOnDragListener(CardMoveListener())
+        image_view_game_player_card_2.setOnDragListener(CardMoveListener())
+        image_view_game_player_card_2.setOnTouchListener(CardMoveListener())
     }
 
 
@@ -179,7 +181,9 @@ class GameFragment : Fragment(), GameContractor.View {
     override fun giveCardToPlayer(playerPOJO: PlayerPOJO?) {
         if (isViewStopped) return
         val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerPOJO?.id)
-
+        val sampleCard = image_view_game_card_sample_card
+        sampleCard.visibility = View.VISIBLE
+        sampleCard.setImageResource(R.drawable.card_back)
 
         //Means it is you
         val isOtherPlayer: Boolean
@@ -187,6 +191,7 @@ class GameFragment : Fragment(), GameContractor.View {
         val secondCard: ImageView
         if (rootUserBoxView === layout_game_player_1) {
             isOtherPlayer = false
+
             firstCard = image_view_game_player_card_1
             secondCard = image_view_game_player_card_2
         } else {
@@ -195,8 +200,6 @@ class GameFragment : Fragment(), GameContractor.View {
             secondCard = rootUserBoxView.image_view_userBox_card_2
         }
 
-        val sampleCard = image_view_game_card_sample_card
-        sampleCard.visibility = View.VISIBLE
 
         var cardFinalPositionView = firstCard
         if (playerPOJO?.cardsCount == 1)
@@ -230,6 +233,32 @@ class GameFragment : Fragment(), GameContractor.View {
             }
         }
 
+    }
+
+    override fun showMessage(message: String?, messageType: Constants.MessageType) {
+        if (message!=null)
+            getContextOfActivity()?.toasty(message,messageType)
+    }
+
+    override fun myCardsUpdated(cards: List<CardPojo>) {
+        if (cards.size==1) {
+            val cardResourceId=getActivityOfActivity()
+                ?.getGameCardResourceId(cards[0].power)?:R.drawable.card_back
+            image_view_game_player_card_1
+                .setImageResource(cardResourceId)
+            image_view_game_player_card_2.setImageResource(R.drawable.card_back)
+        }
+        else if (cards.size==2){
+            val cardFirstResourceId=getActivityOfActivity()
+                ?.getGameCardResourceId(cards[0].power)?:R.drawable.card_back
+            val cardSecondResourceId=getActivityOfActivity()
+                ?.getGameCardResourceId(cards[1].power)?:R.drawable.card_back
+
+            image_view_game_player_card_1
+                .setImageResource(cardFirstResourceId)
+            image_view_game_player_card_2
+                .setImageResource(cardSecondResourceId)
+        }
     }
 
     override fun getActivityOfActivity(): Activity? = activity

@@ -71,6 +71,10 @@ class RoomsIntractor {
         mSocket?.on(EVENT_PLAYERS_RESPONSE, listener)
     }
 
+    fun getMyCards(listener: Emitter.Listener){
+        mSocket?.on(EVENT_MY_CARDS,listener)
+    }
+
     fun closeServer() {
         mSocket?.disconnect()
         eventsList.forEach {

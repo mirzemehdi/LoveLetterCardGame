@@ -45,7 +45,7 @@
 
                     <ImageView
                         android:id="@+id/image_view_userBox_card_1"
-                        android:src="@drawable/card_baron"
+                        android:src="@drawable/card_back"
                         android:layout_width="15dp"
                         android:visibility="invisible"
                         android:layout_centerInParent="true"
@@ -55,7 +55,7 @@
 
                     <ImageView
                         android:id="@+id/image_view_userBox_card_2"
-                        android:src="@drawable/card_baron"
+                        android:src="@drawable/card_back"
                         android:layout_width="15dp"
                         android:visibility="invisible"
                         android:layout_centerInParent="true"

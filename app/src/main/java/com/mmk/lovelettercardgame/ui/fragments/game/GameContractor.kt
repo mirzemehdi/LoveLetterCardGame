@@ -1,8 +1,10 @@
 package com.mmk.lovelettercardgame.ui.fragments.game
 
+import com.mmk.lovelettercardgame.pojo.CardPojo
 import com.mmk.lovelettercardgame.pojo.PlayerPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import com.mmk.lovelettercardgame.ui.BaseView
+import com.mmk.lovelettercardgame.utils.Constants
 
 interface GameContractor {
 
@@ -14,6 +16,8 @@ interface GameContractor {
         fun hideShowWaitingText(isWaitingPlayers:Boolean)
         fun saveMyOwnPlayer(playerPOJO: PlayerPOJO)
         fun makeTurnOfPlayer(playerPOJO: PlayerPOJO?)
+        fun showMessage(message:String?,messageType: Constants.MessageType)
+        fun myCardsUpdated(cards:List<CardPojo>)
     }
 
     interface Presenter{
@@ -21,5 +25,6 @@ interface GameContractor {
         fun getPlayers(roomItem:RoomPOJO?)
         fun joinGame(playerPOJO: PlayerPOJO)
         fun listenForPlayersUpdate(maxNbPlayers:Int?)
+        fun getMyCards()
     }
 }

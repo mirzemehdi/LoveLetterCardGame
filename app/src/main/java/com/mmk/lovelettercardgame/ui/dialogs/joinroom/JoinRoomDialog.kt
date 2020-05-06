@@ -88,7 +88,6 @@ class JoinRoomDialog(
 
     override fun playerIsJoined(playerPOJO: PlayerPOJO) {
         dialog.cancel()
-        activity?.toasty(playerPOJO.toString())
         joined(playerPOJO)
 
     }

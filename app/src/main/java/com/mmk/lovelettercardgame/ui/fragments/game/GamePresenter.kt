@@ -3,10 +3,13 @@ package com.mmk.lovelettercardgame.ui.fragments.game
 import android.os.Handler
 import com.github.nkzawa.emitter.Emitter
 import com.google.gson.Gson
+import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.intractor.RoomsIntractor
 import com.mmk.lovelettercardgame.pojo.PlayerPOJO
+import com.mmk.lovelettercardgame.pojo.ResponseCardPOJO
 import com.mmk.lovelettercardgame.pojo.ResponsePlayersUpdatePojo
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
+import com.mmk.lovelettercardgame.utils.Constants
 import com.mmk.lovelettercardgame.utils.animations.CardAnimations
 import org.json.JSONObject
 
@@ -25,6 +28,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 
     override fun getPlayers(roomItem:RoomPOJO?) {
         listenForPlayersUpdate(roomItem?.maxNbPlayers)
+        getMyCards()
         mView.showPlayers(roomItem?.players?: mutableListOf())
 
     }
@@ -39,6 +43,9 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
         roomsIntractor.getPlayers(PlayersUpdateListener(maxNbPlayers))
     }
 
+    override fun getMyCards() {
+        roomsIntractor.getMyCards(MyCardsUpdateListener())
+    }
 
     inner class PlayersUpdateListener(val maxNbPlayers: Int?) : Emitter.Listener{
         override fun call(vararg args: Any?) {
@@ -58,12 +65,29 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
                             mView.makeTurnOfPlayer(players[0])
                         }
                             ,
-                            4 * (CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION + CardAnimations.DURATION_DEAL_CARD_ANIMATION))
+                            maxNbPlayers * (CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION + CardAnimations.DURATION_DEAL_CARD_ANIMATION))
 
 
                     }
 
                 }
+
+            }
+        }
+    }
+
+    inner class MyCardsUpdateListener : Emitter.Listener{
+        override fun call(vararg args: Any?) {
+            mView.getActivityOfActivity()?.runOnUiThread {
+                val data=args[0] as JSONObject
+                println("CardsUpdateResponse $data")
+                val responseMyCards= Gson().fromJson(data.toString(), ResponseCardPOJO::class.java)
+                if (responseMyCards.status==200){
+                    mView.myCardsUpdated(responseMyCards.data)
+                }
+                else
+                    mView.showMessage(mView.getContextOfActivity()
+                        ?.getString(R.string.toast_error_my_cards),Constants.MessageType.TYPE_WARNING)
 
             }
         }
