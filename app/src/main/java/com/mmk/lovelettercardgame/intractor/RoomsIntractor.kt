@@ -11,14 +11,15 @@ import org.json.JSONObject
 import retrofit2.Callback
 
 
-object RoomsIntractor {
+class RoomsIntractor {
     private val EVENT_GET_ROOMS = "get-rooms"
     private val EVENT_RECEIVE_ROOMS = "receive-rooms"
     private val EVENT_NEW_ROOM = "new-room"
     private val EVENT_CREATED_ROOM = "created-room"
     private val EVENT_ENTER_ROOM = "enter-room"
-    private val EVENT_ENTER_ROOM_RESPONSE = "response"
+    private val EVENT_ENTER_ROOM_RESPONSE = "room-response"
     private val EVENT_PLAYERS_RESPONSE = "update-room"
+    private val EVENT_MY_CARDS="my-cards"
 
     private val eventsList = listOf(
         EVENT_GET_ROOMS,
@@ -35,12 +36,12 @@ object RoomsIntractor {
 
     init {
         println("RoomsIntractor called")
-        lazy { mSocket?.connect() }
+        mSocket?.connect()
 
     }
 
     fun getRoomsList(listener: Emitter.Listener) {
-
+        println("Rooms GetRoomList intractor")
         mSocket?.emit(EVENT_GET_ROOMS)
         mSocket?.on(EVENT_RECEIVE_ROOMS, listener)
 

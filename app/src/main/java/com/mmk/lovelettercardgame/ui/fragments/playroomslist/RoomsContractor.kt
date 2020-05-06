@@ -15,5 +15,6 @@ interface RoomsContractor {
 
     interface Presenter{
         fun getRoomList()
+
     }
 }

@@ -61,7 +61,13 @@ class RoomsFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         mPresenter.getRoomList()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
     }
 
     private fun initView(view: View?) {

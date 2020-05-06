@@ -20,6 +20,6 @@ interface GameContractor {
 
         fun getPlayers(roomItem:RoomPOJO?)
         fun joinGame(playerPOJO: PlayerPOJO)
-        fun listerForPlayersUpdate()
+        fun listenForPlayersUpdate(maxNbPlayers:Int?)
     }
 }

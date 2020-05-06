@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.pojo.PlayerPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
+import com.mmk.lovelettercardgame.ui.dialogs.allcards.AllCardsDialog
 import com.mmk.lovelettercardgame.ui.dialogs.cardinfo.CardDetailInfoDialog
 import com.mmk.lovelettercardgame.ui.dialogs.joinroom.JoinRoomDialog
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
@@ -65,15 +66,15 @@ class GameFragment : Fragment(), GameContractor.View {
         setClicks()
         mPresenter.getPlayers(roomItem)
 
+        AllCardsDialog(getActivityOfActivity()) {}.show()
+
         joinRoomDialog=JoinRoomDialog(getActivityOfActivity(),roomItem?.id!!){joinedPlayer->
             //Player is Joined
             mPresenter.joinGame(joinedPlayer)
         }
-        joinRoomDialog?.show()
+//        joinRoomDialog?.show()
 
-//        Handler().postDelayed(Runnable {
-//            mPresenter.joinGame("Ramin")
-//        }, 3000)
+
 
 
         //giveCardToPlayer()
@@ -90,8 +91,8 @@ class GameFragment : Fragment(), GameContractor.View {
         progressBar.visibility = View.VISIBLE
         clickableAnimation = AnimationUtils.loadAnimation(context, R.anim.clickable)
 
-        image_view_game_player_card_1.setOnTouchListener(CardMoveListener())
-        image_view_game_player_card_2.setOnTouchListener(CardMoveListener())
+//        image_view_game_player_card_1.setOnTouchListener(CardMoveListener())
+//        image_view_game_player_card_2.setOnTouchListener(CardMoveListener())
     }
 
 

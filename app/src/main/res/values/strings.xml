@@ -22,4 +22,5 @@
     <string name="hint_text_view_join_room_player_name">Your Name</string>
     <string name="text_view_join_room_title">Join Room</string>
     <string name="toast_error_join_room">There is some problem while joining room</string>
+    <string name="text_select_guard_target">Select Guard Target</string>
 </resources>

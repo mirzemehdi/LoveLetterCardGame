@@ -5,4 +5,6 @@
 
     <dimen name="player_card_width">130dp</dimen>
     <dimen name="player_card_height">170dp</dimen>
+    <dimen name="card_width_all_cards_dialog">120dp</dimen>
+    <dimen name="card_height_all_cards_dialog">150dp</dimen>
 </resources>

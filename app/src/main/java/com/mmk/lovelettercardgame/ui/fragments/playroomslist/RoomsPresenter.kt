@@ -17,16 +17,18 @@ import java.lang.NumberFormatException
 
 class RoomsPresenter(private val mView: RoomsContractor.View) :
     RoomsContractor.Presenter {
-    private val roomsIntractor = RoomsIntractor
+    private val roomsIntractor = RoomsIntractor()
 
     init {
         mView.setPresenter(this)
     }
 
     override fun getRoomList() {
+
         mView.showItemLoading(true)
         roomsIntractor.getRoomsList(RoomListListener())
     }
+
 
 
     inner class RoomListListener : Emitter.Listener {
