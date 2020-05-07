@@ -68,11 +68,13 @@ class GameFragment : Fragment(), GameContractor.View {
 
 
 //
-        joinRoomDialog=JoinRoomDialog(getActivityOfActivity(),roomItem?.id!!){joinedPlayer->
-            //Player is Joined
-            mPresenter.joinGame(joinedPlayer)
+        if (roomItem!=null) {
+            joinRoomDialog = JoinRoomDialog(getActivityOfActivity(), roomItem?.id!!) { joinedPlayer ->
+                //Player is Joined
+                mPresenter.joinGame(joinedPlayer)
+            }
+            joinRoomDialog?.show()
         }
-        joinRoomDialog?.show()
 
 
 
@@ -259,6 +261,27 @@ class GameFragment : Fragment(), GameContractor.View {
             image_view_game_player_card_2
                 .setImageResource(cardSecondResourceId)
         }
+    }
+
+    override fun swapCards(firstPlayer: PlayerPOJO, secondPlayer: PlayerPOJO) {
+        if (isViewStopped) return
+
+        val firstPlayerUserBoxView = layout_game_fragment_container.findViewWithTag<View>(firstPlayer.id)
+        val secondPlayerUserBoxView = layout_game_fragment_container.findViewWithTag<View>(secondPlayer.id)
+        val firstCard:ImageView
+        val secondCard:ImageView
+        firstCard = if (firstPlayerUserBoxView === layout_game_player_1) {
+            image_view_game_player_card_1
+        } else {
+            firstPlayerUserBoxView.image_view_userBox_card_1
+        }
+        secondCard = if (secondPlayerUserBoxView === layout_game_player_1) {
+            image_view_game_player_card_1
+        } else {
+            secondPlayerUserBoxView.image_view_userBox_card_1
+        }
+        CardAnimations.swapCards(firstCard,secondCard)
+
     }
 
     override fun getActivityOfActivity(): Activity? = activity

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Love Letter Card Game.iml" filepath="$PROJECT_DIR$/Love Letter Card Game.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Love Letter Card Game.iml" filepath="$PROJECT_DIR$/Love Letter Card Game.iml" group="Love Letter Card Game" />
       <module fileurl="file://$PROJECT_DIR$/.idea/LoveLetterCardGame.iml" filepath="$PROJECT_DIR$/.idea/LoveLetterCardGame.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="Love Letter Card Game/app" />
     </modules>
   </component>
 </project>

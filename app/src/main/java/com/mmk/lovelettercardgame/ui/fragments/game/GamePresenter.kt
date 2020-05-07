@@ -31,6 +31,11 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
         getMyCards()
         mView.showPlayers(roomItem?.players?: mutableListOf())
 
+        //TODO REMOVE THESE 2 LINES
+        mView.showPlayers(playersList)
+        startGame(playersList)
+
+
     }
 
     override fun joinGame(playerPOJO: PlayerPOJO) {
@@ -47,6 +52,24 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
         roomsIntractor.getMyCards(MyCardsUpdateListener())
     }
 
+    private fun startGame(players:List<PlayerPOJO>){
+        mView.giveCardToAllPlayers(players)
+        mView.hideShowWaitingText(false)
+        Handler().postDelayed(Runnable {
+            mView.giveCardToPlayer(players[0])
+            mView.makeTurnOfPlayer(players[0])
+
+            //TODO REMOVE BELOW LINES
+            Handler().postDelayed({mView.swapCards(players[1],players[2])},3000)
+
+        }
+            ,
+            players.size * (CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION + CardAnimations.DURATION_DEAL_CARD_ANIMATION))
+
+
+
+    }
+
     inner class PlayersUpdateListener(val maxNbPlayers: Int?) : Emitter.Listener{
         override fun call(vararg args: Any?) {
             mView.getActivityOfActivity()?.runOnUiThread {
@@ -58,16 +81,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 
                     val players=responsePlayersUpdate.data
                     if (players.size == maxNbPlayers) {
-                        mView.giveCardToAllPlayers(players)
-                        mView.hideShowWaitingText(false)
-                        Handler().postDelayed(Runnable {
-                            mView.giveCardToPlayer(players[0])
-                            mView.makeTurnOfPlayer(players[0])
-                        }
-                            ,
-                            maxNbPlayers * (CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION + CardAnimations.DURATION_DEAL_CARD_ANIMATION))
-
-
+                        startGame(players)
                     }
 
                 }

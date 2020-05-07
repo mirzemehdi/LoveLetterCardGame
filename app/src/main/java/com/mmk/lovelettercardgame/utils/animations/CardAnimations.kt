@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.view.View
 import android.view.animation.AccelerateInterpolator
+import android.view.animation.LinearInterpolator
 import com.mmk.lovelettercardgame.utils.getLocationOnScreen
 import kotlinx.android.synthetic.main.fragment_game.*
 
@@ -96,6 +97,51 @@ class CardAnimations {
                 }
             })
 
+
+        }
+
+        fun swapCards(firstCard: View,secondCard: View){
+            val firstCardScaleValue=firstCard.scaleX
+            val secondCardScaleValue=secondCard.scaleX
+
+            val scaleXFirst = PropertyValuesHolder.ofFloat(View.SCALE_X, 0f, secondCardScaleValue)
+            val scaleYFirst = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0f, secondCardScaleValue)
+
+            val scaleXSecond = PropertyValuesHolder.ofFloat(View.SCALE_X, 0f, firstCardScaleValue)
+            val scaleYSecond = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0f, firstCardScaleValue)
+
+            val firstCardTranslationYValue = secondCard.getLocationOnScreen().y.toFloat()-
+                    firstCard.getLocationOnScreen().y.toFloat()
+            val firstCardTranslationXValue = secondCard.getLocationOnScreen().x.toFloat()-
+                    firstCard.getLocationOnScreen().x.toFloat()
+
+            val secondCardTranslationYValue = firstCard.getLocationOnScreen().y.toFloat()-
+                    secondCard.getLocationOnScreen().y.toFloat()
+            val secondCardTranslationXValue = firstCard.getLocationOnScreen().x.toFloat()-
+                    secondCard.getLocationOnScreen().x.toFloat()
+
+            val translationXFirst = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, firstCardTranslationXValue)
+            val translationYFirst = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f, firstCardTranslationYValue)
+            val translationXSecond = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, secondCardTranslationXValue)
+            val translationYSecond = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f, secondCardTranslationYValue)
+
+            val firstCardAnimator =
+                ObjectAnimator.ofPropertyValuesHolder(firstCard, scaleXFirst, scaleYFirst, translationXFirst,translationYFirst)
+                    .apply {
+                        duration = 3000
+
+                        interpolator = LinearInterpolator()
+                    }
+
+            firstCardAnimator.start()
+
+            val secondCardAnimator =
+                ObjectAnimator.ofPropertyValuesHolder(secondCard, scaleXSecond, scaleYSecond, translationXSecond,translationYSecond)
+                    .apply {
+                        duration = 3000
+                        interpolator = LinearInterpolator()
+                    }
+            secondCardAnimator.start()
 
         }
 

@@ -18,6 +18,7 @@ interface GameContractor {
         fun makeTurnOfPlayer(playerPOJO: PlayerPOJO?)
         fun showMessage(message:String?,messageType: Constants.MessageType)
         fun myCardsUpdated(cards:List<CardPojo>)
+        fun swapCards(firstPlayer:PlayerPOJO,secondPlayer:PlayerPOJO)
     }
 
     interface Presenter{
