@@ -60,7 +60,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
             mView.makeTurnOfPlayer(players[0])
 
             //TODO REMOVE BELOW LINES
-            Handler().postDelayed({mView.swapCards(players[1],players[2])},3000)
+            Handler().postDelayed({mView.swapCards(players[0],players[1])},1000)
 
         }
             ,

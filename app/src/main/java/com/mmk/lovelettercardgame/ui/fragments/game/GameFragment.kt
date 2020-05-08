@@ -19,6 +19,7 @@ import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import com.mmk.lovelettercardgame.ui.dialogs.allcards.AllCardsDialog
 import com.mmk.lovelettercardgame.ui.dialogs.cardinfo.CardDetailInfoDialog
 import com.mmk.lovelettercardgame.ui.dialogs.joinroom.JoinRoomDialog
+import com.mmk.lovelettercardgame.ui.dialogs.swapcards.SwapCardsDialog
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
 import com.mmk.lovelettercardgame.utils.*
 import com.mmk.lovelettercardgame.utils.animations.CardAnimations
@@ -31,17 +32,18 @@ import kotlinx.android.synthetic.main.user_box_view.view.*
  */
 class GameFragment : Fragment(), GameContractor.View {
 
-    private var isViewStopped=false
+    private var isViewStopped = false
     private lateinit var mPresenter: GameContractor.Presenter
     private var myPlayer: PlayerPOJO? = null
     private var roomItem: RoomPOJO? = null
     private val progressBar by lazy { progress_game_fragment }
     private var userBoxList = mutableListOf<View>()
     private lateinit var clickableAnimation: Animation
-    private var joinRoomDialog:JoinRoomDialog?=null
+    private var joinRoomDialog: JoinRoomDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         GamePresenter(this)
 
 
@@ -64,25 +66,26 @@ class GameFragment : Fragment(), GameContractor.View {
 
         initView()
         setClicks()
-        mPresenter.getPlayers(roomItem)
+
+        //TODO REMOVE HANDLER
+        Handler().postDelayed({ mPresenter.getPlayers(roomItem) }, 500)
 
 
 //
-        if (roomItem!=null) {
-            joinRoomDialog = JoinRoomDialog(getActivityOfActivity(), roomItem?.id!!) { joinedPlayer ->
-                //Player is Joined
-                mPresenter.joinGame(joinedPlayer)
-            }
+        if (roomItem != null) {
+            joinRoomDialog =
+                JoinRoomDialog(getActivityOfActivity(), roomItem?.id!!) { joinedPlayer ->
+                    //Player is Joined
+                    mPresenter.joinGame(joinedPlayer)
+                }
             joinRoomDialog?.show()
         }
-
-
 
 
     }
 
     private fun initView() {
-        isViewStopped=false
+        isViewStopped = false
         userBoxList.add(layout_game_player_1)
         userBoxList.add(layout_game_player_2)
         userBoxList.add(layout_game_player_3)
@@ -150,7 +153,7 @@ class GameFragment : Fragment(), GameContractor.View {
             tag = playerPOJO.id
             val playerNameTextView = userBoxView.textView_userBox_playerName
             playerNameTextView.text = playerPOJO.name
-            if (playerPOJO==myPlayer) playerNameTextView.text=getString(R.string.text_you)
+            if (playerPOJO == myPlayer) playerNameTextView.text = getString(R.string.text_you)
 
         }
 
@@ -176,7 +179,7 @@ class GameFragment : Fragment(), GameContractor.View {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        isViewStopped=true
+        isViewStopped = true
     }
 
 
@@ -208,12 +211,11 @@ class GameFragment : Fragment(), GameContractor.View {
             cardFinalPositionView = secondCard
 
         CardAnimations.dealCard(isOtherPlayer, sampleCard, cardFinalPositionView) {
-            if (playerPOJO!=null) {
+            if (playerPOJO != null) {
                 playerPOJO.cardsCount++
                 CardAnimations.arrangeCards(isOtherPlayer, firstCard, cardFinalPositionView)
             }
         }
-
 
 
     }
@@ -227,8 +229,8 @@ class GameFragment : Fragment(), GameContractor.View {
         if (isViewStopped) return
         val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerPOJO?.id)
         userBoxList.forEach {
-            if (it===rootUserBoxView) it.startAnimation(clickableAnimation)
-            else{
+            if (it === rootUserBoxView) it.startAnimation(clickableAnimation)
+            else {
                 it.clearAnimation()
                 clickableAnimation.cancel()
                 clickableAnimation.reset()
@@ -238,23 +240,22 @@ class GameFragment : Fragment(), GameContractor.View {
     }
 
     override fun showMessage(message: String?, messageType: Constants.MessageType) {
-        if (message!=null)
-            getContextOfActivity()?.toasty(message,messageType)
+        if (message != null)
+            getContextOfActivity()?.toasty(message, messageType)
     }
 
     override fun myCardsUpdated(cards: List<CardPojo>) {
-        if (cards.size==1) {
-            val cardResourceId=getActivityOfActivity()
-                ?.getGameCardResourceId(cards[0].power)?:R.drawable.card_back
+        if (cards.size == 1) {
+            val cardResourceId = getActivityOfActivity()
+                ?.getGameCardResourceId(cards[0].power) ?: R.drawable.card_back
             image_view_game_player_card_1
                 .setImageResource(cardResourceId)
             image_view_game_player_card_2.setImageResource(R.drawable.card_back)
-        }
-        else if (cards.size==2){
-            val cardFirstResourceId=getActivityOfActivity()
-                ?.getGameCardResourceId(cards[0].power)?:R.drawable.card_back
-            val cardSecondResourceId=getActivityOfActivity()
-                ?.getGameCardResourceId(cards[1].power)?:R.drawable.card_back
+        } else if (cards.size == 2) {
+            val cardFirstResourceId = getActivityOfActivity()
+                ?.getGameCardResourceId(cards[0].power) ?: R.drawable.card_back
+            val cardSecondResourceId = getActivityOfActivity()
+                ?.getGameCardResourceId(cards[1].power) ?: R.drawable.card_back
 
             image_view_game_player_card_1
                 .setImageResource(cardFirstResourceId)
@@ -266,10 +267,12 @@ class GameFragment : Fragment(), GameContractor.View {
     override fun swapCards(firstPlayer: PlayerPOJO, secondPlayer: PlayerPOJO) {
         if (isViewStopped) return
 
-        val firstPlayerUserBoxView = layout_game_fragment_container.findViewWithTag<View>(firstPlayer.id)
-        val secondPlayerUserBoxView = layout_game_fragment_container.findViewWithTag<View>(secondPlayer.id)
-        val firstCard:ImageView
-        val secondCard:ImageView
+        val firstPlayerUserBoxView =
+            layout_game_fragment_container.findViewWithTag<View>(firstPlayer.id)
+        val secondPlayerUserBoxView =
+            layout_game_fragment_container.findViewWithTag<View>(secondPlayer.id)
+        val firstCard: ImageView
+        val secondCard: ImageView
         firstCard = if (firstPlayerUserBoxView === layout_game_player_1) {
             image_view_game_player_card_1
         } else {
@@ -280,7 +283,18 @@ class GameFragment : Fragment(), GameContractor.View {
         } else {
             secondPlayerUserBoxView.image_view_userBox_card_1
         }
-        CardAnimations.swapCards(firstCard,secondCard)
+
+        val firstPlayerName =
+            if (firstPlayer.id == myPlayer?.id) getString(R.string.text_you) else firstPlayer.name
+        val secondPlayerName =
+            if (secondPlayer.id == myPlayer?.id) getString(R.string.text_you) else secondPlayer.name
+        SwapCardsDialog(
+            getActivityOfActivity(),
+            firstCard, secondCard,
+            firstPlayerName, secondPlayerName
+        )
+            .show()
+
 
     }
 

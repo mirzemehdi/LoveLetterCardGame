@@ -13,4 +13,6 @@
 
     <color name="colorUserLayoutPlayerInfoBg">#EDDBD0D0</color>
     <color name="colorPlayerCardsPlaceHolderBg">#45DBD0D0</color>
+
+    <color name="colorDialogSwapCardsBg">#CEEDE06E</color>
 </resources>
