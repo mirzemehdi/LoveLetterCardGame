@@ -23,8 +23,11 @@ import com.mmk.lovelettercardgame.ui.dialogs.swapcards.SwapCardsDialog
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
 import com.mmk.lovelettercardgame.utils.*
 import com.mmk.lovelettercardgame.utils.animations.CardAnimations
+import com.mmk.lovelettercardgame.utils.helpers.CardsHolder
 import kotlinx.android.synthetic.main.fragment_game.*
+import kotlinx.android.synthetic.main.user_box_view.*
 import kotlinx.android.synthetic.main.user_box_view.view.*
+import kotlinx.android.synthetic.main.user_box_view.view.frame_layout_user_box_player_cards
 
 
 /**
@@ -96,10 +99,11 @@ class GameFragment : Fragment(), GameContractor.View {
 
         userBoxList.forEach { it.setOnDragListener(CardMoveListener()) }
 
-        image_view_game_player_card_1.setOnTouchListener(CardMoveListener())
+
+        image_view_game_player_card_1.setOnLongClickListener(CardMoveListener())
         image_view_game_player_card_1.setOnDragListener(CardMoveListener())
         image_view_game_player_card_2.setOnDragListener(CardMoveListener())
-        image_view_game_player_card_2.setOnTouchListener(CardMoveListener())
+        image_view_game_player_card_2.setOnLongClickListener(CardMoveListener())
     }
 
 
@@ -296,6 +300,13 @@ class GameFragment : Fragment(), GameContractor.View {
             .show()
 
 
+    }
+
+    override fun addToDiscardedCard(playerId:String,cardType: Int) {
+
+        val userBoxView= layout_game_fragment_container.findViewWithTag<View>(playerId)
+        val discardedCardsLayout=userBoxView.frame_layout_user_box_player_cards
+        CardsHolder.addCard(discardedCardsLayout,cardType,getContextOfActivity())
     }
 
     override fun getActivityOfActivity(): Activity? = activity

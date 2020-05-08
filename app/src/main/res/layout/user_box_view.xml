@@ -133,7 +133,13 @@
 
         </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/frame_layout_user_box_player_cards"
+            android:layout_width="match_parent"
+            android:padding="8dp"
+            android:layout_height="match_parent">
 
+        </FrameLayout>
 
     </LinearLayout>
 

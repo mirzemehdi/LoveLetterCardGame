@@ -7,4 +7,12 @@
     <dimen name="player_card_height">170dp</dimen>
     <dimen name="card_width_all_cards_dialog">120dp</dimen>
     <dimen name="card_height_all_cards_dialog">150dp</dimen>
+
+    <dimen name="card_width_all_cards_frame_layout">75dp</dimen>
+    <dimen name="card_height_all_cards_frame_layout">100dp</dimen>
+
+    <dimen name="card_translation_x_all_cards_frame_layout">30dp</dimen>
+    <dimen name="card_translation_y_all_cards_frame_layout">30dp</dimen>
+
+
 </resources>

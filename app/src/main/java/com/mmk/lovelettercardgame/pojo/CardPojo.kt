@@ -5,21 +5,34 @@ import com.google.gson.annotations.SerializedName
 
 data class CardPojo(
 
+
     @Expose
     @SerializedName("id")
-    val id:String="",
+    val id: String = "",
 
     @Expose
     @SerializedName("name")
-    val name:String="",
+    val name: String = "",
 
     @Expose
     @SerializedName("power")
-    val power:Int,
+    val power: Int,
 
     @Expose
     @SerializedName("playerID")
-    val playerID:String=""
+    val playerID: String = ""
 
+) {
+    companion object {
 
-)
+        const val TYPE_GUARD = 1
+        const val TYPE_PRIEST = 2
+        const val TYPE_BARON = 3
+        const val TYPE_HANDMAID = 4
+        const val TYPE_PRINCE = 5
+        const val TYPE_KING = 6
+        const val TYPE_COUNTESS = 7
+        const val TYPE_PRINCESS = 8
+
+    }
+}

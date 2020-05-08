@@ -19,6 +19,7 @@ interface GameContractor {
         fun showMessage(message:String?,messageType: Constants.MessageType)
         fun myCardsUpdated(cards:List<CardPojo>)
         fun swapCards(firstPlayer:PlayerPOJO,secondPlayer:PlayerPOJO)
+        fun addToDiscardedCard(playerId:String,cardType:Int)
     }
 
     interface Presenter{

@@ -13,6 +13,7 @@ data class Card(val strength:Int, val type: TypeCard, val effectMessage:String) 
     }
 
     override fun toString(): String {
+
         return "Card{" +
                 "strength=" + strength +
                 ", type=" + type +

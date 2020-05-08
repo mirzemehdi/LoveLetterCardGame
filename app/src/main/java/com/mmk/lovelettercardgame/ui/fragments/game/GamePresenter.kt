@@ -5,10 +5,7 @@ import com.github.nkzawa.emitter.Emitter
 import com.google.gson.Gson
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.intractor.RoomsIntractor
-import com.mmk.lovelettercardgame.pojo.PlayerPOJO
-import com.mmk.lovelettercardgame.pojo.ResponseCardPOJO
-import com.mmk.lovelettercardgame.pojo.ResponsePlayersUpdatePojo
-import com.mmk.lovelettercardgame.pojo.RoomPOJO
+import com.mmk.lovelettercardgame.pojo.*
 import com.mmk.lovelettercardgame.utils.Constants
 import com.mmk.lovelettercardgame.utils.animations.CardAnimations
 import org.json.JSONObject
@@ -59,8 +56,8 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
             mView.giveCardToPlayer(players[0])
             mView.makeTurnOfPlayer(players[0])
 
-            //TODO REMOVE BELOW LINES
-            Handler().postDelayed({mView.swapCards(players[0],players[1])},1000)
+
+
 
         }
             ,
