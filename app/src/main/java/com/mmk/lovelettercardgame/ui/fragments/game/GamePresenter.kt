@@ -33,6 +33,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
         startGame(playersList)
 
 
+
     }
 
     override fun joinGame(playerPOJO: PlayerPOJO) {
