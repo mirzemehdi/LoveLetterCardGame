@@ -25,4 +25,5 @@
     <string name="text_select_guard_target">Select Guard Target</string>
     <string name="toast_error_my_cards">There is a problem while getting your cards</string>
     <string name="toast_error_turn">Player turn error</string>
+    <string name="toast_warning_handmaid_protect_other">You can only protect yourself</string>
 </resources>

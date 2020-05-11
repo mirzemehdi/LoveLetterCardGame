@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.dialog_join_player.view.*
 
 class AllCardsDialog(
     private val activity: Activity?,
-    var cardSelected: (card: CardPojo) -> Unit
+    private var cardSelected: (cardType: String) -> Unit
 ) :View.OnClickListener,View.OnTouchListener{
 
 
@@ -36,7 +36,7 @@ class AllCardsDialog(
     init {
         view = LayoutInflater.from(activity).inflate(R.layout.dialog_all_cards, null)
         dialog.setContentView(view)
-        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(false)
         dialog.window?.setLayout(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
@@ -83,7 +83,10 @@ class AllCardsDialog(
     }
 
     override fun onClick(v: View?) {
-        val tag=v?.tag
+        val cardType=v?.tag as String
+        println("Card selected guard: $cardType")
+        cardSelected(cardType)
+        dialog.dismiss()
 
     }
 
@@ -94,7 +97,7 @@ class AllCardsDialog(
             MotionEvent.ACTION_UP ->
                 v?.setPadding(0,0,0,0)
         }
-
+        v?.performClick()
         return true
     }
 

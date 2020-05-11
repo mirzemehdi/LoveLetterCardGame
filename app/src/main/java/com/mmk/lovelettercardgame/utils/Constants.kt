@@ -3,6 +3,8 @@ package com.mmk.lovelettercardgame.utils
  class Constants {
     companion object{
         val BASE_URL="https://gameoflife123.herokuapp.com/"
+
+
     }
      enum class MessageType{
          TYPE_ERROR,
@@ -10,4 +12,6 @@ package com.mmk.lovelettercardgame.utils
          TYPE_NORMAL,
          TYPE_WARNING
      }
+
+
 }

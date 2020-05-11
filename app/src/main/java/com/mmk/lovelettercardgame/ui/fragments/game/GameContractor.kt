@@ -31,6 +31,6 @@ interface GameContractor {
         fun joinGame(playerPOJO: PlayerPOJO)
         fun listenForPlayersUpdate(maxNbPlayers:Int?)
         fun getMyCards()
-        fun playCard(cardPojo: CardPojo, targetPlayerId:String?=null, guessedCardType:String?=null)
+        fun playCard(cardPojo: CardPojo, targetPlayerId:String?=null)
     }
 }

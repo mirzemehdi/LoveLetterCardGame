@@ -47,7 +47,6 @@ class CardMoveListener(private val onCardPlayed: ((cardPOJO: CardPojo, targetPla
                     println("Played Card: $cardPOJO")
                     val targetPlayerId=v?.tag as String?
                     v?.setBackgroundColor(Color.BLUE) //TODO REMOVE THIS LINE
-
                     (onCardPlayed!!)(cardPOJO, targetPlayerId)
 
 

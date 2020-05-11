@@ -7,12 +7,14 @@ import com.google.gson.reflect.TypeToken
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.intractor.RoomsIntractor
 import com.mmk.lovelettercardgame.pojo.*
+import com.mmk.lovelettercardgame.ui.dialogs.allcards.AllCardsDialog
 import com.mmk.lovelettercardgame.utils.Constants
 import com.mmk.lovelettercardgame.utils.animations.CardAnimations
 import org.json.JSONObject
 
 class GamePresenter(private val mView: GameContractor.View) : GameContractor.Presenter {
     private val roomsIntractor = RoomsIntractor()
+    private var myPlayer: PlayerPOJO? = null
 
     init {
         mView.setPresenter(this)
@@ -47,6 +49,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
     }
 
     override fun joinGame(playerPOJO: PlayerPOJO) {
+        myPlayer = playerPOJO
         mView.saveMyOwnPlayer(playerPOJO)
 
     }
@@ -77,8 +80,24 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 
     }
 
-    override fun playCard(cardPojo: CardPojo, targetPlayerId: String?, guessedCardType: String?) {
-        roomsIntractor.playCard(cardPojo, targetPlayerId, guessedCardType,CardPlayedListener())
+    override fun playCard(cardPojo: CardPojo, targetPlayerId: String?) {
+
+        if (cardPojo.power == CardPojo.TYPE_HANDMAID && targetPlayerId != myPlayer?.id) {
+            mView.showMessage(
+                mView.getActivityOfActivity()
+                    ?.getString(R.string.toast_warning_handmaid_protect_other),
+                Constants.MessageType.TYPE_WARNING
+            )
+            return
+        }
+
+        if (cardPojo.power == CardPojo.TYPE_GUARD) {
+            AllCardsDialog(mView.getActivityOfActivity()) {guessedCardType->
+                roomsIntractor.playCard(cardPojo, targetPlayerId, guessedCardType,CardPlayedListener())
+            }.show()
+        }else {
+            roomsIntractor.playCard(cardPojo, targetPlayerId,null, CardPlayedListener())
+        }
     }
 
     inner class PlayersUpdateListener(val maxNbPlayers: Int?) : Emitter.Listener {

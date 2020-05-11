@@ -16,6 +16,7 @@ import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.pojo.CardPojo
 import com.mmk.lovelettercardgame.pojo.PlayerPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
+import com.mmk.lovelettercardgame.ui.dialogs.allcards.AllCardsDialog
 import com.mmk.lovelettercardgame.ui.dialogs.cardinfo.CardDetailInfoDialog
 import com.mmk.lovelettercardgame.ui.dialogs.joinroom.JoinRoomDialog
 import com.mmk.lovelettercardgame.ui.dialogs.swapcards.SwapCardsDialog
@@ -100,23 +101,28 @@ class GameFragment : Fragment(), GameContractor.View {
         progressBar.visibility = View.VISIBLE
         clickableAnimation = AnimationUtils.loadAnimation(context, R.anim.clickable)
 
-        userBoxList.forEach { it.setOnDragListener(CardMoveListener(){ cardPOJO, targetPlayerId ->
-            onCardPlayed(
-                cardPOJO,
-                targetPlayerId
-            )}) }
+        userBoxList.forEach {
+            it.setOnDragListener(CardMoveListener() { cardPOJO, targetPlayerId ->
+                onCardPlayed(
+                    cardPOJO,
+                    targetPlayerId
+                )
+            })
+        }
 
 
         image_view_game_player_card_1.setOnLongClickListener(CardMoveListener { cardPOJO, targetPlayerId ->
             onCardPlayed(
                 cardPOJO,
                 targetPlayerId
-            )})
-        image_view_game_player_card_2.setOnLongClickListener(CardMoveListener{cardPOJO, targetPlayerId ->
+            )
+        })
+        image_view_game_player_card_2.setOnLongClickListener(CardMoveListener { cardPOJO, targetPlayerId ->
             onCardPlayed(
                 cardPOJO,
                 targetPlayerId
-            )})
+            )
+        })
 
         image_view_game_player_card_1.setOnDragListener(CardMoveListener() { cardPOJO, targetPlayerId ->
             onCardPlayed(
@@ -124,11 +130,12 @@ class GameFragment : Fragment(), GameContractor.View {
                 targetPlayerId
             )
         })
-        image_view_game_player_card_2.setOnDragListener(CardMoveListener(){cardPOJO, targetPlayerId ->
+        image_view_game_player_card_2.setOnDragListener(CardMoveListener() { cardPOJO, targetPlayerId ->
             onCardPlayed(
                 cardPOJO,
                 targetPlayerId
-            )})
+            )
+        })
     }
 
 
@@ -157,6 +164,8 @@ class GameFragment : Fragment(), GameContractor.View {
 
     override fun onCardPlayed(cardPojo: CardPojo, targetPlayerId: String?) {
         println("onCardPlayed: $cardPojo and player: $targetPlayerId")
+        mPresenter.playCard(cardPojo, targetPlayerId)
+
     }
 
     override fun showPlayers(players: List<PlayerPOJO>) {
@@ -381,6 +390,13 @@ class GameFragment : Fragment(), GameContractor.View {
         val userBoxView = layout_game_fragment_container.findViewWithTag<View>(playerId)
         val discardedCardsLayout = userBoxView.frame_layout_user_box_player_cards
         CardsHolder.addCard(discardedCardsLayout, cardType, getContextOfActivity())
+        if (playerId != myPlayer?.id) {
+            
+            if (userBoxView.image_view_userBox_card_2.visibility != View.VISIBLE)
+                userBoxView.image_view_userBox_card_1.visibility = View.GONE
+            else
+                userBoxView.image_view_userBox_card_2.visibility = View.GONE
+        }
     }
 
     override fun getActivityOfActivity(): Activity? = activity
