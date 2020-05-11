@@ -125,9 +125,9 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 
                 if (responsePlayerTurn.status==200){
                     mView.makeTurnOfPlayer(responsePlayerTurn.playerId)
+                    mView.giveCardToPlayer(responsePlayerTurn.playerId)
                     //todo TRY TO REMOVE HANDLER
-                    Handler().postDelayed({mView.giveCardToPlayer(responsePlayerTurn.playerId)},3000)
-                    //mView.giveCardToPlayer(responsePlayerTurn.playerId)
+                   // Handler().postDelayed({mView.giveCardToPlayer(responsePlayerTurn.playerId)},3000)
                 }
                 else
                     mView.showMessage(mView.getContextOfActivity()

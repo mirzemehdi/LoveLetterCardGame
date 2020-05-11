@@ -25,6 +25,7 @@ import com.mmk.lovelettercardgame.utils.animations.CardAnimations
 import com.mmk.lovelettercardgame.utils.helpers.CardsHolder
 import kotlinx.android.synthetic.main.fragment_game.*
 import kotlinx.android.synthetic.main.user_box_view.view.*
+import java.util.*
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 
@@ -42,6 +43,7 @@ class GameFragment : Fragment(), GameContractor.View {
     private var userBoxList = mutableListOf<View>()
     private lateinit var clickableAnimation: Animation
     private var joinRoomDialog: JoinRoomDialog? = null
+    private val cardWaitingPlayers:Queue<String> = LinkedList()
 
 
 
@@ -175,13 +177,13 @@ class GameFragment : Fragment(), GameContractor.View {
             val duration = CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION +
                     CardAnimations.DURATION_DEAL_CARD_ANIMATION
 
+            cardWaitingPlayers.add(playerPOJO.id)
 
-            Handler().postDelayed({
-                if (!isViewStopped)
-                    giveCardToPlayer(playerPOJO.id)
-            }, duration * index)
+
 
         }
+        giveCardToPlayer(null)
+
     }
 
     override fun onDestroyView() {
@@ -190,11 +192,14 @@ class GameFragment : Fragment(), GameContractor.View {
     }
 
 
-    override fun giveCardToPlayer(playerId: String) {
+    override fun giveCardToPlayer(givenPlayerId: String?) {
 
             println("Give card started")
-
-            if (isViewStopped) return
+            if (givenPlayerId!=null) {
+                cardWaitingPlayers.add(givenPlayerId)
+                if (cardWaitingPlayers.size>1) return //Because animation end will call
+            }
+            val playerId= cardWaitingPlayers.poll() ?: return
             val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerId)
             val sampleCard = image_view_game_card_sample_card
             sampleCard.visibility = View.VISIBLE
@@ -223,7 +228,11 @@ class GameFragment : Fragment(), GameContractor.View {
                 cardFinalPositionView = secondCard
 
             CardAnimations.dealCard(isOtherPlayer, sampleCard, cardFinalPositionView) {
-                CardAnimations.arrangeCards(isOtherPlayer, firstCard, cardFinalPositionView)
+                CardAnimations.arrangeCards(isOtherPlayer, firstCard, cardFinalPositionView){
+                    println("Give Card Arrange called")
+                    giveCardToPlayer(null)
+
+                }
 
             }
 

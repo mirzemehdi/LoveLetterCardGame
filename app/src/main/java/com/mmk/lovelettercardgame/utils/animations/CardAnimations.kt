@@ -3,18 +3,13 @@ package com.mmk.lovelettercardgame.utils.animations
 import android.animation.*
 import android.os.Handler
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.LinearInterpolator
-import android.widget.ImageView
-import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.utils.getLocationOnScreen
 import com.mmk.lovelettercardgame.utils.helpers.CurveExchangeTransformator
 import com.mmk.lovelettercardgame.utils.helpers.ExchangeCoords
 import com.mmk.lovelettercardgame.utils.helpers.ExchangeTransformator
 import kotlin.math.max
-import kotlin.math.sqrt
 
 
 class CardAnimations {
@@ -68,11 +63,14 @@ class CardAnimations {
 
         }
 
-        fun arrangeCards(isOtherPlayer: Boolean,firstCard: View, secondCard: View) {
+        fun arrangeCards(isOtherPlayer: Boolean, firstCard: View, secondCard: View, onArrangeFinished: () -> Unit={}) {
 
 
             //Means user has only one card
-            if (firstCard===secondCard) return
+            if (firstCard===secondCard){
+                onArrangeFinished()
+                return
+            }
 
             val marginBetweenCards=if (isOtherPlayer) 0 else 10
 
@@ -106,6 +104,8 @@ class CardAnimations {
                 override fun onAnimationEnd(animation: Animator?) {
 //                    firstCard.translationX = 0f
 //                    secondCard.translationX=0f
+
+                    onArrangeFinished()
                 }
             })
 

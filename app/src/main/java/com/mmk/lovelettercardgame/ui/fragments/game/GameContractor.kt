@@ -11,7 +11,7 @@ interface GameContractor {
     interface View:BaseView<GamePresenter>{
 
         fun showPlayers(players:List<PlayerPOJO>)
-        fun giveCardToPlayer(playerId: String)
+        fun giveCardToPlayer(givenPlayerId: String?)
         fun giveCardToAllPlayers(players: List<PlayerPOJO>?)
         fun hideShowWaitingText(isWaitingPlayers:Boolean)
         fun saveMyOwnPlayer(playerPOJO: PlayerPOJO)
