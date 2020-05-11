@@ -1,10 +1,13 @@
 package com.mmk.lovelettercardgame.utils.helpers
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.core.view.get
 import com.mmk.lovelettercardgame.R
+import com.mmk.lovelettercardgame.ui.dialogs.discardedcards.DiscardedCardsDialog
 import com.mmk.lovelettercardgame.utils.getGameCardResourceId
 
 object CardsHolder
@@ -25,9 +28,25 @@ object CardsHolder
         cardImage.translationY=translationY.toFloat()
 
         cardsHolderView.addView(cardImage)
+        cardsHolderView.setOnClickListener {
+            cardsHolderClicked(cardsHolderView,context)
+        }
     }
 
-    private fun initCardImage(cardType: Int,context: Context?): ImageView {
+      private fun cardsHolderClicked(
+          cardsHolderView: FrameLayout,
+          context: Context
+      ) {
+          val imageDrawableList= mutableListOf<Drawable?>()
+          for (i in 0 until cardsHolderView.childCount){
+              val view= cardsHolderView[i] as ImageView
+              imageDrawableList.add(view.drawable)
+          }
+
+        DiscardedCardsDialog(context,imageDrawableList).show()
+      }
+
+      private fun initCardImage(cardType: Int,context: Context?): ImageView {
 
         val cardImage = ImageView(context)
         val cardResourceId = context?.getGameCardResourceId(cardType) ?: R.drawable.card_back
@@ -42,6 +61,9 @@ object CardsHolder
 
         return cardImage
     }
+
+
+
 
 
 }

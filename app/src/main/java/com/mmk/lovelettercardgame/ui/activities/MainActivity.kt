@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         setContentView(R.layout.activity_main)
-        changeFragment(GameFragment())
+        changeFragment(RoomsFragment())
 
 //        Handler().postDelayed({ viewFlipper.flipTheView(true) },1000)
 //        viewFlipper.onFlipListener =

@@ -22,7 +22,13 @@ data class PlayerPOJO (
     var isProtected:Boolean=false,
     @Expose
     @SerializedName("cards")
-    var cards:List<CardPojo> = listOf()):Serializable {
+    var cards:List<CardPojo> = listOf(),
+    @Expose
+    @SerializedName("discardedCards")
+    var discardedCards:List<CardPojo> = listOf()
+
+
+):Serializable {
 
     var cardsCount=0
 

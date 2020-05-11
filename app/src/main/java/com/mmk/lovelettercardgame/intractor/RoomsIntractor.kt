@@ -20,6 +20,7 @@ class RoomsIntractor {
     private val EVENT_ENTER_ROOM_RESPONSE = "room-response"
     private val EVENT_PLAYERS_RESPONSE = "update-room"
     private val EVENT_MY_CARDS="my-cards"
+    private val EVENT_PLAYER_TURN="move-order"
 
     private val eventsList = listOf(
         EVENT_GET_ROOMS,
@@ -28,7 +29,8 @@ class RoomsIntractor {
         EVENT_CREATED_ROOM,
         EVENT_ENTER_ROOM,
         EVENT_ENTER_ROOM_RESPONSE,
-        EVENT_PLAYERS_RESPONSE
+        EVENT_PLAYERS_RESPONSE,
+        EVENT_PLAYER_TURN
 
     )
 
@@ -73,6 +75,10 @@ class RoomsIntractor {
 
     fun getMyCards(listener: Emitter.Listener){
         mSocket?.on(EVENT_MY_CARDS,listener)
+    }
+
+    fun getPlayerTurn(listener: Emitter.Listener){
+        mSocket?.on(EVENT_PLAYER_TURN,listener)
     }
 
     fun closeServer() {

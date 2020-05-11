@@ -3,6 +3,7 @@ package com.mmk.lovelettercardgame.ui.fragments.game
 import android.os.Handler
 import com.github.nkzawa.emitter.Emitter
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.intractor.RoomsIntractor
 import com.mmk.lovelettercardgame.pojo.*
@@ -26,14 +27,23 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
     override fun getPlayers(roomItem:RoomPOJO?) {
         listenForPlayersUpdate(roomItem?.maxNbPlayers)
         getMyCards()
+        listenForTurn()
         mView.showPlayers(roomItem?.players?: mutableListOf())
 
         //TODO REMOVE THESE 2 LINES
-        mView.showPlayers(playersList)
-        startGame(playersList)
+//        mView.showPlayers(playersList)
+//        for (i in 1..2) {
+//            mView.addToDiscardedCard("1", i)
+//        }
+//
+//        startGame(playersList)
 
 
 
+    }
+
+    private fun listenForTurn() {
+        roomsIntractor.getPlayerTurn(PlayerTurnListener())
     }
 
     override fun joinGame(playerPOJO: PlayerPOJO) {
@@ -53,16 +63,16 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
     private fun startGame(players:List<PlayerPOJO>){
         mView.giveCardToAllPlayers(players)
         mView.hideShowWaitingText(false)
-        Handler().postDelayed(Runnable {
-            mView.giveCardToPlayer(players[0])
-            mView.makeTurnOfPlayer(players[0])
-
-
-
-
-        }
-            ,
-            players.size * (CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION + CardAnimations.DURATION_DEAL_CARD_ANIMATION))
+//        Handler().postDelayed(Runnable {
+//            mView.giveCardToPlayer(players[0])
+//            mView.makeTurnOfPlayer(players[0])
+//
+//
+//
+//
+//        }
+//            ,
+//            players.size * (CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION + CardAnimations.DURATION_DEAL_CARD_ANIMATION))
 
 
 
@@ -72,7 +82,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
         override fun call(vararg args: Any?) {
             mView.getActivityOfActivity()?.runOnUiThread {
                 val data=args[0] as JSONObject
-                println("PlayersUpdateResponse $data")
+                println("Response PlayersUpdate $data")
                 val responsePlayersUpdate= Gson().fromJson(data.toString(), ResponsePlayersUpdatePojo::class.java)
                 if (responsePlayersUpdate.status==200){
                     mView.showPlayers(responsePlayersUpdate.data)
@@ -92,7 +102,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
         override fun call(vararg args: Any?) {
             mView.getActivityOfActivity()?.runOnUiThread {
                 val data=args[0] as JSONObject
-                println("CardsUpdateResponse $data")
+                println("Response MyCards $data")
                 val responseMyCards= Gson().fromJson(data.toString(), ResponseCardPOJO::class.java)
                 if (responseMyCards.status==200){
                     mView.myCardsUpdated(responseMyCards.data)
@@ -100,6 +110,28 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
                 else
                     mView.showMessage(mView.getContextOfActivity()
                         ?.getString(R.string.toast_error_my_cards),Constants.MessageType.TYPE_WARNING)
+
+            }
+        }
+    }
+
+    inner class PlayerTurnListener : Emitter.Listener{
+        override fun call(vararg args: Any?) {
+            mView.getActivityOfActivity()?.runOnUiThread {
+                val data=args[0] as JSONObject
+                println("Response PlayerTurn $data")
+
+                val responsePlayerTurn= Gson().fromJson(data.toString(),ResponsePlayerTurn ::class.java )
+
+                if (responsePlayerTurn.status==200){
+                    mView.makeTurnOfPlayer(responsePlayerTurn.playerId)
+                    //todo TRY TO REMOVE HANDLER
+                    Handler().postDelayed({mView.giveCardToPlayer(responsePlayerTurn.playerId)},3000)
+                    //mView.giveCardToPlayer(responsePlayerTurn.playerId)
+                }
+                else
+                    mView.showMessage(mView.getContextOfActivity()
+                        ?.getString(R.string.toast_error_turn),Constants.MessageType.TYPE_ERROR)
 
             }
         }

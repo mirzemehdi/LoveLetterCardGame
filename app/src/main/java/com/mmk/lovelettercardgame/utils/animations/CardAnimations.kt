@@ -27,6 +27,8 @@ class CardAnimations {
         fun dealCard(isOtherPlayer:Boolean, sampleCard: View,
                      cardFinalPositionView: View, onAnimationEnd: () -> Unit={}) {
 
+
+
             val animationDuration= DURATION_DEAL_CARD_ANIMATION
             val scaleValue=if(isOtherPlayer) 0.5f else 4f
 
@@ -52,6 +54,7 @@ class CardAnimations {
                         duration = animationDuration
                         interpolator = AccelerateInterpolator()
                     }
+
             animator.start()
             animator.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator?) {

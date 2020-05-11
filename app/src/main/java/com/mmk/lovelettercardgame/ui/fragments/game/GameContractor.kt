@@ -11,11 +11,11 @@ interface GameContractor {
     interface View:BaseView<GamePresenter>{
 
         fun showPlayers(players:List<PlayerPOJO>)
-        fun giveCardToPlayer(playerPOJO: PlayerPOJO?)
+        fun giveCardToPlayer(playerId: String)
         fun giveCardToAllPlayers(players: List<PlayerPOJO>?)
         fun hideShowWaitingText(isWaitingPlayers:Boolean)
         fun saveMyOwnPlayer(playerPOJO: PlayerPOJO)
-        fun makeTurnOfPlayer(playerPOJO: PlayerPOJO?)
+        fun makeTurnOfPlayer(playerId: String)
         fun showMessage(message:String?,messageType: Constants.MessageType)
         fun myCardsUpdated(cards:List<CardPojo>)
         fun swapCards(firstPlayer:PlayerPOJO,secondPlayer:PlayerPOJO)

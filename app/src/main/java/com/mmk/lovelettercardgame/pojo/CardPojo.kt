@@ -2,6 +2,7 @@ package com.mmk.lovelettercardgame.pojo
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class CardPojo(
 
@@ -22,7 +23,7 @@ data class CardPojo(
     @SerializedName("playerID")
     val playerID: String = ""
 
-) {
+):Serializable {
     companion object {
 
         const val TYPE_GUARD = 1
