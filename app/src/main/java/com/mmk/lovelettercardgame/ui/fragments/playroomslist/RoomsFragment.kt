@@ -112,6 +112,7 @@ class RoomsFragment : Fragment(),
 
 
     override fun showItemLoading(isLoading: Boolean) {
+        if(view==null) return
         if (isLoading)progressBar_rooms_loading.visibility=View.VISIBLE
         else progressBar_rooms_loading.visibility=View.GONE
     }

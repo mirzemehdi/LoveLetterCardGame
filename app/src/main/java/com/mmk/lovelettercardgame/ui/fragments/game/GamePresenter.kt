@@ -12,7 +12,8 @@ import com.mmk.lovelettercardgame.utils.animations.CardAnimations
 import org.json.JSONObject
 
 class GamePresenter(private val mView: GameContractor.View) : GameContractor.Presenter {
-    private val roomsIntractor= RoomsIntractor()
+    private val roomsIntractor = RoomsIntractor()
+
     init {
         mView.setPresenter(this)
     }
@@ -21,14 +22,14 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
         PlayerPOJO("1", "Anday")
         , PlayerPOJO("2", "Sirin")
         , PlayerPOJO("3", "Amine")
-        ,PlayerPOJO("4","Ramin")
+        , PlayerPOJO("4", "Ramin")
     )
 
-    override fun getPlayers(roomItem:RoomPOJO?) {
+    override fun getPlayers(roomItem: RoomPOJO?) {
         listenForPlayersUpdate(roomItem?.maxNbPlayers)
         getMyCards()
         listenForTurn()
-        mView.showPlayers(roomItem?.players?: mutableListOf())
+        mView.showPlayers(roomItem?.players ?: mutableListOf())
 
         //TODO REMOVE THESE 2 LINES
 //        mView.showPlayers(playersList)
@@ -37,7 +38,6 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 //        }
 //
 //        startGame(playersList)
-
 
 
     }
@@ -51,7 +51,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 
     }
 
-    override  fun listenForPlayersUpdate(maxNbPlayers: Int?) {
+    override fun listenForPlayersUpdate(maxNbPlayers: Int?) {
         println("PlayersUpdateResponse listen")
         roomsIntractor.getPlayers(PlayersUpdateListener(maxNbPlayers))
     }
@@ -60,7 +60,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
         roomsIntractor.getMyCards(MyCardsUpdateListener())
     }
 
-    private fun startGame(players:List<PlayerPOJO>){
+    private fun startGame(players: List<PlayerPOJO>) {
         mView.giveCardToAllPlayers(players)
         mView.hideShowWaitingText(false)
 //        Handler().postDelayed(Runnable {
@@ -75,19 +75,23 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 //            players.size * (CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION + CardAnimations.DURATION_DEAL_CARD_ANIMATION))
 
 
-
     }
 
-    inner class PlayersUpdateListener(val maxNbPlayers: Int?) : Emitter.Listener{
+    override fun playCard(cardPojo: CardPojo, targetPlayerId: String?, guessedCardType: String?) {
+        roomsIntractor.playCard(cardPojo, targetPlayerId, guessedCardType,CardPlayedListener())
+    }
+
+    inner class PlayersUpdateListener(val maxNbPlayers: Int?) : Emitter.Listener {
         override fun call(vararg args: Any?) {
             mView.getActivityOfActivity()?.runOnUiThread {
-                val data=args[0] as JSONObject
+                val data = args[0] as JSONObject
                 println("Response PlayersUpdate $data")
-                val responsePlayersUpdate= Gson().fromJson(data.toString(), ResponsePlayersUpdatePojo::class.java)
-                if (responsePlayersUpdate.status==200){
+                val responsePlayersUpdate =
+                    Gson().fromJson(data.toString(), ResponsePlayersUpdatePojo::class.java)
+                if (responsePlayersUpdate.status == 200) {
                     mView.showPlayers(responsePlayersUpdate.data)
 
-                    val players=responsePlayersUpdate.data
+                    val players = responsePlayersUpdate.data
                     if (players.size == maxNbPlayers) {
                         startGame(players)
                     }
@@ -98,40 +102,66 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
         }
     }
 
-    inner class MyCardsUpdateListener : Emitter.Listener{
+    inner class MyCardsUpdateListener : Emitter.Listener {
         override fun call(vararg args: Any?) {
             mView.getActivityOfActivity()?.runOnUiThread {
-                val data=args[0] as JSONObject
+                val data = args[0] as JSONObject
                 println("Response MyCards $data")
-                val responseMyCards= Gson().fromJson(data.toString(), ResponseCardPOJO::class.java)
-                if (responseMyCards.status==200){
+                val responseMyCards = Gson().fromJson(data.toString(), ResponseCardPOJO::class.java)
+                if (responseMyCards.status == 200) {
                     mView.myCardsUpdated(responseMyCards.data)
-                }
-                else
-                    mView.showMessage(mView.getContextOfActivity()
-                        ?.getString(R.string.toast_error_my_cards),Constants.MessageType.TYPE_WARNING)
+                } else
+                    mView.showMessage(
+                        mView.getContextOfActivity()
+                            ?.getString(R.string.toast_error_my_cards),
+                        Constants.MessageType.TYPE_WARNING
+                    )
 
             }
         }
     }
 
-    inner class PlayerTurnListener : Emitter.Listener{
+    inner class PlayerTurnListener : Emitter.Listener {
         override fun call(vararg args: Any?) {
             mView.getActivityOfActivity()?.runOnUiThread {
-                val data=args[0] as JSONObject
+                val data = args[0] as JSONObject
                 println("Response PlayerTurn $data")
 
-                val responsePlayerTurn= Gson().fromJson(data.toString(),ResponsePlayerTurn ::class.java )
+                val responsePlayerTurn =
+                    Gson().fromJson(data.toString(), ResponsePlayerTurn::class.java)
 
-                if (responsePlayerTurn.status==200){
+                if (responsePlayerTurn.status == 200) {
                     mView.makeTurnOfPlayer(responsePlayerTurn.playerId)
                     mView.giveCardToPlayer(responsePlayerTurn.playerId)
-                    //todo TRY TO REMOVE HANDLER
-                   // Handler().postDelayed({mView.giveCardToPlayer(responsePlayerTurn.playerId)},3000)
-                }
-                else
-                    mView.showMessage(mView.getContextOfActivity()
-                        ?.getString(R.string.toast_error_turn),Constants.MessageType.TYPE_ERROR)
+
+                } else
+                    mView.showMessage(
+                        mView.getContextOfActivity()
+                            ?.getString(R.string.toast_error_turn), Constants.MessageType.TYPE_ERROR
+                    )
+
+            }
+        }
+    }
+
+    inner class CardPlayedListener : Emitter.Listener {
+        override fun call(vararg args: Any?) {
+            mView.getActivityOfActivity()?.runOnUiThread {
+                val data = args[0] as JSONObject
+                println("Response CardPlayed $data")
+
+//                val responsePlayerTurn =
+//                    Gson().fromJson(data.toString(), ResponsePlayerTurn::class.java)
+//
+//                if (responsePlayerTurn.status == 200) {
+//                    mView.makeTurnOfPlayer(responsePlayerTurn.playerId)
+//                    mView.giveCardToPlayer(responsePlayerTurn.playerId)
+//
+//                } else
+//                    mView.showMessage(
+//                        mView.getContextOfActivity()
+//                            ?.getString(R.string.toast_error_turn), Constants.MessageType.TYPE_ERROR
+//                    )
 
             }
         }

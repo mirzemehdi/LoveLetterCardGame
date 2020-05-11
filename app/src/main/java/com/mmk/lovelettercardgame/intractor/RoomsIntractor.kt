@@ -3,8 +3,10 @@ package com.mmk.lovelettercardgame.intractor
 import android.util.EventLog
 import com.github.nkzawa.emitter.Emitter
 import com.github.nkzawa.socketio.client.Socket
+import com.google.gson.Gson
 import com.mmk.lovelettercardgame.api.ApiInitHelper
 import com.mmk.lovelettercardgame.api.SocketInstance
+import com.mmk.lovelettercardgame.pojo.CardPojo
 import com.mmk.lovelettercardgame.pojo.ResponseAddRoomPojo
 import com.mmk.lovelettercardgame.pojo.ResponseRoomListPOJO
 import org.json.JSONObject
@@ -21,6 +23,9 @@ class RoomsIntractor {
     private val EVENT_PLAYERS_RESPONSE = "update-room"
     private val EVENT_MY_CARDS="my-cards"
     private val EVENT_PLAYER_TURN="move-order"
+    private val EVENT_PLAY_CARD="make-turn"
+    private val EVENT_PLAY_CARD_RESPONSE="turn-result"
+
 
     private val eventsList = listOf(
         EVENT_GET_ROOMS,
@@ -30,7 +35,9 @@ class RoomsIntractor {
         EVENT_ENTER_ROOM,
         EVENT_ENTER_ROOM_RESPONSE,
         EVENT_PLAYERS_RESPONSE,
-        EVENT_PLAYER_TURN
+        EVENT_PLAYER_TURN,
+        EVENT_PLAY_CARD,
+        EVENT_PLAY_CARD_RESPONSE
 
     )
 
@@ -79,6 +86,19 @@ class RoomsIntractor {
 
     fun getPlayerTurn(listener: Emitter.Listener){
         mSocket?.on(EVENT_PLAYER_TURN,listener)
+    }
+    fun playCard(cardPojo: CardPojo,
+                 targetPlayerId:String?=null,
+                 guessedCardType:String?=null,
+                 listener: Emitter.Listener){
+
+        val cardJSONObject = Gson().toJson(cardPojo)
+        val relatedInfoJSONObject=JSONObject()
+        relatedInfoJSONObject.put("targetPlayerId", targetPlayerId)
+        relatedInfoJSONObject.put("guessedCardName", guessedCardType)
+
+        mSocket?.emit(EVENT_PLAY_CARD, cardJSONObject,relatedInfoJSONObject)
+        mSocket?.on(EVENT_PLAY_CARD_RESPONSE, listener)
     }
 
     fun closeServer() {

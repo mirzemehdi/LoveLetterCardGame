@@ -20,7 +20,7 @@ data class CardPojo(
     val power: Int,
 
     @Expose
-    @SerializedName("playerID")
+    @SerializedName("playerId")
     val playerID: String = ""
 
 ):Serializable {

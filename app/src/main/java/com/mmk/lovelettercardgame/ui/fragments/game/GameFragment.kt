@@ -43,8 +43,7 @@ class GameFragment : Fragment(), GameContractor.View {
     private var userBoxList = mutableListOf<View>()
     private lateinit var clickableAnimation: Animation
     private var joinRoomDialog: JoinRoomDialog? = null
-    private val cardWaitingPlayers:Queue<String> = LinkedList()
-
+    private val cardWaitingPlayers: Queue<String> = LinkedList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,13 +100,35 @@ class GameFragment : Fragment(), GameContractor.View {
         progressBar.visibility = View.VISIBLE
         clickableAnimation = AnimationUtils.loadAnimation(context, R.anim.clickable)
 
-        userBoxList.forEach { it.setOnDragListener(CardMoveListener()) }
+        userBoxList.forEach { it.setOnDragListener(CardMoveListener(){ cardPOJO, targetPlayerId ->
+            onCardPlayed(
+                cardPOJO,
+                targetPlayerId
+            )}) }
 
 
-        image_view_game_player_card_1.setOnLongClickListener(CardMoveListener())
-        image_view_game_player_card_1.setOnDragListener(CardMoveListener())
-        image_view_game_player_card_2.setOnDragListener(CardMoveListener())
-        image_view_game_player_card_2.setOnLongClickListener(CardMoveListener())
+        image_view_game_player_card_1.setOnLongClickListener(CardMoveListener { cardPOJO, targetPlayerId ->
+            onCardPlayed(
+                cardPOJO,
+                targetPlayerId
+            )})
+        image_view_game_player_card_2.setOnLongClickListener(CardMoveListener{cardPOJO, targetPlayerId ->
+            onCardPlayed(
+                cardPOJO,
+                targetPlayerId
+            )})
+
+        image_view_game_player_card_1.setOnDragListener(CardMoveListener() { cardPOJO, targetPlayerId ->
+            onCardPlayed(
+                cardPOJO,
+                targetPlayerId
+            )
+        })
+        image_view_game_player_card_2.setOnDragListener(CardMoveListener(){cardPOJO, targetPlayerId ->
+            onCardPlayed(
+                cardPOJO,
+                targetPlayerId
+            )})
     }
 
 
@@ -134,6 +155,9 @@ class GameFragment : Fragment(), GameContractor.View {
         ).show()
     }
 
+    override fun onCardPlayed(cardPojo: CardPojo, targetPlayerId: String?) {
+        println("onCardPlayed: $cardPojo and player: $targetPlayerId")
+    }
 
     override fun showPlayers(players: List<PlayerPOJO>) {
         progressBar.visibility = View.GONE
@@ -180,7 +204,6 @@ class GameFragment : Fragment(), GameContractor.View {
             cardWaitingPlayers.add(playerPOJO.id)
 
 
-
         }
         giveCardToPlayer(null)
 
@@ -194,47 +217,47 @@ class GameFragment : Fragment(), GameContractor.View {
 
     override fun giveCardToPlayer(givenPlayerId: String?) {
 
-            println("Give card started")
-            if (givenPlayerId!=null) {
-                cardWaitingPlayers.add(givenPlayerId)
-                if (cardWaitingPlayers.size>1) return //Because animation end will call
-            }
-            val playerId= cardWaitingPlayers.poll() ?: return
-            val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerId)
-            val sampleCard = image_view_game_card_sample_card
-            sampleCard.visibility = View.VISIBLE
-            sampleCard.setImageResource(R.drawable.card_back)
+        println("Give card started")
+        if (givenPlayerId != null) {
+            cardWaitingPlayers.add(givenPlayerId)
+            if (cardWaitingPlayers.size > 1) return //Because animation end will call
+        }
+        val playerId = cardWaitingPlayers.poll() ?: return
+        val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerId)
+        val sampleCard = image_view_game_card_sample_card
+        sampleCard.visibility = View.VISIBLE
+        sampleCard.setImageResource(R.drawable.card_back)
 
-            //Means it is you
-            val isOtherPlayer: Boolean
-            val firstCard: ImageView
-            val secondCard: ImageView
-            if (rootUserBoxView === layout_game_player_1) {
-                isOtherPlayer = false
+        //Means it is you
+        val isOtherPlayer: Boolean
+        val firstCard: ImageView
+        val secondCard: ImageView
+        if (rootUserBoxView === layout_game_player_1) {
+            isOtherPlayer = false
 
-                firstCard = image_view_game_player_card_1
-                secondCard = image_view_game_player_card_2
-            } else {
-                isOtherPlayer = true
-                firstCard = rootUserBoxView.image_view_userBox_card_1
-                secondCard = rootUserBoxView.image_view_userBox_card_2
-            }
+            firstCard = image_view_game_player_card_1
+            secondCard = image_view_game_player_card_2
+        } else {
+            isOtherPlayer = true
+            firstCard = rootUserBoxView.image_view_userBox_card_1
+            secondCard = rootUserBoxView.image_view_userBox_card_2
+        }
 
 
-            var cardFinalPositionView = firstCard
-            val cardsCount = getPlayersCardCount(playerId, isOtherPlayer)
-            println("Cards count $cardsCount")
-            if (cardsCount == 1)
-                cardFinalPositionView = secondCard
+        var cardFinalPositionView = firstCard
+        val cardsCount = getPlayersCardCount(playerId, isOtherPlayer)
+        println("Cards count $cardsCount")
+        if (cardsCount == 1)
+            cardFinalPositionView = secondCard
 
-            CardAnimations.dealCard(isOtherPlayer, sampleCard, cardFinalPositionView) {
-                CardAnimations.arrangeCards(isOtherPlayer, firstCard, cardFinalPositionView){
-                    println("Give Card Arrange called")
-                    giveCardToPlayer(null)
-
-                }
+        CardAnimations.dealCard(isOtherPlayer, sampleCard, cardFinalPositionView) {
+            CardAnimations.arrangeCards(isOtherPlayer, firstCard, cardFinalPositionView) {
+                println("Give Card Arrange called")
+                giveCardToPlayer(null)
 
             }
+
+        }
 
 
         println("Give card finished")
@@ -264,6 +287,7 @@ class GameFragment : Fragment(), GameContractor.View {
     override fun makeTurnOfPlayer(playerId: String) {
         if (isViewStopped) return
         val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerId)
+        onMyTurn(rootUserBoxView === layout_game_player_1)
         userBoxList.forEach {
             if (it === rootUserBoxView) it.startAnimation(clickableAnimation)
             else {
@@ -273,6 +297,17 @@ class GameFragment : Fragment(), GameContractor.View {
             }
         }
 
+    }
+
+    private fun onMyTurn(isMyTurn: Boolean) {
+//        image_view_game_player_card_1.isLongClickable = isMyTurn
+//        image_view_game_player_card_2.isLongClickable = isMyTurn
+//        if (isMyTurn){
+//
+//        }
+//        else{
+//
+//        }
     }
 
     override fun showMessage(message: String?, messageType: Constants.MessageType) {

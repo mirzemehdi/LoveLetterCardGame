@@ -1,5 +1,6 @@
 package com.mmk.lovelettercardgame.ui.fragments.game
 
+import com.github.nkzawa.emitter.Emitter
 import com.mmk.lovelettercardgame.pojo.CardPojo
 import com.mmk.lovelettercardgame.pojo.PlayerPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
@@ -20,6 +21,8 @@ interface GameContractor {
         fun myCardsUpdated(cards:List<CardPojo>)
         fun swapCards(firstPlayer:PlayerPOJO,secondPlayer:PlayerPOJO)
         fun addToDiscardedCard(playerId:String,cardType:Int)
+        fun onCardPlayed(cardPojo: CardPojo,targetPlayerId: String?)
+
     }
 
     interface Presenter{
@@ -28,5 +31,6 @@ interface GameContractor {
         fun joinGame(playerPOJO: PlayerPOJO)
         fun listenForPlayersUpdate(maxNbPlayers:Int?)
         fun getMyCards()
+        fun playCard(cardPojo: CardPojo, targetPlayerId:String?=null, guessedCardType:String?=null)
     }
 }
