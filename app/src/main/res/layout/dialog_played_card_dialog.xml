@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <View
+        app:layout_constraintTop_toTopOf="@id/image_view_dialog_played_card_middle_icon"
+        android:layout_width="0dp"
+        android:background="#EDE389"
+        app:layout_constraintStart_toStartOf="@id/image_view_played_card"
+        app:layout_constraintEnd_toEndOf="@id/image_view_played_card"
+        app:layout_constraintBottom_toBottomOf="@id/image_view_dialog_played_card_middle_icon"
+        android:layout_height="60dp"/>
+
+    <TextView
+        android:id="@+id/text_view_played_card_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:text="Mehdi"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/tthoves_demibold"
+        android:textSize="18sp"
+        android:textColor="@color/colorRoomName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/image_view_played_card"
+        app:layout_constraintTop_toBottomOf="@+id/image_view_played_card"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <ImageView
+        android:id="@+id/image_view_dialog_played_card_middle_icon"
+        android:layout_width="40dp"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintTop_toTopOf="@id/text_view_played_card_from"
+        app:layout_constraintBottom_toBottomOf="@id/text_view_played_card_from"
+        app:layout_constraintStart_toEndOf="@id/text_view_played_card_from"
+        app:layout_constraintEnd_toStartOf="@id/text_view_played_card_to"
+        android:layout_height="40dp"/>
+
+    <TextView
+        android:id="@+id/text_view_played_card_from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Mirze"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/tthoves_demibold"
+        android:textColor="@color/colorRoomName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/image_view_played_card"
+        app:layout_constraintTop_toBottomOf="@+id/image_view_played_card" />
+
+    <ImageView
+        android:id="@+id/image_view_played_card"
+        android:layout_width="300dp"
+        android:src="@drawable/card_king"
+        android:layout_height="500dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

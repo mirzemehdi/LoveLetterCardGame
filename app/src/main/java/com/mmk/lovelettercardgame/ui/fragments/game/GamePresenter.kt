@@ -30,7 +30,9 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
     override fun getPlayers(roomItem: RoomPOJO?) {
         listenForPlayersUpdate(roomItem?.maxNbPlayers)
         getMyCards()
+        listenForPlayedCard()
         listenForTurn()
+        listerForLostPlayer()
         mView.showPlayers(roomItem?.players ?: mutableListOf())
 
         //TODO REMOVE THESE 2 LINES
@@ -38,7 +40,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 //        for (i in 1..2) {
 //            mView.addToDiscardedCard("1", i)
 //        }
-//
+//EVENT_PLAYER_LEVENT_PLAYER_L
 //        startGame(playersList)
 
 
@@ -46,6 +48,13 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 
     private fun listenForTurn() {
         roomsIntractor.getPlayerTurn(PlayerTurnListener())
+    }
+    private fun listenForPlayedCard(){
+        roomsIntractor.listenPlayedCard(CardPlayedListener())
+    }
+
+    private fun listerForLostPlayer(){
+        roomsIntractor.listenPlayerLost(PlayerLostListener())
     }
 
     override fun joinGame(playerPOJO: PlayerPOJO) {
@@ -93,10 +102,10 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 
         if (cardPojo.power == CardPojo.TYPE_GUARD) {
             AllCardsDialog(mView.getActivityOfActivity()) {guessedCardType->
-                roomsIntractor.playCard(cardPojo, targetPlayerId, guessedCardType,CardPlayedListener())
+                roomsIntractor.playCard(cardPojo, targetPlayerId, guessedCardType)
             }.show()
         }else {
-            roomsIntractor.playCard(cardPojo, targetPlayerId,null, CardPlayedListener())
+            roomsIntractor.playCard(cardPojo, targetPlayerId,null)
         }
     }
 
@@ -168,6 +177,29 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
             mView.getActivityOfActivity()?.runOnUiThread {
                 val data = args[0] as JSONObject
                 println("Response CardPlayed $data")
+
+//                val responsePlayerTurn =
+//                    Gson().fromJson(data.toString(), ResponsePlayerTurn::class.java)
+//
+//                if (responsePlayerTurn.status == 200) {
+//                    mView.makeTurnOfPlayer(responsePlayerTurn.playerId)
+//                    mView.giveCardToPlayer(responsePlayerTurn.playerId)
+//
+//                } else
+//                    mView.showMessage(
+//                        mView.getContextOfActivity()
+//                            ?.getString(R.string.toast_error_turn), Constants.MessageType.TYPE_ERROR
+//                    )
+
+            }
+        }
+    }
+
+    inner class PlayerLostListener : Emitter.Listener {
+        override fun call(vararg args: Any?) {
+            mView.getActivityOfActivity()?.runOnUiThread {
+                val data = args[0] as JSONObject
+                println("Response PlayerLost $data")
 
 //                val responsePlayerTurn =
 //                    Gson().fromJson(data.toString(), ResponsePlayerTurn::class.java)

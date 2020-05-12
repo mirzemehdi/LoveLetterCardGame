@@ -309,8 +309,8 @@ class GameFragment : Fragment(), GameContractor.View {
     }
 
     private fun onMyTurn(isMyTurn: Boolean) {
-//        image_view_game_player_card_1.isLongClickable = isMyTurn
-//        image_view_game_player_card_2.isLongClickable = isMyTurn
+        image_view_game_player_card_1.isLongClickable = isMyTurn
+        image_view_game_player_card_2.isLongClickable = isMyTurn
 //        if (isMyTurn){
 //
 //        }
