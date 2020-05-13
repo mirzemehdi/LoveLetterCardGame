@@ -92,6 +92,7 @@
     <include
         android:id="@+id/layout_game_player_2"
         layout="@layout/user_box_view"
+
         android:layout_width="@dimen/user_layout_width"
         android:layout_height="@dimen/user_layout_height"
         android:layout_marginStart="16dp"

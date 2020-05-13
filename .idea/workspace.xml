@@ -14,9 +14,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b5ed00ec-4580-4a1d-943b-55462acebf7f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/dialogs/playedcard/PlayedCardDialog.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_arrow_right.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_played_card_dialog.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/pojo/ResponseKingPOJO.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/pojo/ResponsePriestPOJO.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/pojo/ResponsePrincePOJO.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/dialogs/otherplayercard/OtherPlayerCardDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_other_player_card.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -25,16 +27,21 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/jarAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/intractor/RoomsIntractor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/intractor/RoomsIntractor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/pojo/PlayerPOJO.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/pojo/PlayerPOJO.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/game/GameContractor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/game/GameContractor.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/game/GameFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/game/GameFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/game/GamePresenter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/game/GamePresenter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/playroomslist/RoomsFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/playroomslist/RoomsFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/utils/CardMoveListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/utils/CardMoveListener.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/utils/Constants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/utils/Constants.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_card_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_card_info.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/utils/helpers/CardsHolder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/utils/helpers/CardsHolder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_game.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_game.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/user_box_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/user_box_view.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -82,34 +89,34 @@
     <property name="SelectDeploymentTargetsDialog.selectedDevices" value="6f54783e0212&#10;Pixel_2_API_28" />
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/anim" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/layout" />
     <property name="not.eligible.for.single.variant.sync" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
+    </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="com.mmk.lovelettercardgame.ui.dialogs.cardinfo" />
       <recent name="com.mmk.lovelettercardgame.ui.dialogs.addroom" />
       <recent name="com.mmk.lovelettercardgame.ui.activities" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/src/main/res/anim" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/animator" />
-    </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
-      <recent name="com.mmk.lovelettercardgame.ui.dialogs.playedcard" />
+      <recent name="com.mmk.lovelettercardgame.ui.dialogs.otherplayercard" />
       <recent name="com.mmk.lovelettercardgame.pojo" />
+      <recent name="com.mmk.lovelettercardgame.ui.dialogs.playedcard" />
       <recent name="com.mmk.lovelettercardgame.ui.dialogs.discardedcards" />
       <recent name="com.mmk.lovelettercardgame.ui.dialogs.swapcards" />
-      <recent name="com.mmk.lovelettercardgame.ui.dialogs.allcards" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.mmk.lovelettercardgame.utils" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/anim" />
       <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/animator" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -240,11 +247,6 @@
           <url>file://$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/api/SocketInstanceJava.java</url>
           <line>66</line>
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/intractor/RoomsIntractor.kt</url>
-          <line>112</line>
-          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

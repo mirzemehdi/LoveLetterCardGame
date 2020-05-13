@@ -46,10 +46,8 @@ class CardMoveListener(private val onCardPlayed: ((cardPOJO: CardPojo, targetPla
                     val cardPOJO=cardView.tag as CardPojo
                     println("Played Card: $cardPOJO")
                     val targetPlayerId=v?.tag as String?
-                    v?.setBackgroundColor(Color.BLUE) //TODO REMOVE THIS LINE
+//                    v?.setBackgroundColor(Color.BLUE) //TODO REMOVE THIS LINE
                     (onCardPlayed!!)(cardPOJO, targetPlayerId)
-
-
                 }
                 println("Drag called")
                 return true

@@ -64,7 +64,6 @@ class RoomsFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
 
         mPresenter.getRoomList()
-        PlayedCardDialog(getActivityOfActivity(),2,"as","s").show()
     }
 
     override fun onDestroyView() {

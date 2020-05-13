@@ -33,6 +33,19 @@ object CardsHolder
         }
     }
 
+      fun setCardList(cardsHolderView: FrameLayout,cardTypes: List<Int>, context: Context?){
+          val currentCardsCount=cardsHolderView.childCount
+          cardsHolderView.removeAllViews()
+          cardTypes.forEach {
+              addCard(cardsHolderView,it,context)
+          }
+          if (cardTypes.size>currentCardsCount){
+             val cardImage= cardsHolderView[currentCardsCount] as ImageView
+
+          }
+      }
+
+
       private fun cardsHolderClicked(
           cardsHolderView: FrameLayout,
           context: Context

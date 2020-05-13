@@ -26,4 +26,9 @@
     <string name="toast_error_my_cards">There is a problem while getting your cards</string>
     <string name="toast_error_turn">Player turn error</string>
     <string name="toast_warning_handmaid_protect_other">You can only protect yourself</string>
+    <string name="toast_warning_not_turn">It is not your turn</string>
+    <string name="toast_player_protected">Player is protected</string>
+    <string name="other_player_card">%s\'s card</string>
+    <string name="toast_can_not_play_yourself">You can\'t play this card yourself</string>
+    <string name="toast_player_out_of_round">Player is out of round</string>
 </resources>

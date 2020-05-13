@@ -21,12 +21,15 @@ class RoomsIntractor {
     private val EVENT_ENTER_ROOM = "enter-room"
     private val EVENT_ENTER_ROOM_RESPONSE = "room-response"
     private val EVENT_PLAYERS_RESPONSE = "update-room"
-    private val EVENT_MY_CARDS="my-cards"
-    private val EVENT_PLAYER_TURN="move-order"
-    private val EVENT_PLAY_CARD="make-turn"
-    private val EVENT_PLAY_CARD_RESPONSE="turn-result"
-    private val EVENT_PLAYER_LOST="player-lost"
-
+    private val EVENT_MY_CARDS = "my-cards"
+    private val EVENT_PLAYER_TURN = "move-order"
+    private val EVENT_PLAY_CARD = "make-turn"
+    private val EVENT_PLAY_CARD_RESPONSE = "turn-result"
+    private val EVENT_PLAYER_LOST = "player-lost"
+    private val EVENT_CARD_PRIEST = "card-priest"
+    private val EVENT_CARD_KING = "card-king"
+    private val EVENT_CARD_PRINCE = "card-prince"
+    private val EVENT_ACTIVE_PLAYERS = "active-players"
 
 
     private val eventsList = listOf(
@@ -40,7 +43,11 @@ class RoomsIntractor {
         EVENT_PLAYER_TURN,
         EVENT_PLAY_CARD,
         EVENT_PLAY_CARD_RESPONSE,
-        EVENT_PLAYER_LOST
+        EVENT_PLAYER_LOST,
+        EVENT_ACTIVE_PLAYERS,
+        EVENT_CARD_PRIEST,
+        EVENT_CARD_KING,
+        EVENT_CARD_PRINCE
 
     )
 
@@ -87,34 +94,51 @@ class RoomsIntractor {
         mSocket?.on(EVENT_PLAYERS_RESPONSE, listener)
     }
 
-    fun getMyCards(listener: Emitter.Listener){
-        mSocket?.on(EVENT_MY_CARDS,listener)
+    fun getMyCards(listener: Emitter.Listener) {
+        mSocket?.on(EVENT_MY_CARDS, listener)
     }
 
-    fun getPlayerTurn(listener: Emitter.Listener){
-        mSocket?.on(EVENT_PLAYER_TURN,listener)
+    fun listenActivePlayers(listener: Emitter.Listener) {
+        mSocket?.on(EVENT_ACTIVE_PLAYERS, listener)
     }
-    fun playCard(cardPojo: CardPojo,
-                 targetPlayerId:String?=null,
-                 guessedCardType:String?=null){
 
-        val cardJSONObject = Gson().toJson(cardPojo)
-        val relatedInfoJSONObject=JSONObject()
+    fun getPlayerTurn(listener: Emitter.Listener) {
+        mSocket?.on(EVENT_PLAYER_TURN, listener)
+    }
+
+    fun playCard(
+        cardPojo: CardPojo,
+        targetPlayerId: String? = null,
+        guessedCardType: String? = null
+    ) {
+
+        val cardJSONString = Gson().toJson(cardPojo)
+        val relatedInfoJSONObject = JSONObject()
         relatedInfoJSONObject.put("targetPlayerId", targetPlayerId)
         relatedInfoJSONObject.put("guessedCardPower", guessedCardType)
 
-        mSocket?.emit(EVENT_PLAY_CARD, cardJSONObject,relatedInfoJSONObject)
+        mSocket?.emit(EVENT_PLAY_CARD, JSONObject(cardJSONString), relatedInfoJSONObject)
 
 
         println("Card played ")
     }
 
-    fun listenPlayedCard(listener: Emitter.Listener){
+    fun listenPlayedCard(listener: Emitter.Listener) {
         mSocket?.on(EVENT_PLAY_CARD_RESPONSE, listener)
     }
 
-    fun listenPlayerLost(listener: Emitter.Listener){
-        mSocket?.on(EVENT_PLAYER_LOST,listener)
+    fun listenPlayerLost(listener: Emitter.Listener) {
+        mSocket?.on(EVENT_PLAYER_LOST, listener)
+    }
+
+    fun listenCardKing(listener: Emitter.Listener) {
+        mSocket?.on(EVENT_CARD_KING,listener)
+    }
+    fun listenCardPrince(listener: Emitter.Listener) {
+        mSocket?.on(EVENT_CARD_PRINCE,listener)
+    }
+    fun listenCardPriest(listener: Emitter.Listener) {
+        mSocket?.on(EVENT_CARD_PRIEST,listener)
     }
 
     fun closeServer() {

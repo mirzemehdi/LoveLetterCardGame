@@ -19,6 +19,7 @@ import com.mmk.lovelettercardgame.pojo.RoomPOJO
 import com.mmk.lovelettercardgame.ui.dialogs.allcards.AllCardsDialog
 import com.mmk.lovelettercardgame.ui.dialogs.cardinfo.CardDetailInfoDialog
 import com.mmk.lovelettercardgame.ui.dialogs.joinroom.JoinRoomDialog
+import com.mmk.lovelettercardgame.ui.dialogs.otherplayercard.OtherPlayerCardDialog
 import com.mmk.lovelettercardgame.ui.dialogs.swapcards.SwapCardsDialog
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
 import com.mmk.lovelettercardgame.utils.*
@@ -45,6 +46,7 @@ class GameFragment : Fragment(), GameContractor.View {
     private lateinit var clickableAnimation: Animation
     private var joinRoomDialog: JoinRoomDialog? = null
     private val cardWaitingPlayers: Queue<String> = LinkedList()
+    private var mPlayers: List<PlayerPOJO>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -186,6 +188,24 @@ class GameFragment : Fragment(), GameContractor.View {
 
             }
         }
+        mPlayers = players
+    }
+
+    override fun playersStateUpdated(players: List<PlayerPOJO>) {
+        players.forEach { player ->
+            val userBoxView = layout_game_fragment_container.findViewWithTag<View>(player.id)
+            initUserBoxView(userBoxView, player)
+        }
+
+        mPlayers?.forEach { player ->
+            val isInGame = players.any { updatePlayer -> updatePlayer.id == player.id }
+            if (!isInGame) {
+                val userBoxView = layout_game_fragment_container.findViewWithTag<View>(player.id)
+                userBoxView.alpha = 0.5f
+                userBoxView.image_view_userBox_card_1.visibility = View.GONE
+            }
+
+        }
     }
 
     private fun initUserBoxView(userBoxView: View, playerPOJO: PlayerPOJO) {
@@ -195,7 +215,22 @@ class GameFragment : Fragment(), GameContractor.View {
             val playerNameTextView = userBoxView.textView_userBox_playerName
             playerNameTextView.text = playerPOJO.name
             if (playerPOJO == myPlayer) playerNameTextView.text = getString(R.string.text_you)
+            image_view_userBox_card_1.apply {
+                rotation = 0f
+                translationX = 0f
+            }
+            image_view_userBox_card_2.visibility = View.GONE
 
+            val discardedCardTypes = playerPOJO.discardedCards.map { card ->
+                card.power
+            }
+            println("Discarded Card Types: $discardedCardTypes")
+            CardsHolder.setCardList(
+                frame_layout_user_box_player_cards,
+                discardedCardTypes,
+                getContextOfActivity()
+            )
+            userBoxView.alpha = 1f
         }
 
     }
@@ -328,6 +363,8 @@ class GameFragment : Fragment(), GameContractor.View {
         if (cards.size == 1) {
 
             image_view_game_player_card_2.visibility = View.GONE
+            image_view_game_player_card_1.rotation = 0f
+            image_view_game_player_card_1.translationX = 0f
 
             val cardResourceId = getActivityOfActivity()
                 ?.getGameCardResourceId(cards[0].power) ?: R.drawable.card_back
@@ -351,13 +388,21 @@ class GameFragment : Fragment(), GameContractor.View {
         }
     }
 
-    override fun swapCards(firstPlayer: PlayerPOJO, secondPlayer: PlayerPOJO) {
+    override fun lookOtherPlayerCard(playerId: String, cardType: Int) {
+        val playerName = mPlayers?.find { it.id == playerId }?.name ?: ""
+        OtherPlayerCardDialog(getActivityOfActivity(), cardType, playerName).show()
+    }
+
+    override fun swapCards(firstPlayerId: String, secondPlayerId: String) {
         if (isViewStopped) return
 
         val firstPlayerUserBoxView =
-            layout_game_fragment_container.findViewWithTag<View>(firstPlayer.id)
+            layout_game_fragment_container.findViewWithTag<View>(firstPlayerId)
         val secondPlayerUserBoxView =
-            layout_game_fragment_container.findViewWithTag<View>(secondPlayer.id)
+            layout_game_fragment_container.findViewWithTag<View>(secondPlayerId)
+
+        if (firstPlayerUserBoxView==null || secondPlayerUserBoxView==null) return
+
         val firstCard: ImageView
         val secondCard: ImageView
         firstCard = if (firstPlayerUserBoxView === layout_game_player_1) {
@@ -372,13 +417,14 @@ class GameFragment : Fragment(), GameContractor.View {
         }
 
         val firstPlayerName =
-            if (firstPlayer.id == myPlayer?.id) getString(R.string.text_you) else firstPlayer.name
+            if (firstPlayerId == myPlayer?.id) getString(R.string.text_you) else mPlayers?.find { it.id == firstPlayerId }?.name
         val secondPlayerName =
-            if (secondPlayer.id == myPlayer?.id) getString(R.string.text_you) else secondPlayer.name
+            if (secondPlayerId == myPlayer?.id) getString(R.string.text_you) else mPlayers?.find { it.id == firstPlayerId }?.name
         SwapCardsDialog(
             getActivityOfActivity(),
             firstCard, secondCard,
-            firstPlayerName, secondPlayerName
+            firstPlayerName ?: "", secondPlayerName ?: ""
+
         )
             .show()
 
@@ -391,7 +437,7 @@ class GameFragment : Fragment(), GameContractor.View {
         val discardedCardsLayout = userBoxView.frame_layout_user_box_player_cards
         CardsHolder.addCard(discardedCardsLayout, cardType, getContextOfActivity())
         if (playerId != myPlayer?.id) {
-            
+
             if (userBoxView.image_view_userBox_card_2.visibility != View.VISIBLE)
                 userBoxView.image_view_userBox_card_1.visibility = View.GONE
             else
