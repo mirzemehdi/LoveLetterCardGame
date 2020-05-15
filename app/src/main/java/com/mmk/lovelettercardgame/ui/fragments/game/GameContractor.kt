@@ -25,6 +25,8 @@ interface GameContractor {
         fun playersStateUpdated(players: List<PlayerPOJO>)
         fun lookOtherPlayerCard(playerId: String,cardType: Int)
         fun newCardPlayed(playerId: String,cardType: Int,targetPlayerId: String?)
+        fun roundFinished(playerPOJO: PlayerPOJO)
+        fun gameFinished(playerPOJO: PlayerPOJO)
 
     }
 

@@ -34,6 +34,8 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
         listenForNewPlayedCard()
         listerForPlayerUpdates()
         listenForTurn()
+        listenForRoundFinished()
+        listenForGameFinished()
         listerForLostPlayer()
         listenCardKingPlayed()
         listenCardPriestPlayed()
@@ -133,6 +135,45 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
     override fun listenCardPriestPlayed() {
         roomsIntractor.listenCardPriest(PriestPlayedListener())
     }
+    private fun listenForGameFinished(){
+        roomsIntractor.listenForGameFinished(GameFinishedListener())
+    }
+    private fun listenForRoundFinished(){
+        roomsIntractor.listenForRoundFinished(RoundFinishedListener())
+    }
+
+
+    inner class RoundFinishedListener() : Emitter.Listener {
+        override fun call(vararg args: Any?) {
+            mView.getActivityOfActivity()?.runOnUiThread {
+                val data = args[0] as JSONObject
+                println("Response RoundFinished $data")
+                val responseRoundFinishedPOJO =
+                    Gson().fromJson(data.toString(), RoundFinishedPOJO::class.java)
+                if (responseRoundFinishedPOJO.status == 200) {
+                    mView.roundFinished(responseRoundFinishedPOJO.data)
+                }
+
+            }
+        }
+    }
+
+
+    inner class GameFinishedListener() : Emitter.Listener {
+        override fun call(vararg args: Any?) {
+            mView.getActivityOfActivity()?.runOnUiThread {
+                val data = args[0] as JSONObject
+                println("Response GameFinished $data")
+                val responseGameFinishedPOJO =
+                    Gson().fromJson(data.toString(), RoundFinishedPOJO::class.java)
+                if (responseGameFinishedPOJO.status == 200) {
+                    mView.gameFinished(responseGameFinishedPOJO.data)
+                }
+
+            }
+        }
+    }
+
 
     inner class PlayersUpdateListener(val maxNbPlayers: Int?) : Emitter.Listener {
         override fun call(vararg args: Any?) {
@@ -286,10 +327,20 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 
                 }
                 else{
-                    mView.showMessage(
-                        mView.getContextOfActivity()?.getString(R.string.toast_error_server),
-                        Constants.MessageType.TYPE_ERROR
-                    )
+                    when(responseNewCardPlayed.status){
+                        Constants.CODE_NOT_YOUR_TURN-> Unit
+                        Constants.CODE_PLAYER_OUT_OF_ROUND-> Unit
+                        Constants.CODE_PLAYER_PROTECTED -> Unit
+                        Constants.CODE_CAN_NOT_PLAY_YOURSELF -> Unit
+                        Constants.CODE_WRONG_CARD_PLAYED -> Unit
+                        Constants.CODE_ALL_PLAYERS_PROTECTED -> Unit
+                        Constants.CODE_PLAY_OTHER_CARD -> Unit
+                        else -> mView.showMessage(
+                            mView.getContextOfActivity()?.getString(R.string.toast_error_server),
+                            Constants.MessageType.TYPE_ERROR
+                        )
+                    }
+
                 }
 
             }

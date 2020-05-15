@@ -403,6 +403,15 @@ class GameFragment : Fragment(), GameContractor.View {
 
     }
 
+    override fun roundFinished(playerPOJO: PlayerPOJO) {
+        getContextOfActivity()?.toast("Round Finished: Winner: ${playerPOJO.name}")
+    }
+
+    override fun gameFinished(playerPOJO: PlayerPOJO) {
+        getContextOfActivity()?.toast("Game Finished: Winner: ${playerPOJO.name}")
+
+    }
+
     override fun swapCards(firstPlayerId: String, secondPlayerId: String?) {
         if (isViewStopped) return
         if (secondPlayerId==null) return

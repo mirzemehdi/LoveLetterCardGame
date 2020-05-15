@@ -31,6 +31,8 @@ class RoomsIntractor {
     private val EVENT_CARD_PRINCE = "card-prince"
     private val EVENT_ACTIVE_PLAYERS = "active-players"
     private val EVENT_NEW_CARD_PLAYED = "played-card"
+    private val EVENT_ROUND_FINISHED = "win"
+    private val EVENT_GAME_FINISHED = "game-end"
 
 
     private val eventsList = listOf(
@@ -49,7 +51,10 @@ class RoomsIntractor {
         EVENT_CARD_PRIEST,
         EVENT_CARD_KING,
         EVENT_CARD_PRINCE,
-        EVENT_NEW_CARD_PLAYED
+        EVENT_NEW_CARD_PLAYED,
+        EVENT_ROUND_FINISHED ,
+        EVENT_GAME_FINISHED
+
 
     )
 
@@ -145,6 +150,12 @@ class RoomsIntractor {
 
     fun listernForNewCardPlayed(listener: Emitter.Listener){
         mSocket?.on(EVENT_NEW_CARD_PLAYED,listener)
+    }
+    fun listenForRoundFinished(listener: Emitter.Listener){
+        mSocket?.on(EVENT_ROUND_FINISHED,listener)
+    }
+    fun listenForGameFinished(listener: Emitter.Listener){
+        mSocket?.on(EVENT_GAME_FINISHED,listener)
     }
 
 
