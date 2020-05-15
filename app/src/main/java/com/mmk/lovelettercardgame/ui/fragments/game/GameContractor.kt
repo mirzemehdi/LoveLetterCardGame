@@ -19,11 +19,12 @@ interface GameContractor {
         fun makeTurnOfPlayer(playerId: String)
         fun showMessage(message:String?,messageType: Constants.MessageType)
         fun myCardsUpdated(cards:List<CardPojo>)
-        fun swapCards(firstPlayerId:String,secondPlayerId:String)
+        fun swapCards(firstPlayerId:String,secondPlayerId:String?)
         fun addToDiscardedCard(playerId:String,cardType:Int)
         fun onCardPlayed(cardPojo: CardPojo,targetPlayerId: String?)
         fun playersStateUpdated(players: List<PlayerPOJO>)
         fun lookOtherPlayerCard(playerId: String,cardType: Int)
+        fun newCardPlayed(playerId: String,cardType: Int,targetPlayerId: String?)
 
     }
 

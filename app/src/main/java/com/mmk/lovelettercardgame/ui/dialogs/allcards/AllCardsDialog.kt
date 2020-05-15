@@ -2,25 +2,12 @@ package com.mmk.lovelettercardgame.ui.dialogs.allcards
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
-import android.content.DialogInterface
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.RadioGroup
-import androidx.appcompat.widget.AppCompatEditText
 import com.mmk.lovelettercardgame.R
-import com.mmk.lovelettercardgame.pojo.CardPojo
-import com.mmk.lovelettercardgame.pojo.PlayerPOJO
-import com.mmk.lovelettercardgame.ui.activities.MainActivity
-import com.mmk.lovelettercardgame.ui.fragments.game.GameFragment
-import com.mmk.lovelettercardgame.utils.Constants
-import com.mmk.lovelettercardgame.utils.toasty
 import kotlinx.android.synthetic.main.dialog_all_cards.view.*
-import kotlinx.android.synthetic.main.dialog_join_player.view.*
 
 class AllCardsDialog(
     private val activity: Activity?,

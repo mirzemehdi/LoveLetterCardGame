@@ -9,12 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.RadioGroup
 import androidx.appcompat.widget.AppCompatEditText
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.pojo.PlayerPOJO
-import com.mmk.lovelettercardgame.ui.activities.MainActivity
-import com.mmk.lovelettercardgame.ui.fragments.game.GameFragment
+import com.mmk.lovelettercardgame.ui.activities.main.MainActivity
 import com.mmk.lovelettercardgame.utils.Constants
 import com.mmk.lovelettercardgame.utils.toasty
 import kotlinx.android.synthetic.main.dialog_join_player.view.*

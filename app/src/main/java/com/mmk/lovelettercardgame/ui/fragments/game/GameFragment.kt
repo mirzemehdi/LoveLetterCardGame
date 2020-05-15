@@ -20,6 +20,7 @@ import com.mmk.lovelettercardgame.ui.dialogs.allcards.AllCardsDialog
 import com.mmk.lovelettercardgame.ui.dialogs.cardinfo.CardDetailInfoDialog
 import com.mmk.lovelettercardgame.ui.dialogs.joinroom.JoinRoomDialog
 import com.mmk.lovelettercardgame.ui.dialogs.otherplayercard.OtherPlayerCardDialog
+import com.mmk.lovelettercardgame.ui.dialogs.playedcard.PlayedCardDialog
 import com.mmk.lovelettercardgame.ui.dialogs.swapcards.SwapCardsDialog
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
 import com.mmk.lovelettercardgame.utils.*
@@ -393,9 +394,18 @@ class GameFragment : Fragment(), GameContractor.View {
         OtherPlayerCardDialog(getActivityOfActivity(), cardType, playerName).show()
     }
 
-    override fun swapCards(firstPlayerId: String, secondPlayerId: String) {
-        if (isViewStopped) return
+    override fun newCardPlayed(playerId: String, cardType: Int, targetPlayerId: String?) {
+        val playerName = mPlayers?.find { it.id == playerId }?.name ?: ""
+        val targetPlayerName = mPlayers?.find { it.id == targetPlayerId }?.name ?: ""
 
+        PlayedCardDialog(getActivityOfActivity(),cardType,playerName,targetPlayerName)
+            .show()
+
+    }
+
+    override fun swapCards(firstPlayerId: String, secondPlayerId: String?) {
+        if (isViewStopped) return
+        if (secondPlayerId==null) return
         val firstPlayerUserBoxView =
             layout_game_fragment_container.findViewWithTag<View>(firstPlayerId)
         val secondPlayerUserBoxView =

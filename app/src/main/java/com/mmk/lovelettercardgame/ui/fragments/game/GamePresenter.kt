@@ -31,6 +31,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
         listenForPlayersUpdate(roomItem?.maxNbPlayers)
         getMyCards()
         listenForPlayedCard()
+        listenForNewPlayedCard()
         listerForPlayerUpdates()
         listenForTurn()
         listerForLostPlayer()
@@ -56,6 +57,9 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 
     private fun listenForPlayedCard() {
         roomsIntractor.listenPlayedCard(CardPlayedListener())
+    }
+    private fun listenForNewPlayedCard(){
+        roomsIntractor.listernForNewCardPlayed(NewCardPlayedListener())
     }
 
     private fun listerForLostPlayer() {
@@ -201,37 +205,25 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 
                 val responsePlayedCard =
                     Gson().fromJson(data.toString(), ResponseCardPlayedPOJO::class.java)
-                if (responsePlayedCard.status == Constants.CODE_NOT_YOUR_TURN)
-                    mView.showMessage(
-                        mView.getContextOfActivity()?.getString(R.string.toast_warning_not_turn),
-                        Constants.MessageType.TYPE_WARNING
-                    )
 
-                if (responsePlayedCard.status == Constants.CODE_PLAYER_PROTECTED)
+                if (responsePlayedCard.status!=200){
+                    var messageResourceId=R.string.toast_error_server
+                    when(responsePlayedCard.status){
+                        Constants.CODE_NOT_YOUR_TURN->R.string.toast_warning_not_turn
+                        Constants.CODE_PLAYER_OUT_OF_ROUND-> R.string.toast_player_out_of_round
+                        Constants.CODE_PLAYER_PROTECTED -> R.string.toast_player_protected
+                        Constants.CODE_CAN_NOT_PLAY_YOURSELF -> R.string.toast_can_not_play_yourself
+                        Constants.CODE_WRONG_CARD_PLAYED -> R.string.toast_warning_discard_countess
+                        Constants.CODE_ALL_PLAYERS_PROTECTED -> R.string.toast_warning_all_players_protected
+                        Constants.CODE_PLAY_OTHER_CARD -> R.string.toast_warning_all_players_protected_play_other
+
+                    }
                     mView.showMessage(
-                        mView.getContextOfActivity()?.getString(R.string.toast_player_protected),
+                        mView.getContextOfActivity()?.getString(messageResourceId),
                         Constants.MessageType.TYPE_WARNING
                     )
-                if (responsePlayedCard.status == Constants.CODE_CAN_NOT_PLAY_YOURSELF)
-                    mView.showMessage(
-                        mView.getContextOfActivity()?.getString(R.string.toast_can_not_play_yourself),
-                        Constants.MessageType.TYPE_WARNING
-                    )
-                if (responsePlayedCard.status == Constants.CODE_PLAYER_OUT_OF_ROUND)
-                    mView.showMessage(
-                        mView.getContextOfActivity()?.getString(R.string.toast_player_out_of_round),
-                        Constants.MessageType.TYPE_WARNING
-                    )
-//
-//                if (responsePlayerTurn.status == 200) {
-//                    mView.makeTurnOfPlayer(responsePlayerTurn.playerId)
-//                    mView.giveCardToPlayer(responsePlayerTurn.playerId)
-//
-//                } else
-//                    mView.showMessage(
-//                        mView.getContextOfActivity()
-//                            ?.getString(R.string.toast_error_turn), Constants.MessageType.TYPE_ERROR
-//                    )
+                }
+
 
             }
         }
@@ -269,6 +261,37 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
                     Gson().fromJson(data.toString(), ResponsePlayersUpdatePojo::class.java)
                 if (responseActivePlayers.status == 200)
                     mView.playersStateUpdated(responseActivePlayers.data)
+            }
+        }
+    }
+
+    inner class NewCardPlayedListener : Emitter.Listener {
+        override fun call(vararg args: Any?) {
+            mView.getActivityOfActivity()?.runOnUiThread {
+                val data = args[0] as JSONObject
+                println("Response NewCardPlayed $data")
+
+                val responseNewCardPlayed =
+                    Gson().fromJson(data.toString(), ResponseNewCardPlayedPOJO::class.java)
+                println("Response Gson NewCardPlayed $responseNewCardPlayed")
+                if (responseNewCardPlayed.status==200){
+
+                    val playerId=responseNewCardPlayed.data.playerFrom
+                    val cardType=responseNewCardPlayed.data.cardType
+                    val targetPlayerId:String?=responseNewCardPlayed.data.playerTo
+                    mView.newCardPlayed(playerId,cardType,targetPlayerId)
+                    if (cardType==CardPojo.TYPE_KING){
+                        Handler().postDelayed({mView.swapCards(playerId, targetPlayerId)},2500)
+                    }
+
+                }
+                else{
+                    mView.showMessage(
+                        mView.getContextOfActivity()?.getString(R.string.toast_error_server),
+                        Constants.MessageType.TYPE_ERROR
+                    )
+                }
+
             }
         }
     }

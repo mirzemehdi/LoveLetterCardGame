@@ -5,7 +5,6 @@ import com.github.nkzawa.socketio.client.Socket
 import com.mmk.lovelettercardgame.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.apache.http.conn.ssl.SSLSocketFactory
 import java.net.URISyntaxException
 import java.security.SecureRandom
 import java.security.cert.CertificateException

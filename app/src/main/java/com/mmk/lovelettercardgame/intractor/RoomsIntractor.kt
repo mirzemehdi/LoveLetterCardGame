@@ -30,6 +30,7 @@ class RoomsIntractor {
     private val EVENT_CARD_KING = "card-king"
     private val EVENT_CARD_PRINCE = "card-prince"
     private val EVENT_ACTIVE_PLAYERS = "active-players"
+    private val EVENT_NEW_CARD_PLAYED = "played-card"
 
 
     private val eventsList = listOf(
@@ -47,7 +48,8 @@ class RoomsIntractor {
         EVENT_ACTIVE_PLAYERS,
         EVENT_CARD_PRIEST,
         EVENT_CARD_KING,
-        EVENT_CARD_PRINCE
+        EVENT_CARD_PRINCE,
+        EVENT_NEW_CARD_PLAYED
 
     )
 
@@ -140,6 +142,11 @@ class RoomsIntractor {
     fun listenCardPriest(listener: Emitter.Listener) {
         mSocket?.on(EVENT_CARD_PRIEST,listener)
     }
+
+    fun listernForNewCardPlayed(listener: Emitter.Listener){
+        mSocket?.on(EVENT_NEW_CARD_PLAYED,listener)
+    }
+
 
     fun closeServer() {
         mSocket?.disconnect()

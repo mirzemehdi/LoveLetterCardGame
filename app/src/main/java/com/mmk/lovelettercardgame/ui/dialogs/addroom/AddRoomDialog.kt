@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.os.bundleOf
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
-import com.mmk.lovelettercardgame.ui.activities.MainActivity
+import com.mmk.lovelettercardgame.ui.activities.main.MainActivity
 import com.mmk.lovelettercardgame.ui.fragments.game.GameFragment
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
 import com.mmk.lovelettercardgame.utils.Constants

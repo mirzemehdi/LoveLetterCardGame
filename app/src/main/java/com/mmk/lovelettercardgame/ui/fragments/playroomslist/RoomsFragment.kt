@@ -15,14 +15,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
-import com.mmk.lovelettercardgame.ui.activities.MainActivity
+import com.mmk.lovelettercardgame.ui.activities.main.MainActivity
 import com.mmk.lovelettercardgame.ui.dialogs.addroom.AddRoomDialog
-import com.mmk.lovelettercardgame.ui.dialogs.playedcard.PlayedCardDialog
 import com.mmk.lovelettercardgame.ui.fragments.game.GameFragment
 import com.mmk.lovelettercardgame.utils.*
 import kotlinx.android.synthetic.main.fragment_rooms.*
 import kotlinx.android.synthetic.main.fragment_rooms.view.*
-import kotlinx.android.synthetic.main.fragment_rooms.view.progressBar_rooms_loading
 
 /**
  * A simple [Fragment] subclass.
