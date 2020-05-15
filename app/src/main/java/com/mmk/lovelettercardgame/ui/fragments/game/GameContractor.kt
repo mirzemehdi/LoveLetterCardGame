@@ -42,5 +42,8 @@ interface GameContractor {
         fun listenCardPrincePlayed()
         fun listenCardPriestPlayed()
 
+        fun closeServer()
+
+
     }
 }

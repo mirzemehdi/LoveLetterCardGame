@@ -27,6 +27,10 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
         , PlayerPOJO("4", "Ramin")
     )
 
+    override fun closeServer() {
+        roomsIntractor.closeServer()
+    }
+
     override fun getPlayers(roomItem: RoomPOJO?) {
         listenForPlayersUpdate(roomItem?.maxNbPlayers)
         getMyCards()
@@ -152,6 +156,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
                     Gson().fromJson(data.toString(), RoundFinishedPOJO::class.java)
                 if (responseRoundFinishedPOJO.status == 200) {
                     mView.roundFinished(responseRoundFinishedPOJO.data)
+
                 }
 
             }
@@ -248,8 +253,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
                     Gson().fromJson(data.toString(), ResponseCardPlayedPOJO::class.java)
 
                 if (responsePlayedCard.status!=200){
-                    var messageResourceId=R.string.toast_error_server
-                    when(responsePlayedCard.status){
+                    val messageResourceId: Int = when(responsePlayedCard.status){
                         Constants.CODE_NOT_YOUR_TURN->R.string.toast_warning_not_turn
                         Constants.CODE_PLAYER_OUT_OF_ROUND-> R.string.toast_player_out_of_round
                         Constants.CODE_PLAYER_PROTECTED -> R.string.toast_player_protected
@@ -257,6 +261,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
                         Constants.CODE_WRONG_CARD_PLAYED -> R.string.toast_warning_discard_countess
                         Constants.CODE_ALL_PLAYERS_PROTECTED -> R.string.toast_warning_all_players_protected
                         Constants.CODE_PLAY_OTHER_CARD -> R.string.toast_warning_all_players_protected_play_other
+                        else -> R.string.toast_error_server
 
                     }
                     mView.showMessage(
@@ -380,7 +385,8 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
                 if (responseCardPriest.status == 200) {
                     val playerId = responseCardPriest.data.targetPlayerId
                     val cardType = responseCardPriest.data.cards[0].power
-                    mView.lookOtherPlayerCard(playerId, cardType)
+                    Handler().postDelayed({mView.lookOtherPlayerCard(playerId, cardType)},2000)
+
                 } else
                     mView.showMessage(
                         mView.getContextOfActivity()?.getString(R.string.toast_error_server),

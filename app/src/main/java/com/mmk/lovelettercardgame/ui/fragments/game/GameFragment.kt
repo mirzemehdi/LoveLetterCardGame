@@ -11,11 +11,13 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.pojo.CardPojo
 import com.mmk.lovelettercardgame.pojo.PlayerPOJO
 import com.mmk.lovelettercardgame.pojo.RoomPOJO
+import com.mmk.lovelettercardgame.ui.activities.main.MainActivity
 import com.mmk.lovelettercardgame.ui.dialogs.allcards.AllCardsDialog
 import com.mmk.lovelettercardgame.ui.dialogs.cardinfo.CardDetailInfoDialog
 import com.mmk.lovelettercardgame.ui.dialogs.joinroom.JoinRoomDialog
@@ -54,6 +56,7 @@ class GameFragment : Fragment(), GameContractor.View {
         super.onCreate(savedInstanceState)
 
         GamePresenter(this)
+        roomItem = arguments?.getSerializable(RoomsFragment.ARGUMEN_ROOM_ITEM) as RoomPOJO?
 
 
     }
@@ -70,7 +73,6 @@ class GameFragment : Fragment(), GameContractor.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        roomItem = arguments?.getSerializable(RoomsFragment.ARGUMEN_ROOM_ITEM) as RoomPOJO?
         println("RoomItem $roomItem")
 
         initView()
@@ -93,6 +95,8 @@ class GameFragment : Fragment(), GameContractor.View {
 
 
     }
+
+
 
     private fun initView() {
         isViewStopped = false
@@ -210,6 +214,12 @@ class GameFragment : Fragment(), GameContractor.View {
     }
 
     private fun initUserBoxView(userBoxView: View, playerPOJO: PlayerPOJO) {
+        val tokensNumber=when(roomItem?.maxNbPlayers){
+            2 -> 7
+            3 -> 5
+            4 -> 4
+            else -> 4
+        }
         userBoxView.apply {
             visibility = View.VISIBLE
             tag = playerPOJO.id
@@ -232,6 +242,12 @@ class GameFragment : Fragment(), GameContractor.View {
                 getContextOfActivity()
             )
             userBoxView.alpha = 1f
+            for (i in 0 until tokensNumber){
+                val imageView:ImageView=linearLayout_userBox_tokensView[i] as ImageView
+                imageView.visibility=View.VISIBLE
+                if (i<playerPOJO.points.toInt()) imageView.setImageResource(R.drawable.ic_heart_fill)
+                else imageView.setImageResource(R.drawable.ic_heart)
+            }
         }
 
     }
@@ -246,28 +262,33 @@ class GameFragment : Fragment(), GameContractor.View {
             val duration = CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION +
                     CardAnimations.DURATION_DEAL_CARD_ANIMATION
 
-            cardWaitingPlayers.add(playerPOJO.id)
-
+          //  cardWaitingPlayers.add(playerPOJO.id)
+            giveCardToPlayer(playerPOJO.id)
 
         }
-        giveCardToPlayer(null)
+
 
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         isViewStopped = true
+        mPresenter.closeServer()
     }
 
 
-    override fun giveCardToPlayer(givenPlayerId: String?) {
+    override  fun giveCardToPlayer(givenPlayerId: String?):Unit {
 
-        println("Give card started")
+
         if (givenPlayerId != null) {
             cardWaitingPlayers.add(givenPlayerId)
-            if (cardWaitingPlayers.size > 1) return //Because animation end will call
+            if (cardWaitingPlayers.size > 1) {
+                println("Give Card size>1")
+                return@giveCardToPlayer//Because animation end will call
+            }
         }
-        val playerId = cardWaitingPlayers.poll() ?: return
+        println("Give Card started")
+        val playerId = cardWaitingPlayers.peek() ?: return
         val rootUserBoxView = layout_game_fragment_container.findViewWithTag<View>(playerId)
         val sampleCard = image_view_game_card_sample_card
         sampleCard.visibility = View.VISIBLE
@@ -298,6 +319,7 @@ class GameFragment : Fragment(), GameContractor.View {
         CardAnimations.dealCard(isOtherPlayer, sampleCard, cardFinalPositionView) {
             CardAnimations.arrangeCards(isOtherPlayer, firstCard, cardFinalPositionView) {
                 println("Give Card Arrange called")
+                cardWaitingPlayers.poll()
                 giveCardToPlayer(null)
 
             }
@@ -361,6 +383,10 @@ class GameFragment : Fragment(), GameContractor.View {
     }
 
     override fun myCardsUpdated(cards: List<CardPojo>) {
+        if (cards.isEmpty()){
+            image_view_game_player_card_1.visibility=View.GONE
+            image_view_game_player_card_2.visibility=View.GONE
+        }
         if (cards.size == 1) {
 
             image_view_game_player_card_2.visibility = View.GONE
@@ -372,7 +398,7 @@ class GameFragment : Fragment(), GameContractor.View {
             image_view_game_player_card_1
                 .setImageResource(cardResourceId)
             image_view_game_player_card_1.tag = cards[0]
-            image_view_game_player_card_2.visibility = View.GONE
+
         } else if (cards.size == 2) {
 
             val cardFirstResourceId = getActivityOfActivity()
@@ -404,7 +430,26 @@ class GameFragment : Fragment(), GameContractor.View {
     }
 
     override fun roundFinished(playerPOJO: PlayerPOJO) {
+
+        hideAllCards()
         getContextOfActivity()?.toast("Round Finished: Winner: ${playerPOJO.name}")
+    }
+
+    private fun hideAllCards() {
+        userBoxList.forEach {
+            it.image_view_userBox_card_1.visibility=View.GONE
+            it.image_view_userBox_card_2.visibility=View.GONE
+            it.image_view_userBox_card_1.translationX=0f
+            it.image_view_userBox_card_2.translationX=0f
+            it.image_view_userBox_card_1.rotation=0f
+            it.image_view_userBox_card_2.rotation=0f
+        }
+        image_view_game_player_card_1.visibility=View.GONE
+        image_view_game_player_card_2.visibility=View.GONE
+        image_view_game_player_card_1.translationX=0f
+        image_view_game_player_card_1.rotation=0f
+        image_view_game_player_card_2.translationX=0f
+        image_view_game_player_card_2.rotation=0f
     }
 
     override fun gameFinished(playerPOJO: PlayerPOJO) {

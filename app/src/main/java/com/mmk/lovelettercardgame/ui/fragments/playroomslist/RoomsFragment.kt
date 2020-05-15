@@ -40,9 +40,7 @@ class RoomsFragment : Fragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        RoomsPresenter(this)
-        roomsAdapter=
-            RoomsAdapter()
+
 
 
 
@@ -54,13 +52,14 @@ class RoomsFragment : Fragment(),
     ): View? {
         // Inflate the layout for this fragment
         val view = container?.inflate(R.layout.fragment_rooms)
+        roomsAdapter= RoomsAdapter()
         initView(view)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        RoomsPresenter(this)
         mPresenter.getRoomList()
     }
 
