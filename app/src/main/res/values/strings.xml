@@ -45,4 +45,6 @@
     <string name="round_finished_dialog_message">Winner: %s</string>
     <string name="game_finished_dialog_title">Game finished</string>
     <string name="game_finished_dialog_message">%s\'s love letter delivered to princess.\n Congratulations</string>
+    <string name="resume">Resume</string>
+    <string name="how_to_play_text">How to play</string>
 </resources>

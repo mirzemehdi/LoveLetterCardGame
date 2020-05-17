@@ -1,8 +1,6 @@
 package com.mmk.lovelettercardgame.ui.fragments.menu
 
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.view.SoundEffectConstants
 import androidx.fragment.app.Fragment
 import android.view.View
 
@@ -15,31 +13,23 @@ import kotlinx.android.synthetic.main.fragment_menu.*
 /**
  * A simple [Fragment] subclass.
  */
-class MenuFragment : Fragment(R.layout.fragment_menu) {
+class MenuFragment(val isCalledFromGame:Boolean=false) : Fragment(R.layout.fragment_menu) {
 
-    private var backgroundMusicPlayer:MediaPlayer?= null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        backgroundMusicPlayer=MediaPlayer.create(context,R.raw.bg_game_music)
-        backgroundMusicPlayer?.isLooping=true
-        backgroundMusicPlayer?.start()
+
+        if (isCalledFromGame){
+            text_view_menu_resume.visibility=View.VISIBLE
+            text_view_menu_play.visibility=View.GONE
+        }
+        else{
+            text_view_menu_resume.visibility=View.GONE
+            text_view_menu_play.visibility=View.VISIBLE
+        }
         setClicks()
     }
 
-    override fun onPause() {
-        super.onPause()
-        backgroundMusicPlayer?.pause()
-    }
 
-    override fun onResume() {
-        super.onResume()
-        backgroundMusicPlayer?.start()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        backgroundMusicPlayer?.stop()
-    }
 
     private fun setClicks() {
         val hostActivity=activity as MainActivity
@@ -56,9 +46,13 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
 
 
         }
-        text_view_menu_settings.setOnClickListener {
+        text_view_menu_how_to_play.setOnClickListener {
             Helper.makeClickSound(hostActivity)
 
+        }
+
+        text_view_menu_resume.setOnClickListener {
+            (activity as MainActivity).finishFragment()
         }
     }
 

@@ -1,5 +1,6 @@
 package com.mmk.lovelettercardgame.ui.activities.main
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
@@ -7,6 +8,7 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.intractor.RoomsIntractor
 import com.mmk.lovelettercardgame.ui.fragments.game.GameFragment
@@ -16,8 +18,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val mainFrameLayout:FrameLayout by lazy { frame_layout_main }
-    private val fragmentManager:FragmentManager=supportFragmentManager
+
+    private val mainFrameLayout: FrameLayout by lazy { frame_layout_main }
+    private val fragmentManager: FragmentManager = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +32,10 @@ class MainActivity : AppCompatActivity() {
         )
 
         setContentView(R.layout.activity_main)
+
+
+
+
         changeFragment(MenuFragment())
 
 //        Handler().postDelayed({ viewFlipper.flipTheView(true) },1000)
@@ -45,31 +52,38 @@ class MainActivity : AppCompatActivity() {
 //        dialog.show()
 
 
-
     }
 
-     fun changeFragment(fragment:Fragment) {
-        fragmentManager
+    fun changeFragment(fragment: Fragment, isReplace: Boolean = true) {
+        val transaction = fragmentManager
             .beginTransaction()
             .addToBackStack(null)
-            .replace(mainFrameLayout.id,fragment)
-            .commit()
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+
+        if (isReplace)
+            transaction.replace(mainFrameLayout.id, fragment).commit()
+        else
+            transaction.add(mainFrameLayout.id, fragment).commit()
+
+
     }
 
-    fun finishFragment(){
+    fun finishFragment() {
         fragmentManager.popBackStack()
     }
 
     override fun onBackPressed() {
-        if (fragmentManager.backStackEntryCount>1)
+        if (fragmentManager.backStackEntryCount > 1)
             fragmentManager.popBackStack()
         else
             finish()
     }
 
+
     override fun onDestroy() {
         super.onDestroy()
         RoomsIntractor().closeServer()
+
     }
 
 

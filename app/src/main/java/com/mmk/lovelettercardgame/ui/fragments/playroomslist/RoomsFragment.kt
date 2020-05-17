@@ -3,6 +3,7 @@ package com.mmk.lovelettercardgame.ui.fragments.playroomslist
 
 import android.app.Activity
 import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -31,6 +32,7 @@ class RoomsFragment : Fragment(),
     companion object{
         val ARGUMEN_ROOM_ITEM="ARGUMENT_ROOM_ITEM"
     }
+    private var backgroundMusicPlayer: MediaPlayer?= null
 
     private lateinit var mPresenter: RoomsContractor.Presenter
     private lateinit var roomsRecyclerView:RecyclerView
@@ -61,10 +63,29 @@ class RoomsFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
         RoomsPresenter(this)
         mPresenter.getRoomList()
+
+        backgroundMusicPlayer= MediaPlayer.create(context,R.raw.bg_menu_music)
+        backgroundMusicPlayer?.isLooping=true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        backgroundMusicPlayer?.pause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        backgroundMusicPlayer?.start()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        backgroundMusicPlayer?.stop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        backgroundMusicPlayer?.stop()
 
     }
 

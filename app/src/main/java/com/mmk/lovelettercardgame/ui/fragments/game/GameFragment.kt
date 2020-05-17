@@ -25,6 +25,7 @@ import com.mmk.lovelettercardgame.ui.dialogs.joinroom.JoinRoomDialog
 import com.mmk.lovelettercardgame.ui.dialogs.otherplayercard.OtherPlayerCardDialog
 import com.mmk.lovelettercardgame.ui.dialogs.playedcard.PlayedCardDialog
 import com.mmk.lovelettercardgame.ui.dialogs.swapcards.SwapCardsDialog
+import com.mmk.lovelettercardgame.ui.fragments.menu.MenuFragment
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
 import com.mmk.lovelettercardgame.utils.*
 import com.mmk.lovelettercardgame.utils.animations.CardAnimations
@@ -40,7 +41,7 @@ import java.util.concurrent.locks.ReentrantLock
 /**
  * A simple [Fragment] subclass.
  */
-class GameFragment : Fragment(), GameContractor.View {
+class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
 
     private var backgroundMusicPlayer: MediaPlayer?= null
 
@@ -66,20 +67,15 @@ class GameFragment : Fragment(), GameContractor.View {
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = container?.inflate(R.layout.fragment_game)
-        return view
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         println("RoomItem $roomItem")
 
         initView()
+        backgroundMusicPlayer=MediaPlayer.create(context,R.raw.bg_game_music)
+        backgroundMusicPlayer?.isLooping=true
         setClicks()
 
         mPresenter.getPlayers(roomItem)
@@ -88,7 +84,7 @@ class GameFragment : Fragment(), GameContractor.View {
 
 
 //
-        if (roomItem != null) {
+        if (roomItem != null && myPlayer==null) {
             joinRoomDialog =
                 JoinRoomDialog(getActivityOfActivity(), roomItem?.id!!) { joinedPlayer ->
                     //Player is Joined
@@ -110,18 +106,27 @@ class GameFragment : Fragment(), GameContractor.View {
         backgroundMusicPlayer?.start()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        isViewStopped = true
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        mPresenter.closeServer()
         backgroundMusicPlayer?.stop()
+
     }
+
+
+
+
 
 
 
     private fun initView() {
 
-        backgroundMusicPlayer=MediaPlayer.create(context,R.raw.bg_game_music)
-        backgroundMusicPlayer?.isLooping=true
-        backgroundMusicPlayer?.start()
+
 
 
         isViewStopped = false
@@ -141,6 +146,8 @@ class GameFragment : Fragment(), GameContractor.View {
                 )
             })
         }
+
+
 
 
         image_view_game_player_card_1.setOnLongClickListener(CardMoveListener { cardPOJO, targetPlayerId ->
@@ -181,6 +188,11 @@ class GameFragment : Fragment(), GameContractor.View {
             cardItemClicked(
                 image_view_game_player_card_2
             )
+        }
+
+        image_view_game_options.setOnClickListener {
+            val hostActivity=getActivityOfActivity() as MainActivity
+            hostActivity.changeFragment(MenuFragment(true),false)
         }
 
 
@@ -232,7 +244,7 @@ class GameFragment : Fragment(), GameContractor.View {
             if (!isInGame) {
                 val userBoxView = layout_game_fragment_container.findViewWithTag<View>(player.id)
                 userBoxView.alpha = 0.5f
-                userBoxView.image_view_userBox_card_1.visibility = View.GONE
+                userBoxView.image_view_userBox_card_1.visibility = View.INVISIBLE
             }
 
         }
@@ -295,11 +307,7 @@ class GameFragment : Fragment(), GameContractor.View {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        isViewStopped = true
-        mPresenter.closeServer()
-    }
+
 
 
     override  fun giveCardToPlayer(givenPlayerId: String?):Unit {
@@ -409,7 +417,7 @@ class GameFragment : Fragment(), GameContractor.View {
 
     override fun myCardsUpdated(cards: List<CardPojo>) {
         if (cards.isEmpty()){
-            image_view_game_player_card_1.visibility=View.GONE
+            image_view_game_player_card_1.visibility=View.INVISIBLE
             image_view_game_player_card_2.visibility=View.GONE
         }
         if (cards.size == 1) {
@@ -465,14 +473,14 @@ class GameFragment : Fragment(), GameContractor.View {
 
     private fun hideAllCards() {
         userBoxList.forEach {
-            it.image_view_userBox_card_1.visibility=View.GONE
+            it.image_view_userBox_card_1.visibility=View.INVISIBLE
             it.image_view_userBox_card_2.visibility=View.GONE
             it.image_view_userBox_card_1.translationX=0f
             it.image_view_userBox_card_2.translationX=0f
             it.image_view_userBox_card_1.rotation=0f
             it.image_view_userBox_card_2.rotation=0f
         }
-        image_view_game_player_card_1.visibility=View.GONE
+        image_view_game_player_card_1.visibility=View.INVISIBLE
         image_view_game_player_card_2.visibility=View.GONE
         image_view_game_player_card_1.translationX=0f
         image_view_game_player_card_1.rotation=0f
