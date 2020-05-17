@@ -103,6 +103,7 @@ class RoomsIntractor {
 
     fun getMyCards(listener: Emitter.Listener) {
         mSocket?.on(EVENT_MY_CARDS, listener)
+
     }
 
     fun listenActivePlayers(listener: Emitter.Listener) {
@@ -157,6 +158,7 @@ class RoomsIntractor {
     fun listenForGameFinished(listener: Emitter.Listener){
         mSocket?.on(EVENT_GAME_FINISHED,listener)
     }
+
 
 
     fun closeServer() {

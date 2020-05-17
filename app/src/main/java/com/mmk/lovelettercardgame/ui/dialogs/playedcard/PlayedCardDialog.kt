@@ -35,9 +35,9 @@ class PlayedCardDialog(private val activity: Activity?, private val cardType:Int
     }
 
     fun show(){
-        dialog.window?.attributes?.windowAnimations=R.style.CardInfoDialogAnimation
+        dialog.window?.attributes?.windowAnimations=R.style.CardPlayedDialogAnimation
         dialog.show()
-       android.os.Handler().postDelayed({dialog.dismiss()},2000)
+       android.os.Handler().postDelayed({dialog.dismiss()},2500)
     }
 
 

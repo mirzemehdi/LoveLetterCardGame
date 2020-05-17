@@ -18,4 +18,9 @@
         <item name="android:windowExitAnimation">@anim/slide_right</item>
     </style>
 
+    <style name="CardPlayedDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/zoom_in</item>
+        <item name="android:windowExitAnimation">@anim/zoom_out</item>
+    </style>
+
 </resources>

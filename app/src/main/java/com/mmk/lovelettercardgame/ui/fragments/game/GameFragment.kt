@@ -3,6 +3,7 @@ package com.mmk.lovelettercardgame.ui.fragments.game
 
 import android.app.Activity
 import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -28,6 +29,7 @@ import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
 import com.mmk.lovelettercardgame.utils.*
 import com.mmk.lovelettercardgame.utils.animations.CardAnimations
 import com.mmk.lovelettercardgame.utils.helpers.CardsHolder
+import com.mmk.lovelettercardgame.utils.helpers.Helper
 import kotlinx.android.synthetic.main.fragment_game.*
 import kotlinx.android.synthetic.main.user_box_view.view.*
 import java.util.*
@@ -39,6 +41,8 @@ import java.util.concurrent.locks.ReentrantLock
  * A simple [Fragment] subclass.
  */
 class GameFragment : Fragment(), GameContractor.View {
+
+    private var backgroundMusicPlayer: MediaPlayer?= null
 
     private var isViewStopped = false
     private lateinit var mPresenter: GameContractor.Presenter
@@ -96,9 +100,30 @@ class GameFragment : Fragment(), GameContractor.View {
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        backgroundMusicPlayer?.pause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        backgroundMusicPlayer?.start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        backgroundMusicPlayer?.stop()
+    }
+
 
 
     private fun initView() {
+
+        backgroundMusicPlayer=MediaPlayer.create(context,R.raw.bg_game_music)
+        backgroundMusicPlayer?.isLooping=true
+        backgroundMusicPlayer?.start()
+
+
         isViewStopped = false
         userBoxList.add(layout_game_player_1)
         userBoxList.add(layout_game_player_2)
@@ -225,7 +250,7 @@ class GameFragment : Fragment(), GameContractor.View {
             tag = playerPOJO.id
             val playerNameTextView = userBoxView.textView_userBox_playerName
             playerNameTextView.text = playerPOJO.name
-            if (playerPOJO == myPlayer) playerNameTextView.text = getString(R.string.text_you)
+            if (playerPOJO.id == myPlayer?.id) playerNameTextView.text = getString(R.string.text_you)
             image_view_userBox_card_1.apply {
                 rotation = 0f
                 translationX = 0f
@@ -432,7 +457,10 @@ class GameFragment : Fragment(), GameContractor.View {
     override fun roundFinished(playerPOJO: PlayerPOJO) {
 
         hideAllCards()
-        getContextOfActivity()?.toast("Round Finished: Winner: ${playerPOJO.name}")
+        Helper.showDialog(getContextOfActivity(),
+            getContextOfActivity()?.getString(R.string.round_finished_dialog_title),
+        getContextOfActivity()?.getString(R.string.round_finished_dialog_message,playerPOJO.name))
+
     }
 
     private fun hideAllCards() {
@@ -453,7 +481,10 @@ class GameFragment : Fragment(), GameContractor.View {
     }
 
     override fun gameFinished(playerPOJO: PlayerPOJO) {
-        getContextOfActivity()?.toast("Game Finished: Winner: ${playerPOJO.name}")
+        hideAllCards()
+        Helper.showDialog(getContextOfActivity(),
+            getContextOfActivity()?.getString(R.string.game_finished_dialog_title),
+            getContextOfActivity()?.getString(R.string.game_finished_dialog_message,playerPOJO.name))
 
     }
 

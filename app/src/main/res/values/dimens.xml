@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="user_layout_width">180dp</dimen>
-    <dimen name="user_layout_height">210dp</dimen>
+    <dimen name="user_layout_height">200dp</dimen>
 
     <dimen name="player_card_width">130dp</dimen>
     <dimen name="player_card_height">170dp</dimen>

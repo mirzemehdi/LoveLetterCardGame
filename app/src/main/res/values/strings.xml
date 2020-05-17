@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Love Letter Card Game</string>
+    <string name="app_name">Love Letter</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -40,4 +40,9 @@
     <string name="settings">Settings</string>
     <string name="exit">Exit</string>
     <string name="toast_warning_all_players_protected_play_other">Play your other card. All players are protected</string>
+    <string name="ok">Ok,great</string>
+    <string name="round_finished_dialog_title">Round finished</string>
+    <string name="round_finished_dialog_message">Winner: %s</string>
+    <string name="game_finished_dialog_title">Game finished</string>
+    <string name="game_finished_dialog_message">%s\'s love letter delivered to princess.\n Congratulations</string>
 </resources>
