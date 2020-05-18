@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Love Letter</string>
+    <!-- <string name="app_name">Sevgi Məktubu</string> -->
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Bonjour fragment vierge</string>
+    <string name="rooms_title_fragment_rooms">Pièces</string>
+    \<string name="rooms_nb_players_slash_max_players">%d/%d</string>
+    <string name="rooms_members_name">Membres: %s</string>
+    <string name="hint_text_view_room_name">Nom de la salle</string>
+    <string name="text_view_add_room_title">Ajouter une nouvelle pièce</string>
+    <string name="text_view_add_room_max_players">Le maximum de joueurs:</string>
+    <string name="radio_button_add_room_2">2</string>
+    <string name="radio_button_add_room_3">3</string>
+    <string name="radio_button_add_room_4">4</string>
+    <string name="button_add_room_text">Créer une chambre</string>
+    <string name="toast_error_server">Il y a un problème lors de la récupération des données</string>
+    <string name="toast_room_added_successfully">Nouvelle salle ajoutée avec succès</string>
+    <string name="toast_error_add_room">Impossible de créer une nouvelle pièce</string>
+    <string name="waiting_players_text">En attendant tous les joueurs ...</string>
+    <string name="text_you">Vous</string>
+    <string name="button_join_room_text">Joindre</string>
+    <string name="hint_text_view_join_room_player_name">Votre Nom</string>
+    <string name="text_view_join_room_title">Rejoindre la salle</string>
+    <string name="toast_error_join_room">Il y a un problème en rejoignant la salle</string>
+    <string name="text_select_guard_target">Sélectionnez la cible de garde</string>
+    <string name="toast_error_my_cards">Il y a un problème lors de l\'obtention de vos cartes</string>
+    <string name="toast_error_turn">Erreur de tour de joueur</string>
+    <string name="toast_warning_handmaid_protect_other">Vous ne pouvez que vous protéger</string>
+    <string name="toast_warning_not_turn">Ce n\'est pas ton tour</string>
+    <string name="toast_player_protected">Le joueur est protégé</string>
+    <string name="other_player_card">Carte de %s</string>
+    <string name="toast_can_not_play_yourself">Vous ne pouvez pas jouer cette carte vous-même</string>
+    <string name="toast_player_out_of_round">Le joueur est hors tour</string>
+    <string name="toast_warning_player_out_of_round">Le joueur est hors tour</string>
+    <string name="toast_warning_discard_countess">Vous devez défausser la comtesse lorsque vous avez un roi ou un prix</string>
+    <string name="toast_warning_all_players_protected">Tous les joueurs sont protégés. Votre carte sera défaussée sans aucun effet</string>
+    <string name="menu">Menu</string>
+    <string name="play">Jouer</string>
+    <string name="profile">Profil</string>
+    <string name="settings">Réglages</string>
+    <string name="exit">Sortie</string>
+    <string name="toast_warning_all_players_protected_play_other">Jouez votre autre carte. Tous les joueurs sont protégés</string>
+    <string name="ok">OK, super</string>
+    <string name="round_finished_dialog_title">Fin du tour</string>
+    <string name="round_finished_dialog_message">Gagnant(e): %s</string>
+    <string name="game_finished_dialog_title">Jeu terminé</string>
+    <string name="game_finished_dialog_message">%s\'s lettre d\'amour livrée à la princesse. \n Félicitations</string>
+    <string name="resume">Reprendre</string>
+    <string name="how_to_play_text">Comment Jouer</string>
+</resources>
