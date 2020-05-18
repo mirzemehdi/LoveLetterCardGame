@@ -383,9 +383,17 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
                 val responseCardPriest =
                     Gson().fromJson(data.toString(), ResponsePriestPOJO::class.java)
                 if (responseCardPriest.status == 200) {
-                    val playerId = responseCardPriest.data.targetPlayerId
-                    val cardType = responseCardPriest.data.cards[0].power
-                    Handler().postDelayed({mView.lookOtherPlayerCard(playerId, cardType)},2000)
+
+                    if(responseCardPriest.data.cards!=null) {
+                        val playerId = responseCardPriest.data.targetPlayerId
+                        val cardType = responseCardPriest.data.cards[0].power
+                        Handler().postDelayed(
+                            { mView.lookOtherPlayerCard(playerId, cardType) },
+                            2000
+
+                        //0554446968
+                        )
+                    }
 
                 } else
                     mView.showMessage(

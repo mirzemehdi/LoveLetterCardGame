@@ -24,7 +24,7 @@ class ResponsePriestPOJO(
 
         @Expose
         @SerializedName("cardResponseResult")
-        val cards:List<CardPojo>
+        val cards:List<CardPojo>?
 
     )
 }

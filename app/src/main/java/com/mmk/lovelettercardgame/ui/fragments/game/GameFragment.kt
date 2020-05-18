@@ -267,7 +267,10 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
                 rotation = 0f
                 translationX = 0f
             }
-            image_view_userBox_card_2.visibility = View.GONE
+
+            if (playerPOJO.cardsCount!=2)
+                image_view_userBox_card_2.visibility = View.GONE
+
 
             val discardedCardTypes = playerPOJO.discardedCards.map { card ->
                 card.power

@@ -38,7 +38,8 @@ object CardsHolder {
         val currentCardsCount = cardsHolderView.childCount
         cardsHolderView.removeAllViews()
 
-        cardTypes.asReversed().forEach {
+
+        cardTypes.forEach {
             addCard(cardsHolderView, it, context)
         }
         if (cardTypes.size > currentCardsCount) {

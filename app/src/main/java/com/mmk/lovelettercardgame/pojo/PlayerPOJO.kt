@@ -25,11 +25,11 @@ data class PlayerPOJO (
     var cards:List<CardPojo> = listOf(),
     @Expose
     @SerializedName("discardedCards")
-    var discardedCards:List<CardPojo> = listOf()
-
+    var discardedCards:List<CardPojo> = listOf(),
+    var cardsCount:Int=0
 
 ):Serializable {
 
-    var cardsCount=0
+
 
 }
