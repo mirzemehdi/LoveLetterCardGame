@@ -14,8 +14,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b5ed00ec-4580-4a1d-943b-55462acebf7f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/intractor/RoomsIntractor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/intractor/RoomsIntractor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/game/GameContractor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/game/GameContractor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/game/GameFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/game/GameFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/game/GamePresenter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/game/GamePresenter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/utils/helpers/CardsHolder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/utils/helpers/CardsHolder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-b+az/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-b+az/strings.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,7 +33,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="6f54783e0212" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_28" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -90,10 +100,10 @@
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
+      <recent name="$PROJECT_DIR$/app/src/main/res" />
       <recent name="$PROJECT_DIR$/app/src/main/res/raw" />
       <recent name="$PROJECT_DIR$/app/src/main/res/anim" />
       <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
-      <recent name="$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.mmk.lovelettercardgame.ui.activities.register" />
@@ -222,7 +232,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/mmk/lovelettercardgame/ui/fragments/game/GameFragment.kt</url>
-          <line>319</line>
+          <line>323</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>

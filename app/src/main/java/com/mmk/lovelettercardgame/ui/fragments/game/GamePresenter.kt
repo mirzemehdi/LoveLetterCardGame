@@ -281,18 +281,18 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
                 val data = args[0] as JSONObject
                 println("Response PlayerLost $data")
 
-//                val responsePlayerTurn =
-//                    Gson().fromJson(data.toString(), ResponsePlayerTurn::class.java)
+                val responsePlayerLost =
+                    Gson().fromJson(data.toString(), RoundFinishedPOJO::class.java)
 //
-//                if (responsePlayerTurn.status == 200) {
-//                    mView.makeTurnOfPlayer(responsePlayerTurn.playerId)
-//                    mView.giveCardToPlayer(responsePlayerTurn.playerId)
-//
-//                } else
-//                    mView.showMessage(
-//                        mView.getContextOfActivity()
-//                            ?.getString(R.string.toast_error_turn), Constants.MessageType.TYPE_ERROR
-//                    )
+                if (responsePlayerLost.status == 200) {
+
+                    mView.addToDiscardedCard(responsePlayerLost.data.id,re)
+
+                } else
+                    mView.showMessage(
+                        mView.getContextOfActivity()
+                            ?.getString(R.string.toast_error_turn), Constants.MessageType.TYPE_ERROR
+                    )
 
             }
         }

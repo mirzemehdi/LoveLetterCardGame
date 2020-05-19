@@ -25,7 +25,7 @@ class RoomsIntractor {
     private val EVENT_PLAYER_TURN = "move-order"
     private val EVENT_PLAY_CARD = "make-turn"
     private val EVENT_PLAY_CARD_RESPONSE = "turn-result"
-    private val EVENT_PLAYER_LOST = "player-lost"
+    private val EVENT_PLAYER_LOST = "lose"
     private val EVENT_CARD_PRIEST = "card-priest"
     private val EVENT_CARD_KING = "card-king"
     private val EVENT_CARD_PRINCE = "card-prince"

@@ -292,6 +292,10 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
 
     }
 
+    override fun setDiscardedCards(playerPOJO: PlayerPOJO, discardedCards: List<Int>) {
+
+    }
+
     override fun saveMyOwnPlayer(playerPOJO: PlayerPOJO) {
         myPlayer = playerPOJO
     }
@@ -543,7 +547,6 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
         val discardedCardsLayout = userBoxView.frame_layout_user_box_player_cards
         CardsHolder.addCard(discardedCardsLayout, cardType, getContextOfActivity())
         if (playerId != myPlayer?.id) {
-
             if (userBoxView.image_view_userBox_card_2.visibility != View.VISIBLE)
                 userBoxView.image_view_userBox_card_1.visibility = View.GONE
             else

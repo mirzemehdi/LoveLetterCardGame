@@ -21,6 +21,7 @@ interface GameContractor {
         fun myCardsUpdated(cards:List<CardPojo>)
         fun swapCards(firstPlayerId:String,secondPlayerId:String?)
         fun addToDiscardedCard(playerId:String,cardType:Int)
+        fun setDiscardedCards(playerPOJO: PlayerPOJO,discardedCards:List<Int>)
         fun onCardPlayed(cardPojo: CardPojo,targetPlayerId: String?)
         fun playersStateUpdated(players: List<PlayerPOJO>)
         fun lookOtherPlayerCard(playerId: String,cardType: Int)

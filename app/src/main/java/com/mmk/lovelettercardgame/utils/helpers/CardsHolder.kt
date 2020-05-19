@@ -36,8 +36,8 @@ object CardsHolder {
 
     fun setCardList(cardsHolderView: FrameLayout, cardTypes: List<Int>, context: Context?) {
         val currentCardsCount = cardsHolderView.childCount
+        if (cardTypes.size<=currentCardsCount) return
         cardsHolderView.removeAllViews()
-
 
         cardTypes.forEach {
             addCard(cardsHolderView, it, context)
@@ -46,7 +46,6 @@ object CardsHolder {
             val cardImage = cardsHolderView[currentCardsCount] as ImageView
             val zoomAnimation = AnimationUtils.loadAnimation(context, R.anim.zoom)
             cardImage.startAnimation(zoomAnimation)
-
 
         }
     }

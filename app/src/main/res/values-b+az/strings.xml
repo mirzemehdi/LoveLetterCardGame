@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Love Letter</string>
     <!-- <string name="app_name">Lettre d'amour</string> -->
-
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Salam boş fraqment</string>
     <string name="rooms_title_fragment_rooms">Otaqlar</string>
