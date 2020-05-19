@@ -66,6 +66,11 @@ class RoomsFragment : Fragment(),
 
         backgroundMusicPlayer= MediaPlayer.create(context,R.raw.bg_menu_music)
         backgroundMusicPlayer?.isLooping=true
+        fragmentManager?.addOnBackStackChangedListener {
+            println("backstack called")
+            val volume=Constants.getVolume(Constants.CURRENT_VOLUME_MUSIC)
+            backgroundMusicPlayer?.setVolume(volume,volume)
+        }
     }
 
     override fun onPause() {

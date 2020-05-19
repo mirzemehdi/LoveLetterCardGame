@@ -43,7 +43,7 @@ import java.util.concurrent.locks.ReentrantLock
  */
 class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
 
-    private var backgroundMusicPlayer: MediaPlayer?= null
+    private var backgroundMusicPlayer: MediaPlayer? = null
 
     private var isViewStopped = false
     private lateinit var mPresenter: GameContractor.Presenter
@@ -64,9 +64,8 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
         roomItem = arguments?.getSerializable(RoomsFragment.ARGUMEN_ROOM_ITEM) as RoomPOJO?
 
 
+
     }
-
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,8 +73,14 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
         println("RoomItem $roomItem")
 
         initView()
-        backgroundMusicPlayer=MediaPlayer.create(context,R.raw.bg_game_music)
-        backgroundMusicPlayer?.isLooping=true
+        backgroundMusicPlayer = MediaPlayer.create(context, R.raw.bg_game_music)
+        backgroundMusicPlayer?.isLooping = true
+        fragmentManager?.addOnBackStackChangedListener {
+            println("backstack called")
+            val volume=Constants.getVolume(Constants.CURRENT_VOLUME_MUSIC)
+            backgroundMusicPlayer?.setVolume(volume,volume)
+        }
+
         setClicks()
 
         mPresenter.getPlayers(roomItem)
@@ -84,7 +89,7 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
 
 
 //
-        if (roomItem != null && myPlayer==null) {
+        if (roomItem != null && myPlayer == null) {
             joinRoomDialog =
                 JoinRoomDialog(getActivityOfActivity(), roomItem?.id!!) { joinedPlayer ->
                     //Player is Joined
@@ -106,6 +111,8 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
         backgroundMusicPlayer?.start()
     }
 
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         isViewStopped = true
@@ -121,12 +128,7 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
 
 
 
-
-
-
     private fun initView() {
-
-
 
 
         isViewStopped = false
@@ -191,8 +193,8 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
         }
 
         image_view_game_options.setOnClickListener {
-            val hostActivity=getActivityOfActivity() as MainActivity
-            hostActivity.changeFragment(MenuFragment(true),false)
+            val hostActivity = getActivityOfActivity() as MainActivity
+            hostActivity.changeFragment(MenuFragment(true), false)
         }
 
 
@@ -251,7 +253,7 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
     }
 
     private fun initUserBoxView(userBoxView: View, playerPOJO: PlayerPOJO) {
-        val tokensNumber=when(roomItem?.maxNbPlayers){
+        val tokensNumber = when (roomItem?.maxNbPlayers) {
             2 -> 7
             3 -> 5
             4 -> 4
@@ -262,42 +264,51 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
             tag = playerPOJO.id
             val playerNameTextView = userBoxView.textView_userBox_playerName
             playerNameTextView.text = playerPOJO.name
-            if (playerPOJO.id == myPlayer?.id) playerNameTextView.text = getString(R.string.text_you)
+            if (playerPOJO.id == myPlayer?.id) playerNameTextView.text =
+                getString(R.string.text_you)
             image_view_userBox_card_1.apply {
                 rotation = 0f
                 translationX = 0f
             }
 
-            if (playerPOJO.cardsCount!=2)
+            if (playerPOJO.cardsCount != 2)
                 image_view_userBox_card_2.visibility = View.GONE
 
 
-            val discardedCardTypes = playerPOJO.discardedCards.map { card ->
-                card.power
-            }
-            println("Discarded Card Types: $discardedCardTypes")
-            CardsHolder.setCardList(
-                frame_layout_user_box_player_cards,
-                discardedCardTypes,
-                getContextOfActivity()
-            )
+
             userBoxView.alpha = 1f
-            for (i in 0 until tokensNumber){
-                val imageView:ImageView=linearLayout_userBox_tokensView[i] as ImageView
-                imageView.visibility=View.VISIBLE
-                if (i<playerPOJO.points.toInt()) imageView.setImageResource(R.drawable.ic_heart_fill)
+            for (i in 0 until tokensNumber) {
+                val imageView: ImageView = linearLayout_userBox_tokensView[i] as ImageView
+                imageView.visibility = View.VISIBLE
+                if (i < playerPOJO.points.toInt()) imageView.setImageResource(R.drawable.ic_heart_fill)
                 else imageView.setImageResource(R.drawable.ic_heart)
             }
         }
+        setDiscardedCards(playerPOJO)
 
     }
 
-    override fun setDiscardedCards(playerPOJO: PlayerPOJO, discardedCards: List<Int>) {
+    override fun setDiscardedCards(playerPOJO: PlayerPOJO) {
 
+        val discardedCardTypes = playerPOJO.discardedCards.map { card ->
+            card.power
+        }
+        println("Discarded Card Types: $discardedCardTypes")
+        val userBoxView = layout_game_fragment_container.findViewWithTag<View>(playerPOJO.id)
+
+
+        CardsHolder.setCardList(
+            userBoxView.frame_layout_user_box_player_cards,
+            discardedCardTypes,
+            getContextOfActivity()
+        )
     }
 
     override fun saveMyOwnPlayer(playerPOJO: PlayerPOJO) {
         myPlayer = playerPOJO
+
+
+
     }
 
     override fun giveCardToAllPlayers(players: List<PlayerPOJO>?) {
@@ -306,7 +317,7 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
             val duration = CardAnimations.DURATION_ARRANGE_CARDS_ANIMATION +
                     CardAnimations.DURATION_DEAL_CARD_ANIMATION
 
-          //  cardWaitingPlayers.add(playerPOJO.id)
+            //  cardWaitingPlayers.add(playerPOJO.id)
             giveCardToPlayer(playerPOJO.id)
 
         }
@@ -315,9 +326,7 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
     }
 
 
-
-
-    override  fun giveCardToPlayer(givenPlayerId: String?):Unit {
+    override fun giveCardToPlayer(givenPlayerId: String?): Unit {
 
 
         if (givenPlayerId != null) {
@@ -423,9 +432,9 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
     }
 
     override fun myCardsUpdated(cards: List<CardPojo>) {
-        if (cards.isEmpty()){
-            image_view_game_player_card_1.visibility=View.INVISIBLE
-            image_view_game_player_card_2.visibility=View.GONE
+        if (cards.isEmpty()) {
+            image_view_game_player_card_1.visibility = View.INVISIBLE
+            image_view_game_player_card_2.visibility = View.GONE
         }
         if (cards.size == 1) {
 
@@ -464,7 +473,7 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
         val playerName = mPlayers?.find { it.id == playerId }?.name ?: ""
         val targetPlayerName = mPlayers?.find { it.id == targetPlayerId }?.name ?: ""
 
-        PlayedCardDialog(getActivityOfActivity(),cardType,playerName,targetPlayerName)
+        PlayedCardDialog(getActivityOfActivity(), cardType, playerName, targetPlayerName)
             .show()
 
     }
@@ -472,46 +481,56 @@ class GameFragment : Fragment(R.layout.fragment_game), GameContractor.View {
     override fun roundFinished(playerPOJO: PlayerPOJO) {
 
         hideAllCards()
-        Helper.showDialog(getContextOfActivity(),
+        Helper.showDialog(
+            getContextOfActivity(),
             getContextOfActivity()?.getString(R.string.round_finished_dialog_title),
-        getContextOfActivity()?.getString(R.string.round_finished_dialog_message,playerPOJO.name))
+            getContextOfActivity()?.getString(
+                R.string.round_finished_dialog_message,
+                playerPOJO.name
+            )
+        )
 
     }
 
     private fun hideAllCards() {
         userBoxList.forEach {
-            it.image_view_userBox_card_1.visibility=View.INVISIBLE
-            it.image_view_userBox_card_2.visibility=View.GONE
-            it.image_view_userBox_card_1.translationX=0f
-            it.image_view_userBox_card_2.translationX=0f
-            it.image_view_userBox_card_1.rotation=0f
-            it.image_view_userBox_card_2.rotation=0f
+            it.image_view_userBox_card_1.visibility = View.INVISIBLE
+            it.image_view_userBox_card_2.visibility = View.GONE
+            it.image_view_userBox_card_1.translationX = 0f
+            it.image_view_userBox_card_2.translationX = 0f
+            it.image_view_userBox_card_1.rotation = 0f
+            it.image_view_userBox_card_2.rotation = 0f
         }
-        image_view_game_player_card_1.visibility=View.INVISIBLE
-        image_view_game_player_card_2.visibility=View.GONE
-        image_view_game_player_card_1.translationX=0f
-        image_view_game_player_card_1.rotation=0f
-        image_view_game_player_card_2.translationX=0f
-        image_view_game_player_card_2.rotation=0f
+        image_view_game_player_card_1.visibility = View.INVISIBLE
+        image_view_game_player_card_2.visibility = View.GONE
+        image_view_game_player_card_1.translationX = 0f
+        image_view_game_player_card_1.rotation = 0f
+        image_view_game_player_card_2.translationX = 0f
+        image_view_game_player_card_2.rotation = 0f
     }
 
     override fun gameFinished(playerPOJO: PlayerPOJO) {
         hideAllCards()
-        Helper.showDialog(getContextOfActivity(),
+        Helper.showDialog(
+            getContextOfActivity(),
             getContextOfActivity()?.getString(R.string.game_finished_dialog_title),
-            getContextOfActivity()?.getString(R.string.game_finished_dialog_message,playerPOJO.name))
+            getContextOfActivity()?.getString(
+                R.string.game_finished_dialog_message,
+                playerPOJO.name
+            )
+        )
 
     }
 
     override fun swapCards(firstPlayerId: String, secondPlayerId: String?) {
         if (isViewStopped) return
-        if (secondPlayerId==null) return
+        if (secondPlayerId == null) return
         val firstPlayerUserBoxView =
             layout_game_fragment_container.findViewWithTag<View>(firstPlayerId)
         val secondPlayerUserBoxView =
             layout_game_fragment_container.findViewWithTag<View>(secondPlayerId)
 
-        if (firstPlayerUserBoxView==null || secondPlayerUserBoxView==null) return
+        if (firstPlayerUserBoxView == null || secondPlayerUserBoxView == null) return
 
         val firstCard: ImageView
         val secondCard: ImageView

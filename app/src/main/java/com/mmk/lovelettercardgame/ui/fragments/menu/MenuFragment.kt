@@ -7,6 +7,7 @@ import android.view.View
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.ui.activities.main.MainActivity
 import com.mmk.lovelettercardgame.ui.fragments.playroomslist.RoomsFragment
+import com.mmk.lovelettercardgame.ui.fragments.settings.SettingsFragment
 import com.mmk.lovelettercardgame.utils.helpers.Helper
 import kotlinx.android.synthetic.main.fragment_menu.*
 
@@ -41,9 +42,9 @@ class MenuFragment(val isCalledFromGame:Boolean=false) : Fragment(R.layout.fragm
             Helper.makeClickSound(hostActivity)
             hostActivity.finish()
         }
-        text_view_menu_profile.setOnClickListener {
+        text_view_menu_settings.setOnClickListener {
             Helper.makeClickSound(hostActivity)
-
+            hostActivity.changeFragment(SettingsFragment(),!isCalledFromGame)
 
         }
         text_view_menu_how_to_play.setOnClickListener {
@@ -52,6 +53,7 @@ class MenuFragment(val isCalledFromGame:Boolean=false) : Fragment(R.layout.fragm
         }
 
         text_view_menu_resume.setOnClickListener {
+            Helper.makeClickSound(hostActivity)
             (activity as MainActivity).finishFragment()
         }
     }

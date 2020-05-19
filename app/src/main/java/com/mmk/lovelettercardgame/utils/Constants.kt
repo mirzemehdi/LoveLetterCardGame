@@ -1,5 +1,7 @@
 package com.mmk.lovelettercardgame.utils
 
+import kotlin.math.ln
+
 class Constants {
     companion object {
         const val PREF_USER_EXIST = "userExist"
@@ -13,7 +15,17 @@ class Constants {
         const val CODE_ALL_PLAYERS_PROTECTED = 303
         const val CODE_PLAY_OTHER_CARD = 309
 
+        const val MAX_VOLUME_MUSIC = 100
+        var CURRENT_VOLUME_MUSIC = 100
 
+
+        fun getVolume(soundVolume: Int):Float {
+
+            val volume: Float =
+                (1 - (ln(MAX_VOLUME_MUSIC - soundVolume.toDouble()) / ln(MAX_VOLUME_MUSIC.toDouble()))).toFloat()
+            println("Volume: $volume")
+            return volume
+        }
     }
 
     enum class MessageType {
@@ -24,4 +36,6 @@ class Constants {
     }
 
 
+
 }
+

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.desarrollodroide.libraryfragmenttransactionextended.FragmentTransactionExtended
 import com.mmk.lovelettercardgame.R
 import com.mmk.lovelettercardgame.intractor.RoomsIntractor
 import com.mmk.lovelettercardgame.ui.fragments.game.GameFragment
@@ -57,12 +58,13 @@ class MainActivity : AppCompatActivity() {
     fun changeFragment(fragment: Fragment, isReplace: Boolean = true) {
         val transaction = fragmentManager
             .beginTransaction()
+            .setCustomAnimations(R.anim.fragment_in,R.anim.fragment_out)
             .addToBackStack(null)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 
         if (isReplace)
             transaction.replace(mainFrameLayout.id, fragment).commit()
         else
+
             transaction.add(mainFrameLayout.id, fragment).commit()
 
 

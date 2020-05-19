@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#2196F3</color>
+    <color name="colorPrimary">#F31E1E</color>
+    <color name="colorPrimaryDark">#950202</color>
+    <color name="colorAccent">#E30654</color>
 
     <color name="colorRoomName">#131313</color>
     <color name="colorRoomPersonNumber">#262626</color>

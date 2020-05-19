@@ -286,7 +286,7 @@ class GamePresenter(private val mView: GameContractor.View) : GameContractor.Pre
 //
                 if (responsePlayerLost.status == 200) {
 
-                    mView.addToDiscardedCard(responsePlayerLost.data.id,re)
+                    mView.setDiscardedCards(responsePlayerLost.data)
 
                 } else
                     mView.showMessage(
