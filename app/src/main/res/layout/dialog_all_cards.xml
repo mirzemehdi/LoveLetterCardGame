@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp">
+
+
+    <TextView
+        android:id="@+id/text_view_dialog_all_cards_guard_card_title"
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorRoomName"
+        android:fontFamily="@font/tthoves_bold"
+        android:textSize="24sp"
+        android:text="@string/text_select_guard_target"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/image_view_all_cards_handmaid"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        android:tag="4"
+        android:src="@drawable/card_handmaid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/image_view_all_cards_baron"
+        app:layout_constraintTop_toBottomOf="@id/text_view_dialog_all_cards_guard_card_title">
+
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/image_view_all_cards_baron"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:tag="3"
+        android:src="@drawable/card_baron"
+        app:layout_constraintEnd_toStartOf="@+id/image_view_all_cards_handmaid"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/image_view_all_cards_priest"
+        app:layout_constraintTop_toTopOf="@+id/image_view_all_cards_handmaid">
+
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/image_view_all_cards_priest"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:tag="2"
+        android:src="@drawable/card_priest"
+        app:layout_constraintEnd_toStartOf="@+id/image_view_all_cards_baron"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/image_view_all_cards_baron">
+
+    </ImageView>
+
+
+    <ImageView
+        android:id="@+id/image_view_all_cards_countess"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        android:tag="7"
+        android:src="@drawable/card_countess"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/image_view_all_cards_king"
+        app:layout_constraintTop_toBottomOf="@+id/image_view_all_cards_handmaid">
+
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/image_view_all_cards_king"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:tag="6"
+        android:src="@drawable/card_king"
+        app:layout_constraintEnd_toStartOf="@+id/image_view_all_cards_countess"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/image_view_all_cards_prince"
+        app:layout_constraintTop_toTopOf="@+id/image_view_all_cards_countess">
+
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/image_view_all_cards_prince"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:tag="5"
+        android:src="@drawable/card_prince"
+        app:layout_constraintEnd_toStartOf="@+id/image_view_all_cards_king"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/image_view_all_cards_priest"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/image_view_all_cards_king">
+
+    </ImageView>
+
+
+
+
+    <ImageView
+        android:id="@+id/image_view_all_cards_princess"
+        android:layout_width="@dimen/card_width_all_cards_dialog"
+        android:layout_marginTop="16dp"
+        android:layout_height="@dimen/card_height_all_cards_dialog"
+        android:tag="8"
+        android:src="@drawable/card_princess"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_view_all_cards_countess"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/image_view_all_cards_prince"
+        >
+
+    </ImageView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

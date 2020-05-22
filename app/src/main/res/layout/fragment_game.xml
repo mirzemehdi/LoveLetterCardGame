@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_game"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:id="@+id/layout_game_fragment_container"
+    tools:context=".ui.fragments.game.GameFragment">
+
+
+    <ImageView
+        android:id="@+id/image_view_game_options"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_options_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0" />
+
+    <ImageView
+        android:id="@+id/image_view_game_options2"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:scaleType="fitXY"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_options_2"
+        app:layout_constraintBottom_toBottomOf="@id/image_view_game_options"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_view_game_card_dealer"
+        android:layout_width="130dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_card_deal"
+        app:layout_constraintBottom_toBottomOf="@id/image_view_game_options"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/image_view_game_card_sample_card"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+
+        android:visibility="invisible"
+
+        android:contentDescription="@null"
+        android:src="@drawable/card_baron"
+        app:layout_constraintBottom_toBottomOf="@id/image_view_game_options"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/image_view_game_card_dealer" />
+
+    <include
+        android:id="@+id/layout_game_player_3"
+        layout="@layout/user_box_view"
+        android:layout_width="@dimen/user_layout_width"
+        android:layout_height="@dimen/user_layout_height"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+
+        android:layout_marginBottom="8dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_game_player_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/layout_game_player_2"
+        app:layout_constraintTop_toTopOf="@id/layout_game_player_2" />
+
+    <include
+        android:id="@+id/layout_game_player_2"
+        layout="@layout/user_box_view"
+
+        android:layout_width="@dimen/user_layout_width"
+        android:layout_height="@dimen/user_layout_height"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/layout_game_player_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/layout_game_player_3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_view_game_options" />
+
+    <include
+        android:id="@+id/layout_game_player_4"
+        layout="@layout/user_box_view"
+        android:layout_width="@dimen/user_layout_width"
+        android:layout_height="@dimen/user_layout_height"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_game_player_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/layout_game_player_1"
+        app:layout_constraintTop_toTopOf="@+id/layout_game_player_1" />
+
+    <include
+        android:id="@+id/layout_game_player_1"
+        layout="@layout/user_box_view"
+        android:layout_width="@dimen/user_layout_width"
+        android:layout_height="@dimen/user_layout_height"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/linear_layout_game_cards_holder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/layout_game_player_4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_game_player_2" />
+
+    <RelativeLayout
+        android:id="@+id/linear_layout_game_cards_holder"
+        android:layout_width="0dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_height="180dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:background="@drawable/bg_player_cards_holder"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+       <TextView
+           android:id="@+id/text_view_game_waiting_players"
+           android:layout_width="wrap_content"
+           android:layout_centerInParent="true"
+           android:textSize="24sp"
+           android:fontFamily="@font/tthoves_bold"
+           android:textColor="@color/colorRoomName"
+           android:text="@string/waiting_players_text"
+           android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/image_view_game_player_card_1"
+            android:layout_width="@dimen/player_card_width"
+            android:layout_height="@dimen/player_card_height"
+            android:rotation="0"
+            android:padding="10dp"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+             />
+
+        <ImageView
+            android:id="@+id/image_view_game_player_card_2"
+            android:layout_width="@dimen/player_card_width"
+            android:layout_height="@dimen/player_card_height"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:rotation="0"
+            android:padding="10dp"
+             />
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_game_fragment"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

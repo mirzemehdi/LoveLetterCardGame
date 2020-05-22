@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="50dp"
+    android:paddingBottom="50dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/image_view_dialog_swap_cards_first"
+        android:layout_width="90dp"
+        android:src="@drawable/card_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.2"
+        android:layout_height="120dp"/>
+
+    <ImageView
+        android:id="@+id/image_view_dialog_swap_cards_swap"
+        android:layout_width="50dp"
+        android:src="@drawable/ic_swap"
+        app:layout_constraintTop_toTopOf="@id/image_view_dialog_swap_cards_first"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/image_view_dialog_swap_cards_first"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_height="50dp"/>
+
+
+    <ImageView
+        android:id="@+id/image_view_dialog_swap_cards_second"
+        android:layout_width="90dp"
+        android:src="@drawable/card_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.8"
+        android:layout_height="120dp"/>
+
+    <TextView
+        android:id="@+id/text_view_dialog_swap_cards_first_player_name"
+        android:layout_width="wrap_content"
+        tools:text="First Player"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/image_view_dialog_swap_cards_first"
+        android:textColor="@color/colorRoomName"
+        android:fontFamily="@font/tthoves_bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintStart_toStartOf="@id/image_view_dialog_swap_cards_first"
+        app:layout_constraintEnd_toEndOf="@id/image_view_dialog_swap_cards_first"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/text_view_dialog_swap_cards_second_player_name"
+        android:layout_width="wrap_content"
+        tools:text="Second Player"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/image_view_dialog_swap_cards_second"
+        android:textColor="@color/colorRoomName"
+        android:fontFamily="@font/tthoves_bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintStart_toStartOf="@id/image_view_dialog_swap_cards_second"
+        app:layout_constraintEnd_toEndOf="@id/image_view_dialog_swap_cards_second"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

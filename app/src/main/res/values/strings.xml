@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Love Letter</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rooms_title_fragment_rooms">Rooms</string>
+    <string name="rooms_nb_players_slash_max_players">%d/%d</string>
+    <string name="rooms_members_name">Members: %s</string>
+    <string name="hint_text_view_room_name">Room Name</string>
+    <string name="text_view_add_room_title">Add New Room</string>
+    <string name="text_view_add_room_max_players">Max players:</string>
+    <string name="radio_button_add_room_2">2</string>
+    <string name="radio_button_add_room_3">3</string>
+    <string name="radio_button_add_room_4">4</string>
+    <string name="button_add_room_text">Create Room</string>
+    <string name="toast_error_server">There is some problem while retrieving data</string>
+    <string name="toast_room_added_successfully">New room is added successfully</string>
+    <string name="toast_error_add_room">Couldn\'t created new room</string>
+    <string name="waiting_players_text">Waiting for all players...</string>
+    <string name="text_you">You</string>
+    <string name="button_join_room_text">Join</string>
+    <string name="hint_text_view_join_room_player_name">Your Name</string>
+    <string name="text_view_join_room_title">Join Room</string>
+    <string name="toast_error_join_room">There is some problem while joining room</string>
+    <string name="text_select_guard_target">Select Guard Target</string>
+    <string name="toast_error_my_cards">There is a problem while getting your cards</string>
+    <string name="toast_error_turn">Player turn error</string>
+    <string name="toast_warning_handmaid_protect_other">You can only protect yourself</string>
+    <string name="toast_warning_not_turn">It is not your turn</string>
+    <string name="toast_player_protected">Player is protected</string>
+    <string name="other_player_card">%s\'s card</string>
+    <string name="toast_can_not_play_yourself">You can\'t play this card yourself</string>
+    <string name="toast_player_out_of_round">Player is out of round</string>
+    <string name="toast_warning_player_out_of_round">Player is out of round</string>
+    <string name="toast_warning_discard_countess">You must discard Countess when you have King or Price</string>
+    <string name="toast_warning_all_players_protected">All players are protected.Your card wil be discarded without applying any effect</string>
+    <string name="menu">Menu</string>
+    <string name="play">Play</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+    <string name="exit">Exit</string>
+    <string name="toast_warning_all_players_protected_play_other">Play your other card. All players are protected</string>
+    <string name="ok">Ok,great</string>
+    <string name="round_finished_dialog_title">Round finished</string>
+    <string name="round_finished_dialog_message">Winner: %s</string>
+    <string name="game_finished_dialog_title">Game finished</string>
+    <string name="game_finished_dialog_message">%s\'s love letter delivered to princess.\n Congratulations</string>
+    <string name="resume">Resume</string>
+    <string name="how_to_play_text">How to play</string>
+</resources>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/user_layout_width"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+
+    android:background="@android:color/transparent"
+    android:layout_height="@dimen/user_layout_height">
+
+    <LinearLayout
+        android:id="@+id/container_userBox"
+        android:layout_width="match_parent"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:background="@drawable/bg_player_layout"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/bg_player_layout_info"
+
+            android:orientation="vertical"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_margin="4dp"
+                android:weightSum="1"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView_userBox_playerName"
+                    android:layout_width="0dp"
+                    android:text="Player name"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/tthoves_regular"
+                    android:textColor="@color/colorRoomName"
+                    android:gravity="center_horizontal"
+                    android:layout_height="wrap_content">
+
+                </TextView>
+
+                <RelativeLayout
+                    android:id="@+id/relative_layout_userBox_current_cards_holder"
+                    android:layout_width="30dp"
+                    android:clipToPadding="false"
+                    android:clipChildren="false"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/image_view_userBox_card_1"
+                        android:src="@drawable/card_back"
+                        android:layout_width="15dp"
+                        android:visibility="invisible"
+                        android:layout_centerInParent="true"
+                        android:layout_height="20dp">
+
+                    </ImageView>
+
+                    <ImageView
+                        android:id="@+id/image_view_userBox_card_2"
+                        android:src="@drawable/card_back"
+                        android:layout_width="15dp"
+                        android:visibility="invisible"
+                        android:layout_centerInParent="true"
+                        android:layout_height="20dp">
+
+                    </ImageView>
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+<!--            TokensView-->
+            <LinearLayout
+                android:id="@+id/linearLayout_userBox_tokensView"
+                android:layout_width="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <ImageView
+
+                    android:layout_width="15dp"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/ic_heart"
+                    android:layout_height="15dp">
+
+                </ImageView>
+                <ImageView
+
+                    android:layout_width="15dp"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/ic_heart"
+                    android:layout_height="15dp">
+
+                </ImageView>
+                <ImageView
+
+                    android:layout_width="15dp"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/ic_heart"
+                    android:layout_height="15dp">
+
+                </ImageView>
+                <ImageView
+
+                    android:layout_width="15dp"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/ic_heart"
+                    android:layout_height="15dp">
+
+                </ImageView>
+
+                <ImageView
+
+                    android:layout_width="15dp"
+                    android:layout_margin="4dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_heart"
+                    android:layout_height="15dp">
+
+                </ImageView>
+                <ImageView
+
+                    android:layout_width="15dp"
+                    android:layout_margin="4dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_heart"
+                    android:layout_height="15dp">
+
+                </ImageView>
+                <ImageView
+
+                    android:layout_width="15dp"
+                    android:layout_margin="4dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_heart"
+                    android:layout_height="15dp">
+
+                </ImageView>
+
+
+
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/frame_layout_user_box_player_cards"
+            android:layout_width="match_parent"
+            android:padding="8dp"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+
+
+
+</FrameLayout>
