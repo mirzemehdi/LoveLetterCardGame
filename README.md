@@ -7,6 +7,7 @@ test or adding new functionality easier.
 Feel free to download and play this game :)  
    
 ## Demo   
+Video link: https://drive.google.com/open?id=1Mk2-s4t2ImMj8nzjqtoh0NpMS6Ah3Sw8
   
 ### Screenshots from the game
 
