@@ -38,9 +38,6 @@ Lots of animations are used in this game like *card flip animation, card move an
 discard card of player animation* and etc. 
 
 
-## Authors
-
-----Developed by ***Mirzamehdi Karimov***----
 
 
 
