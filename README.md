@@ -1,7 +1,7 @@
 # Love Letter Card Game
 This is Love Letter Card game for Android device which is developed  during my education in UFAZ for Software Engineering project.
 Love Letter Card Game is played between 2 and 4 players. Any player can create or join existing room, there is no need to register or
-login to play this game. It is used sockets to see real-time changes in the game. Project is written in *MVP* pattern to make
+login to play this game. It is used sockets to see real-time changes in the game. Project is written in ***Kotlin*** and in ***MVP*** pattern to make
 test or adding new functionality easier.  
 
 Feel free to download and play this game :)  
